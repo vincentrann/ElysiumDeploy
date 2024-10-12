@@ -1,6 +1,7 @@
-import jakarta.persistence.*;
+package org.elysium.elysium_backend;
 
 import jakarta.persistence.*;
+
 import java.util.Date;
 
 @Entity
