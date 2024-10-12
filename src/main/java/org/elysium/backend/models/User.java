@@ -1,4 +1,4 @@
-package org.elysium.elysium_backend;
+package org.elysium.backend.models;
 
 import jakarta.persistence.*;
 
@@ -6,10 +6,9 @@ import java.util.Date;
 
 @Entity
 @Table(name = "users")
-public class Users {
+public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;  // Primary Key (varchar(6))
 
     private String username;

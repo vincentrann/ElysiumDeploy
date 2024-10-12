@@ -1,4 +1,4 @@
-package org.elysium.elysium_backend;
+package org.elysium.backend.models;
 
 import jakarta.persistence.*;
 
@@ -6,7 +6,6 @@ import jakarta.persistence.*;
 @Table(name = "products")
 public class Product {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
     private String name;
     @Column(columnDefinition = "Text")

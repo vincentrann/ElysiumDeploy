@@ -1,4 +1,4 @@
-package org.elysium.elysium_backend;
+package org.elysium.backend.models;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
