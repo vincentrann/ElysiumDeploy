@@ -14,6 +14,35 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
+    public User register(User user)
+    {
+        Optional<User> exisitngUser= userRepository.findByEmail(user.getEmail());
+        if(exisitngUser.isPresent())
+        {
+            throw new RuntimeException("User already exists");
+        }
+        return userRepository.save(user);
+    }
+
+    public User login(String email, String password) {
+        Optional<User> userOptional = userRepository.findByEmail(email);
+        if (userOptional.isEmpty()) {
+            throw new RuntimeException("Invalid credentials");
+        }
+
+        User user = userOptional.get();
+
+        // Log the passwords for debugging
+        System.out.println("Stored password: " + user.getPassword());
+        System.out.println("Provided password: " + password);
+
+        if (!user.getPassword().equals(password)) {
+            throw new RuntimeException("Invalid credentials");
+        }
+        return user;
+    }
+
+
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
