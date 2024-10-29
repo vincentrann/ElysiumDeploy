@@ -3,6 +3,7 @@ package org.elysium.backend.models;
 import jakarta.persistence.*;
 
 import java.util.Date;
+import java.util.Random;
 
 @Entity
 @Table(name = "users")
@@ -34,10 +35,20 @@ public class User {
     @Temporal(TemporalType.DATE)
     private Date dob;  // Date of birth
 
-    @Column(columnDefinition = "TINYINT(1)")
-    private boolean emailVerified;  // true/false for email verification status
+    @Column(columnDefinition = "BOOLEAN")
+    private boolean emailVerified;;  // true/false for email verification status
 
     // Getters and Setters
+    private String generateRandomId() {
+        int length = 6;
+        String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        Random random = new Random();
+        StringBuilder idBuilder = new StringBuilder(length);
+        for (int i = 0; i < length; i++) {
+            idBuilder.append(characters.charAt(random.nextInt(characters.length())));
+        }
+        return idBuilder.toString();
+    }
 
     public String getId() {
         return id;
