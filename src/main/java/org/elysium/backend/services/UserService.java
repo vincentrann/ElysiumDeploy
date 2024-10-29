@@ -14,13 +14,19 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    public User register(User user)
-    {
-        Optional<User> exisitngUser= userRepository.findByEmail(user.getEmail());
-        if(exisitngUser.isPresent())
-        {
+    public User register(User user) {
+        // Check if the user already exists by email
+        Optional<User> existingUser = userRepository.findByEmail(user.getEmail());
+        if (existingUser.isPresent()) {
             throw new RuntimeException("User already exists");
         }
+
+        // Generate a random ID if it's not set
+        if (user.getId() == null || user.getId().isEmpty()) {
+            user.setId(user.generateRandomId());
+        }
+
+        // Save the user with the plain password
         return userRepository.save(user);
     }
 
