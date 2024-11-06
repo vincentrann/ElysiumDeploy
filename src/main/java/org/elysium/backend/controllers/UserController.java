@@ -9,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 import java.util.Optional;
-
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
@@ -19,36 +18,28 @@ public class UserController {
 
     // Endpoint to register a new user
     @PostMapping("/register")
-    public ResponseEntity<User> registerUser(@RequestBody User user) {
-        User newUser = userService.register(user);
+    public ResponseEntity<User> registerUser(@RequestParam String role, @RequestBody User user) {
+        User newUser = userService.register(role, user); // Pass the role and user
         return ResponseEntity.ok(newUser);
     }
 
     // Endpoint for user login
     @PostMapping("/login")
-    public ResponseEntity<User> loginUser(@RequestParam String email, @RequestParam String password) {
-        User loggedInUser = userService.login(email, password);
+    public ResponseEntity<User> loginUser(@RequestBody User user) {
+        User loggedInUser = userService.login(user.getEmail(), user.getPassword());
         return ResponseEntity.ok(loggedInUser);
     }
 
+    // Endpoint to get all users
     @GetMapping
     public List<User> getAllUsers() {
         return userService.getAllUsers();
     }
 
+    // Endpoint to get a user by ID
     @GetMapping("/{id}")
     public Optional<User> getUserById(@PathVariable String id) {
         return userService.getUserById(id);
-    }
-
-    @PostMapping
-    public User createUser(@RequestBody User user) {
-        return userService.createUser(user);
-    }
-
-    @DeleteMapping("/{id}")
-    public void deleteUser(@PathVariable String id) {
-        userService.deleteUserById(id);
     }
 }
 
