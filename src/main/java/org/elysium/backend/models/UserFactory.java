@@ -6,14 +6,12 @@ public class UserFactory {
         switch (role.toLowerCase()) {
             case "admin":
                 AdminUser admin = new AdminUser();
-                admin.setRole("admin");
-                admin.setAdminLevel("High"); // Example of setting a role-specific field
+                admin.setAdminLevel("Admin"); // Example of role-specific field
                 return admin;
 
             case "member":
                 MemberUser member = new MemberUser();
-                member.setRole("member");
-                member.setMembershipType("Gold"); // Example of setting a role-specific field
+                member.setMembershipType("Member"); // Example of role-specific field
                 return member;
 
             default:
