@@ -1,4 +1,4 @@
-package org.elysium.elysium_backend;
+package org.elysium.backend.models;
 
 import jakarta.persistence.*;
 
@@ -7,8 +7,7 @@ import jakarta.persistence.*;
 public class Category {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;  // Integer primary key (matches your screenshot)
+    private int id;
 
     private String name;  // Name field (varchar(255))
 

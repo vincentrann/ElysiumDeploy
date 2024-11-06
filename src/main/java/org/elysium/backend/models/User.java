@@ -1,16 +1,18 @@
-package org.elysium.elysium_backend;
+package org.elysium.backend.models;
 
 import jakarta.persistence.*;
 
 import java.util.Date;
+import java.util.Random;
 
 @Entity
 @Table(name = "users")
-public class Users {
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "role", discriminatorType = DiscriminatorType.STRING)
+public abstract class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String id;  // Primary Key (varchar(6))
+    private String id;
 
     private String username;
 
@@ -18,7 +20,7 @@ public class Users {
 
     private String password;
 
-    private String role;
+    private String role; // Retained to track user roles
 
     private String firstName;
 
@@ -33,13 +35,12 @@ public class Users {
     private String billingAddress;
 
     @Temporal(TemporalType.DATE)
-    private Date dob;  // Date of birth
+    private Date dob;
 
-    @Column(columnDefinition = "TINYINT(1)")
-    private boolean emailVerified;  // true/false for email verification status
+    @Column(columnDefinition = "BOOLEAN")
+    private boolean emailVerified;
 
     // Getters and Setters
-
     public String getId() {
         return id;
     }
@@ -135,4 +136,19 @@ public class Users {
     public void setEmailVerified(boolean emailVerified) {
         this.emailVerified = emailVerified;
     }
+
+    public String generateRandomId() {
+        int length = 6; // Length of the ID
+        String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"; // Allowed characters
+        StringBuilder idBuilder = new StringBuilder(length);
+        Random random = new Random();
+
+        for (int i = 0; i < length; i++) {
+            int randomIndex = random.nextInt(characters.length());
+            idBuilder.append(characters.charAt(randomIndex));
+        }
+
+        return idBuilder.toString();
+    }
+
 }
