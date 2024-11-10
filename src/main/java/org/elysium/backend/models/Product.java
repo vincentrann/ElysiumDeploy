@@ -2,6 +2,8 @@ package org.elysium.backend.models;
 
 import jakarta.persistence.*;
 
+import java.util.Random;
+
 @Entity
 @Table(name = "products")
 public class Product {
@@ -100,6 +102,19 @@ public class Product {
     public int getNumberOfReviews() {
         return numberOfReviews;
     }
+    public static String generateRandomId() {
+        int length = 12; // Length of the ID
+        String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"; // Allowed characters
+        StringBuilder idBuilder = new StringBuilder(length);
+        Random random = new Random();
+
+        for (int i = 0; i < length; i++) {
+            int randomIndex = random.nextInt(characters.length());
+            idBuilder.append(characters.charAt(randomIndex));
+        }
+
+        return idBuilder.toString();
+    }
 
     // Static Inner Builder Class
     public static class ProductBuilder {
@@ -119,7 +134,7 @@ public class Product {
 
         // Mandatory fields in the builder constructor
         public ProductBuilder(String id, String name, double price) {
-            this.id = id;
+            this.id = generateRandomId();
             this.name = name;
             this.price = price;
         }
