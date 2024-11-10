@@ -2,6 +2,7 @@ package org.elysium.backend.models;
 
 import jakarta.persistence.*;
 import java.util.Date;
+import java.util.List;
 import java.util.Random;
 
 @Entity
@@ -30,6 +31,18 @@ public abstract class User {
 
     @Column(columnDefinition = "TEXT")
     private String billingAddress;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CreditCard> creditCards;
+
+    // Getters and setters for creditCards
+    public List<CreditCard> getCreditCards() {
+        return creditCards;
+    }
+
+    public void setCreditCards(List<CreditCard> creditCards) {
+        this.creditCards = creditCards;
+    }
 
     @Temporal(TemporalType.DATE)
     private Date dob;
