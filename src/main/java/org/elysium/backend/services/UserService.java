@@ -76,6 +76,30 @@ public class UserService {
         return user;
     }
 
+    public User updateUser(String id, User updatedUser) {
+        // Find the user by ID
+        Optional<User> existingUser = userRepository.findById(id);
+        if (existingUser.isEmpty()) {
+            throw new RuntimeException("User not found with ID: " + id);
+        }
+
+        User user = existingUser.get();
+
+        // Update user fields
+        user.setUsername(updatedUser.getUsername());
+        user.setFirstName(updatedUser.getFirstName());
+        user.setLastName(updatedUser.getLastName());
+        user.setEmail(updatedUser.getEmail());
+        user.setPhone(updatedUser.getPhone());
+        user.setAddress(updatedUser.getAddress());
+        user.setBillingAddress(updatedUser.getBillingAddress());
+        user.setDob(updatedUser.getDob());
+        user.setEmailVerified(updatedUser.isEmailVerified());
+
+        // Save updated user
+        return userRepository.save(user);
+    }
+
     /**
      * Retrieves all users.
      *
