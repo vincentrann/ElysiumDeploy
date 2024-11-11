@@ -35,6 +35,17 @@ public class ProductController {
         return productService.getProductsSortedByPriceDesc();
     }
 
+    @GetMapping("/products/sort/name/asc")
+    public List<Product> getProductsSortedByNameAsc() {
+        return productService.getProductsSortedByNameAsc();
+    }
+
+    // Get products sorted by name (descending)
+    @GetMapping("/products/sort/name/desc")
+    public List<Product> getProductsSortedByNameDesc() {
+        return productService.getProductsSortedByNameDesc();
+    }
+
     @GetMapping("/search/name")
     public List<Product> searchItemByName(@RequestParam String name) {
         return productService.searchItemByName(name);
