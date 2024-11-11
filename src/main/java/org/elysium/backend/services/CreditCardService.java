@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CreditCardService {
@@ -58,6 +59,12 @@ public class CreditCardService {
         existingCard.setBillingAddress(updatedCard.getBillingAddress());
 
         return creditCardRepository.save(existingCard);
+    }
+
+    // Get the first credit card for a specific user
+    public CreditCard getCreditCardById(Long creditCardId) {
+        return creditCardRepository.findById(creditCardId)
+                .orElseThrow(() -> new RuntimeException("Credit card not found with ID: " + creditCardId));
     }
 
     // Delete a credit card for a specific user

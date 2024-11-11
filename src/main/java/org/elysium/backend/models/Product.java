@@ -116,6 +116,10 @@ public class Product {
         return idBuilder.toString();
     }
 
+    public void setStockQuantity(int updatedStockQuantity) {
+        this.stockQuantity = updatedStockQuantity;
+    }
+
     // Static Inner Builder Class
     public static class ProductBuilder {
         private String id;

@@ -84,10 +84,23 @@ public class ProductService {
         return productRepository.findAllByOrderByPriceDesc();
     }
 
+    public List<Product> getProductsSortedByNameAsc() {
+        return productRepository.findAllByOrderByNameAsc();
+    }
+
+    public List<Product> getProductsSortedByNameDesc() {
+        return productRepository.findAllByOrderByNameDesc();
+    }
 
 
     public Optional<Product> getProductById(String id) {
         return productRepository.findById(id);
+
+    }
+
+    public Product getProductDetailsById(String id) {
+        return productRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Product not found with ID: " + id));
     }
 
     // Retrieve all products
