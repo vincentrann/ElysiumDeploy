@@ -9,7 +9,7 @@ import java.util.Random;
 @Table(name = "users")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "role", discriminatorType = DiscriminatorType.STRING)
-public abstract class User {
+public class User {
 
     @Id
     private String id;
@@ -153,6 +153,5 @@ public abstract class User {
 
         return idBuilder.toString();
     }
-
 
 }
