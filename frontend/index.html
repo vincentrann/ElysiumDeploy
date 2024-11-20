@@ -1,66 +1,976 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Elysium</title>
-    <link rel="stylesheet" href="css/main.css">
-    <link rel="icon" href="/images/logos/favicon.png" type="image/x-icon" />
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Elysium | Smart Tech, Great Prices</title>
+  <link rel="shortcut icon" href="./images/logos/favicon.png" type="image/x-icon">
+  <link rel="stylesheet" href="./styles/index.css">
+
+  <!-- 
+    - google font link
+  -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
+
 <body>
 
-    <!-- Logo -->
-    <div class="logo-container">
-        <img src="images/logos/favicon.png" alt="Logo" class="logo">
+  <!-- 
+    - #HEADER
+  -->
+
+  <header class="header" data-header>
+    <div class="container">
+
+      <a href="#" class="logo">
+        <img src="./images/logos/brown-logo-with-text.png" alt="Elysium logo" width="200px">
+      </a>
+
+      <div class="header-search">
+        <input type="search" name="search" placeholder="Search products..." class="input-field" >
+
+        <button class="search-btn" aria-label="Search">
+          <ion-icon name="search-outline"></ion-icon>
+        </button>
+      </div>
+
+      <div class="header-actions">
+
+        <button class="header-action-btn">
+          <ion-icon name="person-outline" aria-hidden="true"></ion-icon>
+
+          <p class="header-action-label">Sign in</p>
+        </button>
+
+        <button class="header-action-btn">
+          <ion-icon name="search-outline" aria-hidden="true"></ion-icon>
+
+          <p class="header-action-label">Search</p>
+        </button>
+
+        <button class="header-action-btn">
+          <ion-icon name="cart-outline" aria-hidden="true"></ion-icon>
+
+          <p class="header-action-label">Cart</p>
+
+          <div class="btn-badge green" aria-hidden="true">3</div>
+        </button>
+
+      </div>
+
+    </div>
+  </header>
+
+
+
+
+
+  <main>
+    <article>
+
+      <!-- 
+        - #HERO
+      -->
+
+      <section class="hero" id="home" style="background-image: url('./images/hero-banner.png')">
+        <div class="container">
+
+          <div class="hero-content">
+
+            <p class="hero-subtitle">Discover the latest tech products.</p>
+
+            <h2 class="h1 hero-title">Smart Tech, Great Prices</h2>
+
+            <button class="btn btn-primary" onclick="location.href='#catalog'">Shop Now</button>
+
+          </div>
+
+        </div>
+      </section>
+
+
+
+      <!-- 
+        - #PRODUCT
+      -->
+
+      <section class="section product">
+        <div class="container">
+
+          <h2 class="h2 section-title" id="catalog">Explore Our Products</h2>
+
+          <ul class="filter-list">
+
+            <li>
+              <label for="brand" class="filter-btn">Brand: </label>
+              <select name="brand" id="brand" class="custom-select">
+                <option value="all" selected>All</option>
+                <option value="sony">Sony</option>
+                <option value="apple">Apple</option>
+                <option value="google">Google</option>
+                <option value="huawei">Huawei</option>
+                <option value="samsung">Samsung</option>
+              </select>
+            </li>
+
+            <li>
+              <label for="category" class="filter-btn">Category: </label>
+              <select name="category" id="category" class="custom-select">
+                <option value="all" selected>All</option>
+                <option value="phones">Phones</option>
+                <option value="laptops">Laptops</option>
+                <option value="watches">Watches</option>
+                <option value="accessories">Accessories</option>
+                <option value="game-consoles">Game Consoles</option>
+              </select>
+            </li>
+
+            <li>
+              <label for="sort" class="filter-btn">Sort by: </label>
+              <select name="sort" id="sort" class="custom-select">
+                <option value="name-asc" selected>Name Ascending</option>
+                <option value="name-des" >Name Descending</option>
+                <option value="price-asc" >Price Ascending</option>
+                <option value="price-des" >Price Descending</option>
+              </select>
+            </li>
+
+          </ul>
+
+          <ul class="product-list">
+
+            <!-- Product 1 -->
+            <li>
+              <div class="product-card">
+
+                <figure class="card-banner">
+
+                  <a href="#">
+                    <img src="./images/airpods-max.png" alt="Airpods Max" loading="lazy" width="800"
+                      height="1034" class="w-100">
+                  </a>
+
+                  <div class="card-actions">
+
+                    
+
+                    <button class="card-action-btn cart-btn">
+                      <ion-icon name="bag-handle-outline" aria-hidden="true"></ion-icon>
+
+                      <p>Add to Cart</p>
+                    </button>
+
+                    <button class="card-action-btn" aria-label="Add to Whishlist">
+                      <ion-icon name="heart-outline"></ion-icon>
+                    </button>
+
+                  </div>
+
+                </figure>
+
+                <div class="card-content">
+                  <h3 class="h4 card-title">
+                    <a href="#">Airpods Max</a>
+                  </h3>
+
+                  <div class="card-price">
+                    <data value="420.00">&dollar;420.00</data>
+                  </div>
+                </div>
+
+              </div>
+            </li>
+
+            <!-- Product 2 -->
+            <li>
+              <div class="product-card">
+
+                <figure class="card-banner">
+
+                  <a href="#">
+                    <img src="./images/apple-watch.png" alt="Apple Watch" loading="lazy" width="800"
+                      height="1034" class="w-100">
+                  </a>
+
+                  <div class="card-actions">
+
+                    
+
+                    <button class="card-action-btn cart-btn">
+                      <ion-icon name="bag-handle-outline" aria-hidden="true"></ion-icon>
+
+                      <p>Add to Cart</p>
+                    </button>
+
+                    <button class="card-action-btn" aria-label="Add to Whishlist">
+                      <ion-icon name="heart-outline"></ion-icon>
+                    </button>
+
+                  </div>
+
+                </figure>
+
+                <div class="card-content">
+                  <h3 class="h4 card-title">
+                    <a href="#">Apple Watch</a>
+                  </h3>
+
+                  <div class="card-price">
+                    <data value="250.00">&dollar;250.00</data>
+                  </div>
+                </div>
+
+              </div>
+            </li>
+
+            <!-- Product 3 -->
+            <li>
+              <div class="product-card">
+
+                <figure class="card-banner">
+
+                  <a href="#">
+                    <img src="./images/asus-laptop.png" alt="Asus Laptop" loading="lazy"
+                      width="800" height="1034" class="w-100">
+                  </a>
+
+                  <div class="card-badge green">New</div>
+
+                  <div class="card-actions">
+
+                    <button class="card-action-btn cart-btn">
+                      <ion-icon name="bag-handle-outline" aria-hidden="true"></ion-icon>
+
+                      <p>Add to Cart</p>
+                    </button>
+
+                    <button class="card-action-btn" aria-label="Add to Whishlist">
+                      <ion-icon name="heart-outline"></ion-icon>
+                    </button>
+
+                  </div>
+
+                </figure>
+
+                <div class="card-content">
+                  <h3 class="h4 card-title">
+                    <a href="#">Asus Laptop</a>
+                  </h3>
+
+                  <div class="card-price">
+                    <data value="1200.00">&dollar;1200.00</data>
+                  </div>
+                </div>
+
+              </div>
+            </li>
+
+            <!-- Product 4 -->
+            <li>
+              <div class="product-card">
+
+                <figure class="card-banner">
+
+                  <a href="#">
+                    <img src="./images/google-home.png" alt="Google Home" loading="lazy" width="800"
+                      height="1034" class="w-100">
+                  </a>
+
+                  <div class="card-actions">
+
+                    
+
+                    <button class="card-action-btn cart-btn">
+                      <ion-icon name="bag-handle-outline" aria-hidden="true"></ion-icon>
+
+                      <p>Add to Cart</p>
+                    </button>
+
+                    <button class="card-action-btn" aria-label="Add to Whishlist">
+                      <ion-icon name="heart-outline"></ion-icon>
+                    </button>
+
+                  </div>
+
+                </figure>
+
+                <div class="card-content">
+                  <h3 class="h4 card-title">
+                    <a href="#">Google Home</a>
+                  </h3>
+
+                  <div class="card-price">
+                    <data value="123.00">&dollar;123.00</data>
+                  </div>
+                </div>
+
+              </div>
+            </li>
+
+            <!-- Product 5 -->
+            <li>
+              <div class="product-card">
+
+                <figure class="card-banner">
+
+                  <a href="#">
+                    <img src="./images/google-pixel.png" alt="Google Pixel" loading="lazy" width="800"
+                      height="1034" class="w-100">
+                  </a>
+
+                  <div class="card-actions">
+
+                    
+
+                    <button class="card-action-btn cart-btn">
+                      <ion-icon name="bag-handle-outline" aria-hidden="true"></ion-icon>
+
+                      <p>Add to Cart</p>
+                    </button>
+
+                    <button class="card-action-btn" aria-label="Add to Whishlist">
+                      <ion-icon name="heart-outline"></ion-icon>
+                    </button>
+
+                  </div>
+
+                </figure>
+
+                <div class="card-content">
+                  <h3 class="h4 card-title">
+                    <a href="#">Google Pixel</a>
+                  </h3>
+
+                  <div class="card-price">
+                    <data value="740.00">&dollar;740.00</data>
+                  </div>
+                </div>
+
+              </div>
+            </li>
+
+            <!-- Product 6 -->
+            <li>
+              <div class="product-card">
+
+                <figure class="card-banner">
+
+                  <a href="#">
+                    <img src="./images/hp-laptop.png" alt="HP Laptop" loading="lazy" width="800"
+                      height="1034" class="w-100">
+                  </a>
+
+                  <div class="card-actions">
+
+                    
+
+                    <button class="card-action-btn cart-btn">
+                      <ion-icon name="bag-handle-outline" aria-hidden="true"></ion-icon>
+
+                      <p>Add to Cart</p>
+                    </button>
+
+                    <button class="card-action-btn" aria-label="Add to Whishlist">
+                      <ion-icon name="heart-outline"></ion-icon>
+                    </button>
+
+                  </div>
+
+                </figure>
+
+                <div class="card-content">
+                  <h3 class="h4 card-title">
+                    <a href="#">HP Laptop</a>
+                  </h3>
+
+                  <div class="card-price">
+                    <data value="800.00">&dollar;800.00</data>
+                  </div>
+                </div>
+
+              </div>
+            </li>
+
+            <!-- Product 7 -->
+            <li>
+              <div class="product-card">
+
+                <figure class="card-banner">
+
+                  <a href="#">
+                    <img src="./images/huawei-phone.png" alt="Huawei Phone" loading="lazy" width="800"
+                      height="1034" class="w-100">
+                  </a>
+
+                  <div class="card-actions">
+
+                    
+
+                    <button class="card-action-btn cart-btn">
+                      <ion-icon name="bag-handle-outline" aria-hidden="true"></ion-icon>
+
+                      <p>Add to Cart</p>
+                    </button>
+
+                    <button class="card-action-btn" aria-label="Add to Whishlist">
+                      <ion-icon name="heart-outline"></ion-icon>
+                    </button>
+
+                  </div>
+
+                </figure>
+
+                <div class="card-content">
+                  <h3 class="h4 card-title">
+                    <a href="#">Huawei Phone</a>
+                  </h3>
+
+                  <div class="card-price">
+                    <data value="680.00">&dollar;680.00</data>
+                  </div>
+                </div>
+
+              </div>
+            </li>
+
+            <!-- Product 8 -->
+            <li>
+              <div class="product-card">
+
+                <figure class="card-banner">
+
+                  <a href="#">
+                    <img src="./images/huawei-watch.png" alt="Huawei Watch" loading="lazy" width="800"
+                      height="1034" class="w-100">
+                  </a>
+
+                  <div class="card-actions">
+
+                    
+
+                    <button class="card-action-btn cart-btn">
+                      <ion-icon name="bag-handle-outline" aria-hidden="true"></ion-icon>
+
+                      <p>Add to Cart</p>
+                    </button>
+
+                    <button class="card-action-btn" aria-label="Add to Whishlist">
+                      <ion-icon name="heart-outline"></ion-icon>
+                    </button>
+
+                  </div>
+
+                </figure>
+
+                <div class="card-content">
+                  <h3 class="h4 card-title">
+                    <a href="#">Huawei Watch</a>
+                  </h3>
+
+                  <div class="card-price">
+                    <data value="460.00">&dollar;460.00</data>
+                  </div>
+                </div>
+
+              </div>
+            </li>
+
+            <!-- Product 9-->
+            <li>
+              <div class="product-card">
+
+                <figure class="card-banner">
+
+                  <a href="#">
+                    <img src="./images/iphone-16-pro.png" alt="iPhone 16 Pro" loading="lazy" width="800"
+                      height="1034" class="w-100">
+                  </a>
+
+                  <div class="card-actions">
+
+                    
+
+                    <button class="card-action-btn cart-btn">
+                      <ion-icon name="bag-handle-outline" aria-hidden="true"></ion-icon>
+
+                      <p>Add to Cart</p>
+                    </button>
+
+                    <button class="card-action-btn" aria-label="Add to Whishlist">
+                      <ion-icon name="heart-outline"></ion-icon>
+                    </button>
+
+                  </div>
+
+                </figure>
+
+                <div class="card-content">
+                  <h3 class="h4 card-title">
+                    <a href="#">iPhone 16 Pro</a>
+                  </h3>
+
+                  <div class="card-price">
+                    <data value="1050.00">&dollar;1050.00</data>
+                  </div>
+                </div>
+
+              </div>
+            </li>
+
+            <!-- Product 10 -->
+            <li>
+              <div class="product-card">
+
+                <figure class="card-banner">
+
+                  <a href="#">
+                    <img src="./images/jbl-speaker.png" alt="JBL Speaker" loading="lazy" width="800"
+                      height="1034" class="w-100">
+                  </a>
+
+                  <div class="card-actions">
+
+                    
+
+                    <button class="card-action-btn cart-btn">
+                      <ion-icon name="bag-handle-outline" aria-hidden="true"></ion-icon>
+
+                      <p>Add to Cart</p>
+                    </button>
+
+                    <button class="card-action-btn" aria-label="Add to Whishlist">
+                      <ion-icon name="heart-outline"></ion-icon>
+                    </button>
+
+                  </div>
+
+                </figure>
+
+                <div class="card-content">
+                  <h3 class="h4 card-title">
+                    <a href="#">JBL Speaker</a>
+                  </h3>
+
+                  <div class="card-price">
+                    <data value="115.00">&dollar;115.00</data>
+                  </div>
+                </div>
+
+              </div>
+            </li>
+            
+            <!-- Product 11 -->
+            <li>
+              <div class="product-card">
+
+                <figure class="card-banner">
+
+                  <a href="#">
+                    <img src="./images/macbook-pro.png" alt="Macbook Pro" loading="lazy" width="800"
+                      height="1034" class="w-100">
+                  </a>
+
+                  <div class="card-badge green">New</div>
+
+                  <div class="card-actions">
+
+                    <button class="card-action-btn cart-btn">
+                      <ion-icon name="bag-handle-outline" aria-hidden="true"></ion-icon>
+
+                      <p>Add to Cart</p>
+                    </button>
+
+                    <button class="card-action-btn" aria-label="Add to Whishlist">
+                      <ion-icon name="heart-outline"></ion-icon>
+                    </button>
+
+                  </div>
+
+                </figure>
+
+                <div class="card-content">
+                  <h3 class="h4 card-title">
+                    <a href="#">Macbook Pro</a>
+                  </h3>
+
+                  <div class="card-price">
+                    <data value="1350.00">&dollar;1350.00</data>
+                  </div>
+                </div>
+
+              </div>
+            </li>
+            
+            <!-- Product 12 -->
+            <li>
+              <div class="product-card">
+
+                <figure class="card-banner">
+
+                  <a href="#">
+                    <img src="./images/nintendo-switch.png" alt="Nintendo Switch" loading="lazy" width="800"
+                      height="1034" class="w-100">
+                  </a>
+
+                  <div class="card-actions">
+
+                    
+
+                    <button class="card-action-btn cart-btn">
+                      <ion-icon name="bag-handle-outline" aria-hidden="true"></ion-icon>
+
+                      <p>Add to Cart</p>
+                    </button>
+
+                    <button class="card-action-btn" aria-label="Add to Whishlist">
+                      <ion-icon name="heart-outline"></ion-icon>
+                    </button>
+
+                  </div>
+
+                </figure>
+
+                <div class="card-content">
+                  <h3 class="h4 card-title">
+                    <a href="#">Nintendo Switch</a>
+                  </h3>
+
+                  <div class="card-price">
+                    <data value="360.00">&dollar;360.00</data>
+                  </div>
+                </div>
+
+              </div>
+            </li>
+            
+            <!-- Product 13 -->
+            <li>
+              <div class="product-card">
+
+                <figure class="card-banner">
+
+                  <a href="#">
+                    <img src="./images/ps5.png" alt="PS5" loading="lazy" width="800"
+                      height="1034" class="w-100">
+                  </a>
+
+                  <div class="card-actions">
+
+                    
+
+                    <button class="card-action-btn cart-btn">
+                      <ion-icon name="bag-handle-outline" aria-hidden="true"></ion-icon>
+
+                      <p>Add to Cart</p>
+                    </button>
+
+                    <button class="card-action-btn" aria-label="Add to Whishlist">
+                      <ion-icon name="heart-outline"></ion-icon>
+                    </button>
+
+                  </div>
+
+                </figure>
+
+                <div class="card-content">
+                  <h3 class="h4 card-title">
+                    <a href="#">PS5</a>
+                  </h3>
+
+                  <div class="card-price">
+                    <data value="450.00">&dollar;450.00</data>
+                  </div>
+                </div>
+
+              </div>
+            </li>
+            
+            <!-- Product 14 -->
+            <li>
+              <div class="product-card">
+
+                <figure class="card-banner">
+
+                  <a href="#">
+                    <img src="./images/samsung-galaxy-watch.png" alt="Samsung Galaxy Watch" loading="lazy" width="800"
+                      height="1034" class="w-100">
+                  </a>
+
+                  <div class="card-actions">
+
+                    
+
+                    <button class="card-action-btn cart-btn">
+                      <ion-icon name="bag-handle-outline" aria-hidden="true"></ion-icon>
+
+                      <p>Add to Cart</p>
+                    </button>
+
+                    <button class="card-action-btn" aria-label="Add to Whishlist">
+                      <ion-icon name="heart-outline"></ion-icon>
+                    </button>
+
+                  </div>
+
+                </figure>
+
+                <div class="card-content">
+                  <h3 class="h4 card-title">
+                    <a href="#">Samsung Galaxy Watch</a>
+                  </h3>
+
+                  <div class="card-price">
+                    <data value="385.00">&dollar;385.00</data>
+                  </div>
+                </div>
+
+              </div>
+            </li>
+            
+            <!-- Product 15 -->
+            <li>
+              <div class="product-card">
+
+                <figure class="card-banner">
+
+                  <a href="#">
+                    <img src="./images/samsung-phone.png" alt="Samsung Phone" loading="lazy" width="800"
+                      height="1034" class="w-100">
+                  </a>
+
+                  <div class="card-actions">
+
+                    
+
+                    <button class="card-action-btn cart-btn">
+                      <ion-icon name="bag-handle-outline" aria-hidden="true"></ion-icon>
+
+                      <p>Add to Cart</p>
+                    </button>
+
+                    <button class="card-action-btn" aria-label="Add to Whishlist">
+                      <ion-icon name="heart-outline"></ion-icon>
+                    </button>
+
+                  </div>
+
+                </figure>
+
+                <div class="card-content">
+                  <h3 class="h4 card-title">
+                    <a href="#">Samsung Phone</a>
+                  </h3>
+
+                  <div class="card-price">
+                    <data value="980.00">&dollar;980.00</data>
+                  </div>
+                </div>
+
+              </div>
+            </li>
+            
+            <!-- Product 16 -->
+            <li>
+              <div class="product-card">
+
+                <figure class="card-banner">
+
+                  <a href="#">
+                    <img src="./images/sony-xm5.png" alt="Sony XM5" loading="lazy" width="800"
+                      height="1034" class="w-100">
+                  </a>
+
+                  <div class="card-badge green">New</div>
+
+                  <div class="card-actions">
+
+                    
+
+                    <button class="card-action-btn cart-btn">
+                      <ion-icon name="bag-handle-outline" aria-hidden="true"></ion-icon>
+
+                      <p>Add to Cart</p>
+                    </button>
+
+                    <button class="card-action-btn" aria-label="Add to Whishlist">
+                      <ion-icon name="heart-outline"></ion-icon>
+                    </button>
+
+                  </div>
+
+                </figure>
+
+                <div class="card-content">
+                  <h3 class="h4 card-title">
+                    <a href="#">Sony XM5</a>
+                  </h3>
+
+                  <div class="card-price">
+                    <data value="585.00">&dollar;585.00</data>
+                  </div>
+                </div>
+
+              </div>
+            </li>
+            
+            <!-- Product 17 -->
+            <li>
+              <div class="product-card">
+
+                <figure class="card-banner">
+
+                  <a href="#">
+                    <img src="./images/xbox-series-x.png" alt="Xbox Series X" loading="lazy" width="800"
+                      height="1034" class="w-100">
+                  </a>
+
+                  <div class="card-actions">
+
+                    
+
+                    <button class="card-action-btn cart-btn">
+                      <ion-icon name="bag-handle-outline" aria-hidden="true"></ion-icon>
+
+                      <p>Add to Cart</p>
+                    </button>
+
+                    <button class="card-action-btn" aria-label="Add to Whishlist">
+                      <ion-icon name="heart-outline"></ion-icon>
+                    </button>
+
+                  </div>
+
+                </figure>
+
+                <div class="card-content">
+                  <h3 class="h4 card-title">
+                    <a href="#">Xbox Series X</a>
+                  </h3>
+
+                  <div class="card-price">
+                    <data value="430.00">&dollar;430.00</data>
+                  </div>
+                </div>
+
+              </div>
+            </li>
+            
+          </ul>
+
+        </div>
+      </section>
+
+
+
+  <!-- 
+    - #FOOTER
+  -->
+
+  <footer class="footer">
+
+    <div class="footer-top">
+      <div class="container">
+
+        <div class="footer-brand">
+          <img src="./images/logos/brown-logo-with-text.png" class="logo" width="200px">
+          <p>Explore the wonderful world of technology with Elysium. Great prices for quality products!</p>
+
+        </div>
+
+        <ul class="footer-list">
+
+          <li>
+            <p class="footer-list-title">Top Brands</p>
+          </li>
+
+          <li>
+            <a href="#" class="footer-link">Sony</a>
+          </li>
+
+          <li>
+            <a href="#" class="footer-link">Apple</a>
+          </li>
+
+          <li>
+            <a href="#" class="footer-link">Google</a>
+          </li>
+
+          <li>
+            <a href="#" class="footer-link">Huawei</a>
+          </li>
+
+          <li>
+            <a href="#" class="footer-link">Samsung</a>
+          </li>
+
+        </ul>
+
+        <ul class="footer-list">
+
+          <li>
+            <p class="footer-list-title">Categories</p>
+          </li>
+
+          
+          <li>
+              <a href="#" class="footer-link">Phones</a>
+            </li>
+            
+            <li>
+                <a href="#" class="footer-link">Laptops</a>
+            </li>
+            
+            <li>
+                <a href="#" class="footer-link">Watches</a>
+            </li>
+            
+            <li>
+                <a href="#" class="footer-link">Accessories</a>
+            </li>
+
+            <li>
+              <a href="#" class="footer-link">Game Consoles</a>
+            </li>
+
+        </ul>
+
+      </div>
     </div>
 
-    <!-- Login Screen -->
-    <div id="login-screen" class="auth-screen">
-        <h2>Welcome back</h2>
-        <p id="subtitle">Sign in to your account to continue shopping</p>
-        <label for="login-email">Email</label>
-        <input type="email" id="login-email" placeholder="you@example.com">
-        <label for="password">Password</label>
-        <input type="password" id="password">
-        <button>Login</button>
-        <p>Don't have an account? <a onclick="showSignup()">Sign Up</a></p>
-        <p><a onclick="showAdminLogin()">Admin Login</a></p>
+    <div class="footer-bottom">
+      <div class="container">
+
+        <p class="copyright">
+          &copy; 2024 <strong>Team Cipher.</strong> For EECS 4413
+        </p>
+
+        <div class="payment">
+          <p class="payment-title">We Support</p>
+
+          <img src="./images/payment-img.png" alt="Online payment logos" class="payment-img">
+        </div>
+
+      </div>
     </div>
 
-    <!-- Signup Screen -->
-    <div id="signup-screen" class="auth-screen hidden">
-        <h2>Sign Up</h2>
-        <p id="subtitle">Create an account on Elysium and transform your world</p>
-        <form onsubmit="registerUser(event)">
-            <label for="sign-up-full-name">Full Name</label>
-            <input type="text" id="sign-up-full-name" required>
-            
-            <label for="sign-up-email">Email</label>
-            <input type="email" id="sign-up-email" placeholder="you@example.com" required>
-            
-            <label for="sign-up-password">Password</label>
-            <input type="password" id="sign-up-password" required>
-            
-            <label for="sign-up-confirm-password">Confirm Password</label>
-            <input type="password" id="sign-up-confirm-password" required>
-            
-            <button type="submit">Sign Up</button>
-        </form>
-        <p>Already have an account? <a onclick="showLogin()">Login</a></p>
-    </div>
+  </footer>
 
-    <!-- Admin Login Screen -->
-    <div id="admin-login-screen" class="auth-screen hidden">
-        <h2>Admin Login</h2>
-        <p id="subtitle">Access restricted</p>
-        <label for="admin-email">Admin Email</label>
-        <input type="email" id="admin-email">
-        <label for="admin-password">Password</label>
-        <input type="password" id="admin-password">
-        <button>Login as Admin</button>
-        <p><a onclick="showLogin()">Return to User Login</a></p>
-    </div>
 
-    <script src="js/login.js"></script>
+  <!-- 
+    - custom js link
+  -->
+  <script src="./scripts/index.js"></script>
+
+  <!-- 
+    - ionicon link
+  -->
+  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
 </body>
+
 </html>
