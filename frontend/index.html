@@ -26,10 +26,12 @@
   <header class="header" data-header>
     <div class="container">
 
+      <!-- Logo -->
       <a href="#" class="logo">
         <img src="./images/logos/brown-logo-with-text.png" alt="Elysium logo" width="200px">
       </a>
 
+      <!-- Searchbar -->
       <div class="header-search">
         <input type="search" name="search" placeholder="Search products..." class="input-field" >
 
@@ -40,6 +42,7 @@
 
       <div class="header-actions">
 
+        <!-- Sign in Button -->
         <button class="header-action-btn">
           <ion-icon name="person-outline" aria-hidden="true"></ion-icon>
 
@@ -47,19 +50,39 @@
         </button>
 
         <button class="header-action-btn">
-          <ion-icon name="search-outline" aria-hidden="true"></ion-icon>
-
-          <p class="header-action-label">Search</p>
         </button>
 
-        <button class="header-action-btn">
+        <!-- Cart Button -->
+        <button class="header-action-btn cart-button">
           <ion-icon name="cart-outline" aria-hidden="true"></ion-icon>
 
           <p class="header-action-label">Cart</p>
 
-          <div class="btn-badge green" aria-hidden="true">3</div>
+          <div class="btn-badge green" id="cart-count" aria-hidden="true">0</div>
         </button>
 
+        <!-- Cart -->
+        <div class="cart">
+          <h2 class="cart-title">Your Cart</h2>
+          <!-- Content -->
+          <div class="cart-content">
+
+           </div>
+
+           <!-- Total -->
+            <div class="total">
+              <div class="total-title">Total</div>
+              <div class="total-price">$0</div>
+            </div>
+
+            <!-- Checkout Button -->
+            <button type="button" class="btn-buy">Checkout</button>
+
+            <!-- Close Cart Button -->
+             <button class="close-cart">
+              <ion-icon name="close-outline" aria-hidden="true"></ion-icon>
+            </button>
+        </div>
       </div>
 
     </div>
@@ -132,10 +155,10 @@
             <li>
               <label for="sort" class="filter-btn">Sort by: </label>
               <select name="sort" id="sort" class="custom-select">
-                <option value="name-asc" selected>Name Ascending</option>
-                <option value="name-des" >Name Descending</option>
-                <option value="price-asc" >Price Ascending</option>
-                <option value="price-des" >Price Descending</option>
+                <option value="name-asc" selected>Name: A-Z</option>
+                <option value="name-des" >Name: Z-A</option>
+                <option value="price-asc" >Price: Low to High</option>
+                <option value="price-desc" >Price High to Low</option>
               </select>
             </li>
 
@@ -150,13 +173,11 @@
                 <figure class="card-banner">
 
                   <a href="#">
-                    <img src="./images/airpods-max.png" alt="Airpods Max" loading="lazy" width="800"
+                    <img src="./images/airpods-max.png" alt="Airpods Max" id="item-img" loading="lazy" width="800"
                       height="1034" class="w-100">
                   </a>
 
                   <div class="card-actions">
-
-                    
 
                     <button class="card-action-btn cart-btn">
                       <ion-icon name="bag-handle-outline" aria-hidden="true"></ion-icon>
@@ -164,7 +185,7 @@
                       <p>Add to Cart</p>
                     </button>
 
-                    <button class="card-action-btn" aria-label="Add to Whishlist">
+                    <button class="card-action-btn" aria-label="Add to Wishlist">
                       <ion-icon name="heart-outline"></ion-icon>
                     </button>
 
@@ -173,12 +194,12 @@
                 </figure>
 
                 <div class="card-content">
-                  <h3 class="h4 card-title">
+                  <h3 class="h3 card-title">
                     <a href="#">Airpods Max</a>
                   </h3>
 
                   <div class="card-price">
-                    <data value="420.00">&dollar;420.00</data>
+                    <data class="item-price" value="420.00">$420.00</data>
                   </div>
                 </div>
 
@@ -192,7 +213,7 @@
                 <figure class="card-banner">
 
                   <a href="#">
-                    <img src="./images/apple-watch.png" alt="Apple Watch" loading="lazy" width="800"
+                    <img src="./images/apple-watch.png" alt="Apple Watch" id="item-img" loading="lazy" width="800"
                       height="1034" class="w-100">
                   </a>
 
@@ -206,7 +227,7 @@
                       <p>Add to Cart</p>
                     </button>
 
-                    <button class="card-action-btn" aria-label="Add to Whishlist">
+                    <button class="card-action-btn" aria-label="Add to Wishlist">
                       <ion-icon name="heart-outline"></ion-icon>
                     </button>
 
@@ -215,12 +236,12 @@
                 </figure>
 
                 <div class="card-content">
-                  <h3 class="h4 card-title">
+                  <h3 class="h3 card-title">
                     <a href="#">Apple Watch</a>
                   </h3>
 
                   <div class="card-price">
-                    <data value="250.00">&dollar;250.00</data>
+                    <data class="item-price" value="250.00">$250.00</data>
                   </div>
                 </div>
 
@@ -234,7 +255,7 @@
                 <figure class="card-banner">
 
                   <a href="#">
-                    <img src="./images/asus-laptop.png" alt="Asus Laptop" loading="lazy"
+                    <img src="./images/asus-laptop.png" alt="Asus Laptop" id="item-img" loading="lazy"
                       width="800" height="1034" class="w-100">
                   </a>
 
@@ -248,7 +269,7 @@
                       <p>Add to Cart</p>
                     </button>
 
-                    <button class="card-action-btn" aria-label="Add to Whishlist">
+                    <button class="card-action-btn" aria-label="Add to Wishlist">
                       <ion-icon name="heart-outline"></ion-icon>
                     </button>
 
@@ -257,12 +278,12 @@
                 </figure>
 
                 <div class="card-content">
-                  <h3 class="h4 card-title">
-                    <a href="#">Asus Laptop</a>
+                  <h3 class="h3 card-title">
+                    Asus Laptop
                   </h3>
 
                   <div class="card-price">
-                    <data value="1200.00">&dollar;1200.00</data>
+                    <data class="item-price" value="1200.00">$1200.00</data>
                   </div>
                 </div>
 
@@ -276,7 +297,7 @@
                 <figure class="card-banner">
 
                   <a href="#">
-                    <img src="./images/google-home.png" alt="Google Home" loading="lazy" width="800"
+                    <img src="./images/google-home.png" alt="Google Home" id="item-img" loading="lazy" width="800"
                       height="1034" class="w-100">
                   </a>
 
@@ -290,7 +311,7 @@
                       <p>Add to Cart</p>
                     </button>
 
-                    <button class="card-action-btn" aria-label="Add to Whishlist">
+                    <button class="card-action-btn" aria-label="Add to Wishlist">
                       <ion-icon name="heart-outline"></ion-icon>
                     </button>
 
@@ -299,12 +320,12 @@
                 </figure>
 
                 <div class="card-content">
-                  <h3 class="h4 card-title">
+                  <h3 class="h3 card-title">
                     <a href="#">Google Home</a>
                   </h3>
 
                   <div class="card-price">
-                    <data value="123.00">&dollar;123.00</data>
+                    <data class="item-price" value="123.00">$123.00</data>
                   </div>
                 </div>
 
@@ -318,13 +339,11 @@
                 <figure class="card-banner">
 
                   <a href="#">
-                    <img src="./images/google-pixel.png" alt="Google Pixel" loading="lazy" width="800"
+                    <img src="./images/google-pixel.png" alt="Google Pixel" id="item-img" loading="lazy" width="800"
                       height="1034" class="w-100">
                   </a>
 
                   <div class="card-actions">
-
-                    
 
                     <button class="card-action-btn cart-btn">
                       <ion-icon name="bag-handle-outline" aria-hidden="true"></ion-icon>
@@ -332,7 +351,7 @@
                       <p>Add to Cart</p>
                     </button>
 
-                    <button class="card-action-btn" aria-label="Add to Whishlist">
+                    <button class="card-action-btn" aria-label="Add to Wishlist">
                       <ion-icon name="heart-outline"></ion-icon>
                     </button>
 
@@ -341,12 +360,12 @@
                 </figure>
 
                 <div class="card-content">
-                  <h3 class="h4 card-title">
+                  <h3 class="h3 card-title">
                     <a href="#">Google Pixel</a>
                   </h3>
 
                   <div class="card-price">
-                    <data value="740.00">&dollar;740.00</data>
+                    <data class="item-price" value="740.00">$740.00</data>
                   </div>
                 </div>
 
@@ -360,7 +379,7 @@
                 <figure class="card-banner">
 
                   <a href="#">
-                    <img src="./images/hp-laptop.png" alt="HP Laptop" loading="lazy" width="800"
+                    <img src="./images/hp-laptop.png" alt="HP Laptop" id="item-img" loading="lazy" width="800"
                       height="1034" class="w-100">
                   </a>
 
@@ -374,7 +393,7 @@
                       <p>Add to Cart</p>
                     </button>
 
-                    <button class="card-action-btn" aria-label="Add to Whishlist">
+                    <button class="card-action-btn" aria-label="Add to Wishlist">
                       <ion-icon name="heart-outline"></ion-icon>
                     </button>
 
@@ -383,12 +402,12 @@
                 </figure>
 
                 <div class="card-content">
-                  <h3 class="h4 card-title">
+                  <h3 class="h3 card-title">
                     <a href="#">HP Laptop</a>
                   </h3>
 
                   <div class="card-price">
-                    <data value="800.00">&dollar;800.00</data>
+                    <data class="item-price" value="800.00">$800.00</data>
                   </div>
                 </div>
 
@@ -402,7 +421,7 @@
                 <figure class="card-banner">
 
                   <a href="#">
-                    <img src="./images/huawei-phone.png" alt="Huawei Phone" loading="lazy" width="800"
+                    <img src="./images/huawei-phone.png" alt="Huawei Phone" id="item-img" loading="lazy" width="800"
                       height="1034" class="w-100">
                   </a>
 
@@ -416,7 +435,7 @@
                       <p>Add to Cart</p>
                     </button>
 
-                    <button class="card-action-btn" aria-label="Add to Whishlist">
+                    <button class="card-action-btn" aria-label="Add to Wishlist">
                       <ion-icon name="heart-outline"></ion-icon>
                     </button>
 
@@ -425,12 +444,12 @@
                 </figure>
 
                 <div class="card-content">
-                  <h3 class="h4 card-title">
+                  <h3 class="h3 card-title">
                     <a href="#">Huawei Phone</a>
                   </h3>
 
                   <div class="card-price">
-                    <data value="680.00">&dollar;680.00</data>
+                    <data class="item-price" value="680.00">$680.00</data>
                   </div>
                 </div>
 
@@ -444,7 +463,7 @@
                 <figure class="card-banner">
 
                   <a href="#">
-                    <img src="./images/huawei-watch.png" alt="Huawei Watch" loading="lazy" width="800"
+                    <img src="./images/huawei-watch.png" alt="Huawei Watch" id="item-img" loading="lazy" width="800"
                       height="1034" class="w-100">
                   </a>
 
@@ -458,7 +477,7 @@
                       <p>Add to Cart</p>
                     </button>
 
-                    <button class="card-action-btn" aria-label="Add to Whishlist">
+                    <button class="card-action-btn" aria-label="Add to Wishlist">
                       <ion-icon name="heart-outline"></ion-icon>
                     </button>
 
@@ -467,12 +486,12 @@
                 </figure>
 
                 <div class="card-content">
-                  <h3 class="h4 card-title">
+                  <h3 class="h3 card-title">
                     <a href="#">Huawei Watch</a>
                   </h3>
 
                   <div class="card-price">
-                    <data value="460.00">&dollar;460.00</data>
+                    <data class="item-price" value="460.00">$460.00</data>
                   </div>
                 </div>
 
@@ -486,7 +505,7 @@
                 <figure class="card-banner">
 
                   <a href="#">
-                    <img src="./images/iphone-16-pro.png" alt="iPhone 16 Pro" loading="lazy" width="800"
+                    <img src="./images/iphone-16-pro.png" alt="iPhone 16 Pro" id="item-img" loading="lazy" width="800"
                       height="1034" class="w-100">
                   </a>
 
@@ -500,7 +519,7 @@
                       <p>Add to Cart</p>
                     </button>
 
-                    <button class="card-action-btn" aria-label="Add to Whishlist">
+                    <button class="card-action-btn" aria-label="Add to Wishlist">
                       <ion-icon name="heart-outline"></ion-icon>
                     </button>
 
@@ -509,12 +528,12 @@
                 </figure>
 
                 <div class="card-content">
-                  <h3 class="h4 card-title">
+                  <h3 class="h3 card-title">
                     <a href="#">iPhone 16 Pro</a>
                   </h3>
 
                   <div class="card-price">
-                    <data value="1050.00">&dollar;1050.00</data>
+                    <data class="item-price" value="1050.00">$1050.00</data>
                   </div>
                 </div>
 
@@ -528,7 +547,7 @@
                 <figure class="card-banner">
 
                   <a href="#">
-                    <img src="./images/jbl-speaker.png" alt="JBL Speaker" loading="lazy" width="800"
+                    <img src="./images/jbl-speaker.png" alt="JBL Speaker" id="item-img" loading="lazy" width="800"
                       height="1034" class="w-100">
                   </a>
 
@@ -542,7 +561,7 @@
                       <p>Add to Cart</p>
                     </button>
 
-                    <button class="card-action-btn" aria-label="Add to Whishlist">
+                    <button class="card-action-btn" aria-label="Add to Wishlist">
                       <ion-icon name="heart-outline"></ion-icon>
                     </button>
 
@@ -551,12 +570,12 @@
                 </figure>
 
                 <div class="card-content">
-                  <h3 class="h4 card-title">
+                  <h3 class="h3 card-title">
                     <a href="#">JBL Speaker</a>
                   </h3>
 
                   <div class="card-price">
-                    <data value="115.00">&dollar;115.00</data>
+                    <data class="item-price" value="115.00">$115.00</data>
                   </div>
                 </div>
 
@@ -570,7 +589,7 @@
                 <figure class="card-banner">
 
                   <a href="#">
-                    <img src="./images/macbook-pro.png" alt="Macbook Pro" loading="lazy" width="800"
+                    <img src="./images/macbook-pro.png" alt="Macbook Pro" id="item-img" loading="lazy" width="800"
                       height="1034" class="w-100">
                   </a>
 
@@ -584,7 +603,7 @@
                       <p>Add to Cart</p>
                     </button>
 
-                    <button class="card-action-btn" aria-label="Add to Whishlist">
+                    <button class="card-action-btn" aria-label="Add to Wishlist">
                       <ion-icon name="heart-outline"></ion-icon>
                     </button>
 
@@ -593,12 +612,12 @@
                 </figure>
 
                 <div class="card-content">
-                  <h3 class="h4 card-title">
+                  <h3 class="h3 card-title">
                     <a href="#">Macbook Pro</a>
                   </h3>
 
                   <div class="card-price">
-                    <data value="1350.00">&dollar;1350.00</data>
+                    <data class="item-price" value="1350.00">$1350.00</data>
                   </div>
                 </div>
 
@@ -612,7 +631,7 @@
                 <figure class="card-banner">
 
                   <a href="#">
-                    <img src="./images/nintendo-switch.png" alt="Nintendo Switch" loading="lazy" width="800"
+                    <img src="./images/nintendo-switch.png" alt="Nintendo Switch" id="item-img" loading="lazy" width="800"
                       height="1034" class="w-100">
                   </a>
 
@@ -626,7 +645,7 @@
                       <p>Add to Cart</p>
                     </button>
 
-                    <button class="card-action-btn" aria-label="Add to Whishlist">
+                    <button class="card-action-btn" aria-label="Add to Wishlist">
                       <ion-icon name="heart-outline"></ion-icon>
                     </button>
 
@@ -635,12 +654,12 @@
                 </figure>
 
                 <div class="card-content">
-                  <h3 class="h4 card-title">
+                  <h3 class="h3 card-title">
                     <a href="#">Nintendo Switch</a>
                   </h3>
 
                   <div class="card-price">
-                    <data value="360.00">&dollar;360.00</data>
+                    <data class="item-price" value="360.00">$360.00</data>
                   </div>
                 </div>
 
@@ -654,7 +673,7 @@
                 <figure class="card-banner">
 
                   <a href="#">
-                    <img src="./images/ps5.png" alt="PS5" loading="lazy" width="800"
+                    <img src="./images/ps5.png" alt="PS5" id="item-img" loading="lazy" width="800"
                       height="1034" class="w-100">
                   </a>
 
@@ -668,7 +687,7 @@
                       <p>Add to Cart</p>
                     </button>
 
-                    <button class="card-action-btn" aria-label="Add to Whishlist">
+                    <button class="card-action-btn" aria-label="Add to Wishlist">
                       <ion-icon name="heart-outline"></ion-icon>
                     </button>
 
@@ -677,12 +696,12 @@
                 </figure>
 
                 <div class="card-content">
-                  <h3 class="h4 card-title">
+                  <h3 class="h3 card-title">
                     <a href="#">PS5</a>
                   </h3>
 
                   <div class="card-price">
-                    <data value="450.00">&dollar;450.00</data>
+                    <data class="item-price" value="450.00">$450.00</data>
                   </div>
                 </div>
 
@@ -696,7 +715,7 @@
                 <figure class="card-banner">
 
                   <a href="#">
-                    <img src="./images/samsung-galaxy-watch.png" alt="Samsung Galaxy Watch" loading="lazy" width="800"
+                    <img src="./images/samsung-galaxy-watch.png" alt="Samsung Galaxy Watch" id="item-img" loading="lazy" width="800"
                       height="1034" class="w-100">
                   </a>
 
@@ -710,7 +729,7 @@
                       <p>Add to Cart</p>
                     </button>
 
-                    <button class="card-action-btn" aria-label="Add to Whishlist">
+                    <button class="card-action-btn" aria-label="Add to Wishlist">
                       <ion-icon name="heart-outline"></ion-icon>
                     </button>
 
@@ -719,12 +738,12 @@
                 </figure>
 
                 <div class="card-content">
-                  <h3 class="h4 card-title">
+                  <h3 class="h3 card-title">
                     <a href="#">Samsung Galaxy Watch</a>
                   </h3>
 
                   <div class="card-price">
-                    <data value="385.00">&dollar;385.00</data>
+                    <data class="item-price" value="385.00">$385.00</data>
                   </div>
                 </div>
 
@@ -738,7 +757,7 @@
                 <figure class="card-banner">
 
                   <a href="#">
-                    <img src="./images/samsung-phone.png" alt="Samsung Phone" loading="lazy" width="800"
+                    <img src="./images/samsung-phone.png" alt="Samsung Phone" id="item-img" loading="lazy" width="800"
                       height="1034" class="w-100">
                   </a>
 
@@ -752,7 +771,7 @@
                       <p>Add to Cart</p>
                     </button>
 
-                    <button class="card-action-btn" aria-label="Add to Whishlist">
+                    <button class="card-action-btn" aria-label="Add to Wishlist">
                       <ion-icon name="heart-outline"></ion-icon>
                     </button>
 
@@ -761,12 +780,12 @@
                 </figure>
 
                 <div class="card-content">
-                  <h3 class="h4 card-title">
+                  <h3 class="h3 card-title">
                     <a href="#">Samsung Phone</a>
                   </h3>
 
                   <div class="card-price">
-                    <data value="980.00">&dollar;980.00</data>
+                    <data class="item-price" value="980.00">$980.00</data>
                   </div>
                 </div>
 
@@ -780,7 +799,7 @@
                 <figure class="card-banner">
 
                   <a href="#">
-                    <img src="./images/sony-xm5.png" alt="Sony XM5" loading="lazy" width="800"
+                    <img src="./images/sony-xm5.png" alt="Sony XM5" id="item-img" loading="lazy" width="800"
                       height="1034" class="w-100">
                   </a>
 
@@ -796,7 +815,7 @@
                       <p>Add to Cart</p>
                     </button>
 
-                    <button class="card-action-btn" aria-label="Add to Whishlist">
+                    <button class="card-action-btn" aria-label="Add to Wishlist">
                       <ion-icon name="heart-outline"></ion-icon>
                     </button>
 
@@ -805,12 +824,12 @@
                 </figure>
 
                 <div class="card-content">
-                  <h3 class="h4 card-title">
+                  <h3 class="h3 card-title">
                     <a href="#">Sony XM5</a>
                   </h3>
 
                   <div class="card-price">
-                    <data value="585.00">&dollar;585.00</data>
+                    <data class="item-price" value="585.00">$585.00</data>
                   </div>
                 </div>
 
@@ -824,7 +843,7 @@
                 <figure class="card-banner">
 
                   <a href="#">
-                    <img src="./images/xbox-series-x.png" alt="Xbox Series X" loading="lazy" width="800"
+                    <img src="./images/xbox-series-x.png" alt="Xbox Series X" id="item-img" loading="lazy" width="800"
                       height="1034" class="w-100">
                   </a>
 
@@ -838,7 +857,7 @@
                       <p>Add to Cart</p>
                     </button>
 
-                    <button class="card-action-btn" aria-label="Add to Whishlist">
+                    <button class="card-action-btn" aria-label="Add to Wishlist">
                       <ion-icon name="heart-outline"></ion-icon>
                     </button>
 
@@ -847,12 +866,12 @@
                 </figure>
 
                 <div class="card-content">
-                  <h3 class="h4 card-title">
+                  <h3 class="h3 card-title">
                     <a href="#">Xbox Series X</a>
                   </h3>
 
                   <div class="card-price">
-                    <data value="430.00">&dollar;430.00</data>
+                    <data class="item-price" value="430.00">$430.00</data>
                   </div>
                 </div>
 
