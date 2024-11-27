@@ -40,4 +40,7 @@ public interface ProductRepository extends JpaRepository<Product, String> {
     List<Product> findAllByOrderByPriceAsc(); // Ascending order
     List<Product> findAllByOrderByPriceDesc(); // Descending order
 
+    // used for admins, directly finds the name of product
+    Optional<Product> findByName(String name); // This will find the product by name
+
 }

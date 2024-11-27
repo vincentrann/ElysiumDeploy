@@ -32,7 +32,7 @@ public class UserController {
 
 
     // Endpoint for user login
-    @PostMapping("/login")
+    /**@PostMapping("/login")
     public ResponseEntity<User> loginUser(@RequestBody User user, HttpSession session) {
         User loggedInUser = userService.login(user.getEmail(), user.getPassword());
 
@@ -41,14 +41,14 @@ public class UserController {
         session.setAttribute("userRole", loggedInUser instanceof AdminUser ? "Admin" : "Member");
 
         return ResponseEntity.ok(loggedInUser);
-    }
+    }**/
 
 
-    @PostMapping("/logout")
+    /**@PostMapping("/logout")
     public ResponseEntity<String> logout(HttpSession session) {
         session.invalidate();
         return ResponseEntity.ok("Signed out successfully.");
-    }
+    }**/
 
     // Endpoint to get all users
     @GetMapping
