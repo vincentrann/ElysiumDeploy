@@ -2,6 +2,7 @@ package org.elysium.backend.repos;
 
 import org.elysium.backend.models.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -12,6 +13,9 @@ public interface ProductRepository extends JpaRepository<Product, String> {
     // Custom query methods
 
     // Find products by category (corrected to use Integer for categoryId)
+    @Query("SELECT p" +
+       "FROM products p" +
+       "WHERE p.name like %:name%")
     List<Product> findByCategoryName(String name);
 
     // Find products by brand
