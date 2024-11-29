@@ -16,39 +16,40 @@ function showAdminLogin() {
     document.getElementById('admin-login-screen').classList.remove('hidden');
 }
 
-async function registerUser(event) {
-    event.preventDefault(); // Prevents form from submitting normally
+function proceedToDetails(event) {
+    event.preventDefault(); // Prevent form submission
+    document.getElementById('signup-screen').classList.add('hidden');
+    document.getElementById('details-screen').classList.remove('hidden');
+}
 
-    const fullName = document.getElementById('sign-up-full-name').value;
-    const email = document.getElementById('sign-up-email').value;
-    const password = document.getElementById('sign-up-password').value;
-    const confirmPassword = document.getElementById('sign-up-confirm-password').value;
-    const role = "user"; // Assuming role is "user" by default
+function backToSignup() {
+    document.getElementById('details-screen').classList.add('hidden');
+    document.getElementById('signup-screen').classList.remove('hidden');
+}
 
-    if (password !== confirmPassword) {
-        alert("Passwords do not match");
-        return;
-    }
+function registerUser(event) {
+    event.preventDefault(); // Prevent form submission
+    
+    // Collect data from both screens
+    const userDetails = {
+        firstName: document.getElementById('sign-up-first-name').value,
+        lastName: document.getElementById('sign-up-last-name').value,
+        email: document.getElementById('sign-up-email').value,
+        phone: document.getElementById('sign-up-phone').value,
+        password: document.getElementById('sign-up-password').value,
+        cardInfo: {
+            number: document.getElementById('card-number').value,
+            expiry: document.getElementById('card-expiry').value,
+            cvv: document.getElementById('card-cvv').value,
+        },
+        shippingAddress: {
+            address: document.getElementById('shipping-address').value,
+            city: document.getElementById('shipping-city').value,
+            postalCode: document.getElementById('shipping-postal-code').value,
+            country: document.getElementById('shipping-country').value,
+        },
+    };
 
-    const user = { name: fullName, email: email, password: password };
-
-    try {
-        const response = await fetch('http://localhost:8080/api/users/register?role=' + role, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(user)
-        });
-
-        if (response.ok) {
-            const data = await response.json();
-            alert('Registration successful: ' + data.name);
-            showLogin();
-        } else {
-            alert('Registration failed');
-        }
-    } catch (error) {
-        console.error('Error:', error);
-    }
+    console.log('User Details:', userDetails);
+    // Send data to the backend or process it as needed
 }
