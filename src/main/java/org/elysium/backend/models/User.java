@@ -1,23 +1,24 @@
 package org.elysium.backend.models;
 
 import jakarta.persistence.*;
-
 import java.util.Date;
+import java.util.List;
+import java.util.Random;
 
 @Entity
 @Table(name = "users")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "role", discriminatorType = DiscriminatorType.STRING)
 public class User {
 
     @Id
-    private String id;  // Primary Key (varchar(6))
+    private String id;
 
     private String username;
 
     private String email;
 
     private String password;
-
-    private String role;
 
     private String firstName;
 
@@ -31,11 +32,23 @@ public class User {
     @Column(columnDefinition = "TEXT")
     private String billingAddress;
 
-    @Temporal(TemporalType.DATE)
-    private Date dob;  // Date of birth
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CreditCard> creditCards;
 
-    @Column(columnDefinition = "TINYINT(1)")
-    private boolean emailVerified;  // true/false for email verification status
+    // Getters and setters for creditCards
+    public List<CreditCard> getCreditCards() {
+        return creditCards;
+    }
+
+    public void setCreditCards(List<CreditCard> creditCards) {
+        this.creditCards = creditCards;
+    }
+
+    @Temporal(TemporalType.DATE)
+    private Date dob;
+
+    @Column(columnDefinition = "BOOLEAN")
+    private boolean emailVerified;
 
     // Getters and Setters
 
@@ -69,14 +82,6 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
     }
 
     public String getFirstName() {
@@ -134,4 +139,19 @@ public class User {
     public void setEmailVerified(boolean emailVerified) {
         this.emailVerified = emailVerified;
     }
+
+    public String generateRandomId() {
+        int length = 6; // Length of the ID
+        String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"; // Allowed characters
+        StringBuilder idBuilder = new StringBuilder(length);
+        Random random = new Random();
+
+        for (int i = 0; i < length; i++) {
+            int randomIndex = random.nextInt(characters.length());
+            idBuilder.append(characters.charAt(randomIndex));
+        }
+
+        return idBuilder.toString();
+    }
+
 }
