@@ -2,6 +2,7 @@ package org.elysium.backend.repos;
 
 import org.elysium.backend.models.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -12,12 +13,14 @@ public interface ProductRepository extends JpaRepository<Product, String> {
     // Custom query methods
 
     // Find products by category (corrected to use Integer for categoryId)
+    
     List<Product> findByCategoryName(String name);
 
     // Find products by brand
     List<Product> findByBrand(String brand);
 
     // Find products by name (case-insensitive)
+    @Query("SELECT p FROM Product p WHERE p.name like %:name%")
     List<Product> findByNameIgnoreCase(String name);
 
     // Find products with a price less than a certain value
@@ -39,5 +42,8 @@ public interface ProductRepository extends JpaRepository<Product, String> {
 
     List<Product> findAllByOrderByPriceAsc(); // Ascending order
     List<Product> findAllByOrderByPriceDesc(); // Descending order
+
+    // used for admins, directly finds the name of product
+    Optional<Product> findByName(String name); // This will find the product by name
 
 }

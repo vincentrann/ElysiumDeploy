@@ -48,7 +48,7 @@ public class ProductService {
 
     public List<Product> searchItemByName(String name)
     {
-        List<Product> products =productRepository.findByNameIgnoreCase(name);
+        List<Product> products = productRepository.findByNameIgnoreCase(name);
         if(products.isEmpty())
         {
             throw new RuntimeException("Product with this name does not exist" + name);
@@ -58,7 +58,7 @@ public class ProductService {
 
     public List<Product> searchItemByBrand(String brand)
     {
-        List<Product> products =productRepository.findByBrand(brand);
+        List<Product> products = productRepository.findByBrand(brand);
         if(products.isEmpty())
         {
             throw new RuntimeException("Product with this name does not exist" + brand);
@@ -106,6 +106,19 @@ public class ProductService {
     // Retrieve all products
     public List<Product> getAllProducts() {
         return productRepository.findAll();
+    }
+
+    public Product updateProductQuantity(String productName, int quantityChange){
+        Product product = productRepository.findByName(productName)
+        .orElseThrow(() -> new RuntimeException("Product not found"));
+
+        int newQuantity = product.getStockQuantity() + quantityChange; //if quantityChange is negative, reduces stock
+        if (newQuantity < 0){
+            throw new IllegalArgumentException("Inventory cannot be negative");
+        }
+
+        product.setStockQuantity(newQuantity);
+        return productRepository.save(product);
     }
 
 }
