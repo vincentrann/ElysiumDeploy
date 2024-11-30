@@ -13,15 +13,14 @@ public interface ProductRepository extends JpaRepository<Product, String> {
     // Custom query methods
 
     // Find products by category (corrected to use Integer for categoryId)
-    @Query("SELECT p" +
-       "FROM products p" +
-       "WHERE p.name like %:name%")
+    
     List<Product> findByCategoryName(String name);
 
     // Find products by brand
     List<Product> findByBrand(String brand);
 
     // Find products by name (case-insensitive)
+    @Query("SELECT p FROM Product p WHERE p.name like %:name%")
     List<Product> findByNameIgnoreCase(String name);
 
     // Find products with a price less than a certain value

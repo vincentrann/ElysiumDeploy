@@ -3,17 +3,17 @@ package org.elysium.backend.controllers;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.sql.Date;
+import java.util.Date;
+import java.text.SimpleDateFormat;
 
 import org.springframework.security.core.Authentication;
+import org.elysium.backend.DataTransferObjects.OrderWithItemsDto;
 import org.elysium.backend.models.*;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.elysium.backend.services.AdminCustomerService;
+import org.elysium.backend.services.OrderService;
 import org.elysium.backend.services.ProductService;
-import org.elysium.backend.services.SalesService;
-import org.elysium.backend.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,24 +25,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import jakarta.servlet.http.HttpSession;
-
-
 @RestController
 @RequestMapping("/admin")
 public class AdminController {
-
-    @Autowired
-    private SalesService salesService;
-
-    @Autowired
-    private UserService userService;
 
     @Autowired
     private AdminCustomerService adminCustomerService;
 
     @Autowired
     private ProductService productService;
+
+    @Autowired OrderService orderService;
 
     //landing page for admins
     @GetMapping("/dashboard")
@@ -57,32 +50,42 @@ public class AdminController {
 
         return ResponseEntity.ok(response);
     }
-    
-    //checking sales history
+    //checking order history
     @GetMapping("/OrderHistory")
-    public List<Order> viewSalesHistory(HttpSession session){
-        List<Order> orders = salesService.getAllOrders();
-        return orders;
+    public List<OrderWithItemsDto> viewOrderHistory(){
+        return orderService.getAllOrdersWithItems();
     }
 
-    //filter by customers
+    //filter orders with order number
+    @GetMapping("/OrderHistory/{orderId}")
+    public OrderWithItemsDto getOrderWithItems(@PathVariable int orderId) {
+        return orderService.getOrderWithItems(orderId);
+    }
+
+    //filter orders by customers
     @GetMapping("/OrderHistory/user/{username}")
-    public List<Order> getUserOrderHistory(@PathVariable String username){
-        return salesService.filterOrdersByUser(username);
+    public List<OrderWithItemsDto> getUserOrderHistory(@PathVariable String username){
+        return orderService.getOrdersWithItemsByUsername(username);
     }
 
     //filter by product
     @GetMapping("/OrderHistory/product/{productName}")
-    public List<Order> getProductOrderHistory(@PathVariable String productName){
-        return salesService.filterOrdersByProduct(productName);
+    public List<OrderWithItemsDto> getProductOrderHistory(@PathVariable String productName){
+        return orderService.getOrdersWithItemsByProductName(productName);
     }
-
+    
     //filter by date
     @GetMapping("/OrderHistory/date/{date}")
-    public List<Order> getDateOrderHistory(@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date specificDate){
-        return salesService.filterOrdersByDate(specificDate);
+    public List<OrderWithItemsDto> getDateOrderHistory(@PathVariable String specificDate){
+        try {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            Date parsedDate = dateFormat.parse(specificDate);
+            
+            return orderService.getOrdersWithItemsByDate(parsedDate);
+        } catch (Exception e) {
+            throw new IllegalArgumentException("Invalid date format. Use yyyy-MM-dd.");
+        }
     }
-
     //view customer info
     @GetMapping("/customers/{username}")
     public ResponseEntity<Map<String, Object>> getCustomerAccount(@PathVariable String username){
@@ -90,7 +93,7 @@ public class AdminController {
         if (user == null) {
             return ResponseEntity.notFound().build();
         }
-        List<Order> orderHistory = salesService.getUserOrders(user.getId());
+        List<OrderWithItemsDto> orderHistory = orderService.getOrdersWithItemsByUsername(username);
 
         Map<String, Object> customerDetails = new HashMap<>();
         customerDetails.put("userInfo", user);
@@ -113,6 +116,7 @@ public class AdminController {
     }
 
     //maintain inventory
+    //if quantityChange is negative, reduces the stock
     @PatchMapping("inventory/{productName}")
     public ResponseEntity<Product> updateProductQuantity(@PathVariable String productName, @RequestParam int quantityChange){
         try{
@@ -122,4 +126,5 @@ public class AdminController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
     }
+
 }

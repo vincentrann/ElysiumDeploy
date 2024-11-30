@@ -58,7 +58,7 @@ public class ProductService {
 
     public List<Product> searchItemByBrand(String brand)
     {
-        List<Product> products =productRepository.findByBrand(brand);
+        List<Product> products = productRepository.findByBrand(brand);
         if(products.isEmpty())
         {
             throw new RuntimeException("Product with this name does not exist" + brand);
