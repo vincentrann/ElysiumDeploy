@@ -17,7 +17,6 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
-
 public class OrderService {
     @Autowired
     private CartItemRepository cartItemRepository;
@@ -102,6 +101,7 @@ public class OrderService {
         return order;
     }
 
+
     // get all Orders with their OrderItems
     public List<OrderWithItemsDto> getAllOrdersWithItems(){
         List<Order> orders = orderRepository.findAll();
@@ -185,5 +185,10 @@ public class OrderService {
         }
 
         return ordersWithItems;
+    }
+  
+    public List<Order> findByUserId(String userId) {
+        return orderRepository.findByUserId(userId);
+
     }
 }

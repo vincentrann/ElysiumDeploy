@@ -1,34 +1,14 @@
-@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap');
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: Oswald, Arial, sans-serif;
-}
-
-body {
+main {
+    margin-top: 8em;
+    margin-bottom: 4em;
     display: flex;
-    align-items: center;
     justify-content: center;
-    height: 100vh;
-    background-color: #ffffff;
-    color: #816d4d;
-}
-
-.logo-container {
-    position: absolute;
-    top: 20px;
-}
-
-.logo {
-    height: 6rem;
 }
 
 .auth-screen {
     display: flex;
     flex-direction: column;
-    width: 25rem;
+    width: 50rem;
     padding: 2rem;
     border: 1px solid #816d4d;
     border-radius: 8px;
@@ -53,6 +33,7 @@ body {
 
 .auth-screen input {
     width: 100%;
+    background-color: white;
     padding: 0.7rem;
     margin: 0.7rem 0;
     border: 1px solid #816d4d;
@@ -65,6 +46,7 @@ body {
     margin-top: 0.7rem;
     margin-bottom: 1.5rem;
     background-color: #816d4d;
+    text-align: center;
     color: #ffffff;
     border: none;
     border-radius: 4px;
@@ -72,14 +54,42 @@ body {
 }
 
 .auth-screen a {
+    display: inline-block;
     color: #816d4d;
 }
 
 .auth-screen a:hover {
     cursor: pointer;
 }
+
 .auth-screen button:hover {
     background-color: #6d5a3b;
+}
+
+fieldset {
+    border: 1px solid #ddd;
+    padding: 1rem;
+    margin-top: 1rem;
+    border-radius: 4px;
+}
+
+fieldset legend {
+    font-weight: bold;
+    color: #816d4d;
+}
+
+.field-group {
+    margin-top: 1rem;
+}
+
+.field-group.half {
+    display: inline-block;
+    width: 48%;
+    margin-right: 2%;
+}
+
+.field-group.half:last-child {
+    margin-right: 0;
 }
 
 .hidden {
