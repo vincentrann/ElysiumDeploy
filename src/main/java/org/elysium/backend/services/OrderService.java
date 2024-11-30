@@ -96,4 +96,7 @@ public class OrderService {
         // Return the Order as confirmation
         return order;
     }
+    public List<Order> findByUserId(String userId) {
+        return orderRepository.findByUserId(userId);
+    }
 }
