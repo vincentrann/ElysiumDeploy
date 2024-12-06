@@ -38,11 +38,11 @@
 
       <div class="header-actions">
 
-        <!-- Login Button -->
-        <button class="header-action-btn" onclick="location.href='frontend/pages/login.html'">
+        <!-- Profile Button -->
+        <button class="header-action-btn" onclick="location.href='#'">
           <ion-icon name="person-outline" aria-hidden="true"></ion-icon>
 
-          <p class="header-action-label">Login</p>
+          <p class="header-action-label">Profile</p>
         </button>
 
         <button class="header-action-btn">
@@ -87,18 +87,18 @@
   <!-- 
     #PROFILE SECTION  
   -->
-  <main>
-    <div class="profile-container">
-        <!-- Current Customer Info Section -->
-        <div class="current-info">
-            <h1>Profile</h1>
-            <p><strong>Full Name:</strong> John Doe</p>
-            <p><strong>Email:</strong> john.doe@example.com</p>
-            <p><strong>Credit Card:</strong> **** **** **** 1234</p>
-            <p><strong>Shipping Address:</strong> 1234 Bay Street, Toronto, Canada</p>
-        </div>
+    <main>
+        <div class="profile-container">
+            <!-- Current Customer Info Section -->
+            <div class="current-info">
+                <h1>Profile</h1>
+                <p><strong>Full Name:</strong> John Doe</p>
+                <p><strong>Email:</strong> john.doe@example.com</p>
+                <p><strong>Credit Card:</strong> **** **** **** 1234</p>
+                <p><strong>Shipping Address:</strong> 1234 Bay Street, Toronto, Canada</p>
+            </div>
 
-        <!-- Update Customer Info Section -->
+            <!-- Update Customer Info Section -->
             <div class="update-info">
                 <h2>Update Profile Information</h2>
                 <form>
@@ -147,37 +147,37 @@
                 </form>
             </div>
 
-        <!-- Purchase History Section -->
-        <div class="purchase-history">
-            <h2>Purchase History</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Order ID</th>
-                        <th>Date</th>
-                        <th>Total</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>#1001</td>
-                        <td>2024-11-28</td>
-                        <td>$150.00</td>
-                        <td>Declined</td>
-                    </tr>
-                    <tr>
-                        <td>#1002</td>
-                        <td>2024-11-29</td>
-                        <td>$200.00</td>
-                        <td>Shipped</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+            <!-- Purchase History Section -->
+            <div class="purchase-history">
+                <h2>Purchase History</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Order ID</th>
+                            <th>Date</th>
+                            <th>Total</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>#1001</td>
+                            <td>2024-11-28</td>
+                            <td>$150.00</td>
+                            <td>Declined</td>
+                        </tr>
+                        <tr>
+                            <td>#1002</td>
+                            <td>2024-11-29</td>
+                            <td>$200.00</td>
+                            <td>Shipped</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
 
-            <!-- Sign Out -->
-            <button onclick="location.href='frontend/pages/login.html'">Logout</button>
+            <!-- Logout -->
+            <button onclick="location.href='../pages/login.html'" id="logout-button">Logout</button>
         </div>
     </main>
 
