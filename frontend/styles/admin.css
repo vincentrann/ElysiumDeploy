@@ -1,0 +1,115 @@
+main {
+    margin-top: 8em;
+    margin-bottom: 4em;
+    display: flex;
+    justify-content: center;
+}
+
+h1, h2 {
+    color: #816d4d;
+}
+
+h1 {
+    margin-bottom: 1.5rem;
+}
+
+.admin-container {
+    display: flex;
+    flex-direction: column;
+    width: 50rem;
+    padding: 2rem;
+    border: 1px solid #816d4d;
+    border-radius: 8px;
+    background-color: #f7f7f7;
+}
+
+.product-details {
+    background-color: #f9f9f9;
+}
+
+.product-details .order-products {
+    width: 100%;
+    margin-top: 0.5rem;
+    border-collapse: collapse;
+    border: 1px solid #ddd;
+}
+
+.product-details .order-products th, 
+.product-details .order-products td {
+    text-align: left;
+    padding: 0.8rem;
+    border: 1px solid #ddd;
+}
+
+.view-products {
+    padding: 0.5rem 1rem;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.view-products:hover {
+    background-color: #45a049;
+}
+
+.sales-history table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 2rem;
+}
+
+.sales-history table, th, td {
+    border: 1px solid #ccc;
+    background-color: white;
+}
+
+.sales-history th, td {
+    text-align: left;
+    padding: 0.8rem;
+}
+
+.sales-history th {
+    background-color: #f4f4f4;
+}
+
+.sales-history label, .customer-management label, .inventory-management label {
+    display: block;
+    margin-top: 0.5rem;
+}
+
+.sales-history input, .customer-management input, .inventory-management input {
+    width: 100%;
+    padding: 0.5rem;
+    background-color: white;
+    margin-top: 0.2rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.admin-container button {
+    width: 100%;
+    padding: 0.7rem;
+    margin-top: 0.7rem;
+    margin-bottom: 1.5rem;
+    background-color: #816d4d;
+    text-align: center;
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.admin-container button:hover {
+    background-color: #6d5a3b;
+}
+
+#logout-button {
+    background-color: rgb(223, 64, 64);
+}
+
+.hidden {
+    display: none;
+}

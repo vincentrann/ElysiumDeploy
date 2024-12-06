@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elysium | Admin</title>
+    <link rel="stylesheet" href="../styles/header_footer.css">
+    <link rel="stylesheet" href="../styles/admin.css">
+    <link rel="icon" href="../images/logos/favicon.png" type="image/x-icon" />
+    <!-- 
+    - google font link
+    -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- 
+  - #HEADER
+  -->
+
+  <header class="header" data-header>
+    <div class="container">
+
+      <!-- Logo -->
+      <a href="#" class="logo">
+        <img src="../images/logos/brown-logo-with-text.png" alt="Elysium logo" width="200px">
+      </a>
+
+    </div>
+  </header>
+
+  <!-- 
+    #ADMIN SECTION  
+  -->
+    <main>
+     <div class="admin-container">
+        <h1>Admin Dashboard</h1>
+
+        <!-- Sales History Section -->
+        <section class="sales-history">
+            <h2>Sales History</h2>
+            <form id="filter-sales">
+                <label for="filter-customer">Filter by Customer</label>
+                <input type="text" id="filter-customer" placeholder="Enter customer name">
+        
+                <label for="filter-product">Filter by Product</label>
+                <input type="text" id="filter-product" placeholder="Enter product name">
+        
+                <label for="filter-date">Filter by Date</label>
+                <input type="date" id="filter-date">
+        
+                <button type="submit">Filter</button>
+            </form>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Order ID</th>
+                        <th>Customer</th>
+                        <th>Total Price</th>
+                        <th>Date</th>
+                        <th>View Products in Order</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Example Order Row -->
+                    <tr>
+                        <td>#2001</td>
+                        <td>John Doe</td>
+                        <td>$1200</td>
+                        <td>2024-11-28</td>
+                        <td><button class="view-products" onclick="toggleProducts(this)">Expand</button></td>
+                    </tr>
+                    <!-- Expandable Row for Products -->
+                    <tr class="product-details hidden">
+                        <td colspan="5">
+                            <table class="order-products">
+                                <thead>
+                                    <tr>
+                                        <th>Product Name</th>
+                                        <th>Quantity</th>
+                                        <th>Price</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Smartphone</td>
+                                        <td>1</td>
+                                        <td>$800</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Headphones</td>
+                                        <td>1</td>
+                                        <td>$400</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                    <!-- Additional Order Rows -->
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Customer Management Section -->
+        <section class="customer-management">
+            <h2>Customer Accounts</h2>
+            <form id="search-customer">
+                <label for="search-customer-input">Search Customer</label>
+                <input type="text" id="search-customer-input" placeholder="Enter customer name">
+                <button type="submit">Search</button>
+            </form>
+            <div class="customer-details hidden">
+                <h3>Customer Details</h3>
+                <p><strong>Full Name:</strong> John Doe</p>
+                <p><strong>Email:</strong> john.doe@example.com</p>
+                <p><strong>Shipping Address:</strong> 1234 Elm Street</p>
+                <p><strong>Credit Card:</strong> **** **** **** 1234</p>
+                <button>Edit Customer Info</button>
+            </div>
+        </section>
+
+        <!-- Inventory Management Section -->
+        <section class="inventory-management">
+            <h2>Inventory Management</h2>
+            <form id="search-product">
+                <label for="search-product-input">Search Product</label>
+                <input type="text" id="search-product-input" placeholder="Enter product name">
+                <button type="submit">Search</button>
+            </form>
+            <div class="product-details hidden">
+                <h3>Product Details</h3>
+                <p><strong>Product Name:</strong> Smartphone</p>
+                <p><strong>Quantity in Stock:</strong> 50</p>
+                <label for="update-quantity">Update Quantity</label>
+                <input type="number" id="update-quantity" placeholder="Enter new quantity">
+                <button>Update Inventory</button>
+            </div>
+        </section>
+        
+        <!-- Logout -->
+        <button onclick="location.href='../pages/login.html'" id="logout-button">Logout</button>
+     </div>
+    </main>
+
+    <!-- 
+    - #FOOTER
+    -->
+
+    <footer class="footer">
+
+        <div class="footer-top">
+        <div class="container">
+    
+            <div class="footer-brand">
+            <img src="../images/logos/brown-logo-with-text.png" class="logo" width="200px">
+            <p>Elysium is a modern e-commerce platform designed to offer users a seamless and intuitive shopping experience. 
+                Built with cutting-edge technologies, it provides robust features for managing products, users, and transactions, 
+                making it the perfect solution for businesses aiming to scale their online presence.</p>
+    
+            </div>
+    
+            <ul class="footer-list">
+    
+            <li>
+                <p class="footer-list-title">Top Brands</p>
+            </li>
+    
+            <li>
+                <a href="#" class="footer-link">Sony</a>
+            </li>
+    
+            <li>
+                <a href="#" class="footer-link">Apple</a>
+            </li>
+    
+            <li>
+                <a href="#" class="footer-link">Google</a>
+            </li>
+    
+            <li>
+                <a href="#" class="footer-link">Huawei</a>
+            </li>
+    
+            <li>
+                <a href="#" class="footer-link">Samsung</a>
+            </li>
+    
+            </ul>
+    
+            <ul class="footer-list">
+    
+            <li>
+                <p class="footer-list-title">Categories</p>
+            </li>
+    
+            
+            <li>
+                <a href="#" class="footer-link">Phones</a>
+                </li>
+                
+                <li>
+                    <a href="#" class="footer-link">Laptops</a>
+                </li>
+                
+                <li>
+                    <a href="#" class="footer-link">Watches</a>
+                </li>
+                
+                <li>
+                    <a href="#" class="footer-link">Accessories</a>
+                </li>
+    
+                <li>
+                <a href="#" class="footer-link">Game Consoles</a>
+                </li>
+    
+            </ul>
+    
+        </div>
+        </div>
+    
+        <div class="footer-bottom">
+        <div class="container">
+    
+            <p class="copyright">
+            &copy; 2024 <strong>Team Cipher.</strong> For EECS 4413
+            </p>
+    
+            <div class="payment">
+            <p class="payment-title">We Support</p>
+    
+            <img src="../images/payment-img.png" alt="Online payment logos" class="payment-img">
+            </div>
+    
+        </div>
+        </div>
+    
+    </footer>
+    
+    
+    <!-- 
+        - custom js links
+    -->
+    <script src="../scripts/header.js"></script>
+    <script src="../scripts/admin.js"></script>
+    
+    <!-- 
+        - ionicon link
+    -->
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+</body>
+</html>
