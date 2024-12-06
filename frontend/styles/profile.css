@@ -104,3 +104,7 @@ fieldset legend {
 .profile-container button:hover {
     background-color: #6d5a3b;
 }
+
+#logout-button {
+    background-color: rgb(223, 64, 64);
+}
