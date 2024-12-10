@@ -1,16 +1,20 @@
 package org.elysium.backend.services;
 
+
 import org.elysium.backend.models.User;
 import org.elysium.backend.models.UserFactory;
 import org.elysium.backend.repos.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
-public class UserService {
+public class UserService{
+    private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     @Autowired
     private UserRepository userRepository;
@@ -39,7 +43,7 @@ public class UserService {
         newUser.setId(user.getId());
         newUser.setUsername(user.getUsername());
         newUser.setEmail(user.getEmail());
-        newUser.setPassword(user.getPassword()); // Save plaintext password
+        newUser.setPassword(passwordEncoder.encode(user.getPassword())); // Save plaintext password *changed to BCrypt
         newUser.setFirstName(user.getFirstName());
         newUser.setLastName(user.getLastName());
         newUser.setPhone(user.getPhone());
@@ -86,7 +90,7 @@ public class UserService {
         User user = existingUser.get();
 
         // Update user fields
-        user.setUsername(updatedUser.getUsername());
+        user.setUsername(updatedUser.getUsername()); 
         user.setFirstName(updatedUser.getFirstName());
         user.setLastName(updatedUser.getLastName());
         user.setEmail(updatedUser.getEmail());
@@ -137,4 +141,5 @@ public class UserService {
     public void deleteUserById(String id) {
         userRepository.deleteById(id);
     }
+
 }
