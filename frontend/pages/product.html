@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elysium | Smart Tech, Great Prices</title>
+    <link rel="stylesheet" href="../styles/header_footer.css">
+    <link rel="stylesheet" href="../styles/product.css">
+    <link rel="icon" href="../images/logos/favicon.png" type="image/x-icon" />
+    <!-- 
+    - google font link
+    -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- 
+  - #HEADER
+  -->
+
+  <header class="header" data-header>
+    <div class="container">
+
+      <!-- Logo -->
+      <a href="../../index.html" class="logo">
+        <img src="../images/logos/brown-logo-with-text.png" alt="Elysium logo" width="200px">
+      </a>
+
+      <!-- Searchbar -->
+      <div class="header-search">
+        <input type="search" name="search" placeholder="Search products..." class="input-field" >
+
+        <button class="search-btn" aria-label="Search">
+          <ion-icon name="search-outline"></ion-icon>
+        </button>
+      </div>
+
+      <div class="header-actions">
+
+        <!-- Login Button -->
+        <button class="header-action-btn" onclick="location.href='#'">
+          <ion-icon name="person-outline" aria-hidden="true"></ion-icon>
+
+          <p class="header-action-label">Login</p>
+        </button>
+
+        <button class="header-action-btn">
+        </button>
+
+        <!-- Cart Button -->
+        <button class="header-action-btn cart-button">
+          <ion-icon name="cart-outline" aria-hidden="true"></ion-icon>
+
+          <p class="header-action-label">Cart</p>
+
+          <div class="btn-badge green" id="cart-count" aria-hidden="true">0</div>
+        </button>
+
+        <!-- Cart -->
+        <div class="cart">
+          <h2 class="cart-title">Your Cart</h2>
+          <!-- Content -->
+          <div class="cart-content">
+
+           </div>
+
+           <!-- Total -->
+            <div class="total">
+              <div class="total-title">Total</div>
+              <div class="total-price">$0</div>
+            </div>
+
+            <!-- Checkout Button -->
+            <button type="button" class="btn-buy">Checkout</button>
+
+            <!-- Close Cart Button -->
+             <button class="close-cart">
+              <ion-icon name="close-outline" aria-hidden="true"></ion-icon>
+            </button>
+        </div>
+      </div>
+
+    </div>
+  </header>
+
+
+  <!-- 
+    - PRODUCT DETAILS
+  -->
+  <main class="product-details">
+      <div class="product-card">
+        <!-- Image Container -->
+        <div id="product-image">
+        </div>
+
+        <!-- Info Container -->
+        <div class="product-info">
+          <h1 id="product-name"></h1>
+          <p id="product-brand"></p>
+          <p id="product-category"></p>
+          <p id="product-price"></p>
+          <p id="product-stock"></p>
+          <div id="add-to-cart-section"></div>
+        </div>
+      </div>
+  </main>
+
+    <!-- 
+    - #FOOTER
+    -->
+
+  <footer class="footer">
+
+    <div class="footer-top">
+      <div class="container">
+
+        <div class="footer-brand">
+          <img src="../images/logos/brown-logo-with-text.png" class="logo" width="200px">
+          <p>Elysium is a modern e-commerce platform designed to offer users a seamless and intuitive shopping experience. 
+            Built with cutting-edge technologies, it provides robust features for managing products, users, and transactions, 
+            making it the perfect solution for businesses aiming to scale their online presence.</p>
+
+        </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div class="container">
+
+        <p class="copyright">
+          &copy; 2024 <strong>Team Cipher.</strong> For EECS 4413
+        </p>
+
+        <div class="payment">
+          <p class="payment-title">We Support</p>
+
+          <img src="../images/payment-img.png" alt="Online payment logos" class="payment-img">
+        </div>
+
+      </div>
+    </div>
+
+  </footer>
+
+
+  <!-- 
+    - custom js links
+  -->
+  <script src="../scripts/header.js"></script>
+  <script src="../scripts/product.js"></script>
+
+  <!-- 
+    - ionicon link
+  -->
+  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+</body>
+</html>
