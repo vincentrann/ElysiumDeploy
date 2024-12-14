@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Elysium | Smart Tech, Great Prices</title>
+  <link rel="shortcut icon" href="frontend/images/logos/favicon.png" type="image/x-icon">
+  <link rel="stylesheet" href="frontend/styles/index.css">
+  <link rel="stylesheet" href="frontend/styles/header_footer.css">
+
+  <!-- 
+    - google font link
+  -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+  <!-- 
+    - #HEADER
+  -->
+
+  <header class="header" data-header>
+    <div class="container">
+
+      <!-- Logo -->
+      <a href="#" class="logo">
+        <img src="frontend/images/logos/brown-logo-with-text.png" alt="Elysium logo" width="200px">
+      </a>
+
+      <!-- Searchbar -->
+      <div class="header-search">
+        <input type="search" name="search" placeholder="Search products..." class="input-field" >
+
+        <button class="search-btn" aria-label="Search">
+          <ion-icon name="search-outline"></ion-icon>
+        </button>
+      </div>
+
+      <div class="header-actions">
+
+        <!-- Login Button -->
+        <button class="header-action-btn" onclick="location.href='frontend/pages/login.html'">
+          <ion-icon name="person-outline" aria-hidden="true"></ion-icon>
+
+          <p class="header-action-label" id="auth-label">Login</p>
+        </button>
+
+        <button class="header-action-btn">
+        </button>
+
+        <!-- Cart Button -->
+        <button class="header-action-btn cart-button">
+          <ion-icon name="cart-outline" aria-hidden="true"></ion-icon>
+
+          <p class="header-action-label">Cart</p>
+
+          <div class="btn-badge green" id="cart-count" aria-hidden="true">0</div>
+        </button>
+
+        <!-- Cart -->
+        <div class="cart">
+          <h2 class="cart-title">Your Cart</h2>
+          <!-- Content -->
+          <div class="cart-content">
+
+           </div>
+
+           <!-- Total -->
+            <div class="total">
+              <div class="total-title">Total</div>
+              <div class="total-price">$0</div>
+            </div>
+
+            <!-- Checkout Button -->
+            <button type="button" class="btn-buy">Checkout</button>
+
+            <!-- Close Cart Button -->
+             <button class="close-cart">
+              <ion-icon name="close-outline" aria-hidden="true"></ion-icon>
+            </button>
+        </div>
+      </div>
+
+    </div>
+  </header>
+
+
+  <!-- 
+    - #HERO
+  -->
+
+  <section class="hero" id="home" style="background-image: url('frontend/images/hero-banner.png')">
+    <div class="container">
+
+      <div class="hero-content">
+
+        <p class="hero-subtitle">Discover the latest tech products.</p>
+
+        <h2 class="h1 hero-title">Smart Tech, Great Prices</h2>
+
+        <button class="btn btn-primary" onclick="location.href='#catalog'">Shop Now</button>
+
+      </div>
+
+    </div>
+  </section>
+
+
+
+    <!-- 
+      - #PRODUCTS
+    -->
+
+    <section class="section product">
+      <div class="container">
+
+        <h2 class="h2 section-title" id="catalog">Explore Our Products</h2>
+
+        <ul class="filter-list">
+
+          <li>
+            <label for="brand" class="filter-btn">Brand: </label>
+            <select name="brand" id="brand" class="custom-select">
+              <option value="all" selected>All</option>
+              <option value="sony">Sony</option>
+              <option value="apple">Apple</option>
+              <option value="google">Google</option>
+              <option value="huawei">Huawei</option>
+              <option value="samsung">Samsung</option>
+            </select>
+          </li>
+
+          <li>
+            <label for="category" class="filter-btn">Category: </label>
+            <select name="category" id="category" class="custom-select">
+              <option value="all" selected>All</option>
+              <option value="phones">Phones</option>
+              <option value="laptops">Laptops</option>
+              <option value="watches">Watches</option>
+              <option value="accessories">Accessories</option>
+              <option value="game-consoles">Game Consoles</option>
+            </select>
+          </li>
+
+          <li>
+            <label for="sort" class="filter-btn">Sort by: </label>
+            <select name="sort" id="sort" class="custom-select">
+              <option value="name-asc" selected>Name: A-Z</option>
+              <option value="name-des" >Name: Z-A</option>
+              <option value="price-asc" >Price: Low to High</option>
+              <option value="price-desc" >Price High to Low</option>
+            </select>
+          </li>
+
+        </ul>
+
+        <ul class="product-list" id="product-list">
+          <!-- Dynamically filled with products -->
+        </ul>
+
+      </div>
+    </section>
+
+
+
+  <!-- 
+    - #FOOTER
+  -->
+
+  <footer class="footer">
+
+    <div class="footer-top">
+      <div class="container">
+
+        <div class="footer-brand">
+          <img src="frontend/images/logos/brown-logo-with-text.png" class="logo" width="200px">
+          <p>Elysium is a modern e-commerce platform designed to offer users a seamless and intuitive shopping experience. 
+            Built with cutting-edge technologies, it provides robust features for managing products, users, and transactions, 
+            making it the perfect solution for businesses aiming to scale their online presence.</p>
+
+        </div>
+
+    </div>
+
+    <div class="footer-bottom">
+      <div class="container">
+
+        <p class="copyright">
+          &copy; 2024 <strong>Team Cipher.</strong> For EECS 4413
+        </p>
+
+        <div class="payment">
+          <p class="payment-title">We Support</p>
+
+          <img src="frontend/images/payment-img.png" alt="Online payment logos" class="payment-img">
+        </div>
+
+      </div>
+    </div>
+
+  </footer>
+
+
+  <!-- 
+    - custom js link
+  -->
+  <script src="frontend/scripts/header.js"></script>
+  <script src="frontend/scripts/index.js"></script>
+
+  <!-- 
+    - ionicon link
+  -->
+  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
+</body>
+
+</html>

@@ -140,6 +140,17 @@ public class User {
         this.emailVerified = emailVerified;
     }
 
+    public String getRole() {
+        if (this instanceof AdminUser){
+            return "ADMIN";
+        }
+        else if (this instanceof MemberUser){
+            return "MEMBER";
+        }
+        return null;
+    }
+
+    
     public String generateRandomId() {
         int length = 6; // Length of the ID
         String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"; // Allowed characters
