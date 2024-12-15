@@ -1,5 +1,6 @@
 const apiUrl = "http://localhost:8080/api/products";
 const productList = document.getElementById("product-list");
+const searchInput = document.querySelector('input[name="search"]'); // Get the search input field
 
 // Function to reset other filters
 function resetOtherFilters(exclude) {
@@ -65,6 +66,26 @@ async function fetchFilteredProducts(selectedFilter) {
   }
 }
 
+// Function to search for products by name
+async function searchProducts(query) {
+  const url = `${apiUrl}/search/name?name=${encodeURIComponent(query)}`;
+  try {
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error("Failed to fetch products");
+    }
+    const products = await response.json();
+    if (products.length === 0) {
+      productList.innerHTML = "<p>No products found matching your search query.</p>";
+      return;
+    }
+    updateProductList(products);
+  } catch (error) {
+    console.error("Error fetching products by search:", error);
+    productList.innerHTML = "<p>Unable to load products. Please try again later.</p>";
+  }
+}
+
 // Update product list dynamically
 function updateProductList(products) {
   productList.innerHTML = ""; // Clear current products
@@ -98,10 +119,17 @@ function updateProductList(products) {
   });
 }
 
-// Add event listeners for filters
+// Add event listeners for filters and search input
 document.getElementById("brand").addEventListener("change", () => fetchFilteredProducts("brand"));
 document.getElementById("category").addEventListener("change", () => fetchFilteredProducts("category"));
 document.getElementById("sort").addEventListener("change", () => fetchFilteredProducts("sort"));
-
+searchInput.addEventListener("input", (event) => {
+  const query = event.target.value.trim();
+  if (query) {
+    searchProducts(query);
+  } else {
+    fetchFilteredProducts(); // If search input is empty, reset to all products
+  }
+});
 // Initial fetch
 fetchFilteredProducts();
