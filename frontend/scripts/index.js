@@ -131,6 +131,5 @@ searchInput.addEventListener("input", (event) => {
     fetchFilteredProducts(); // If search input is empty, reset to all products
   }
 });
-
 // Initial fetch
 fetchFilteredProducts();
