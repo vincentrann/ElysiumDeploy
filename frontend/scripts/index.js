@@ -28,21 +28,21 @@ async function fetchFilteredProducts(selectedFilter) {
   if (selectedFilter === "brand" && brand !== "all") {
     url = `${apiUrl}/search/brand?brand=${brand}`;
   } else if (selectedFilter === "category" && category !== "all") {
-    url = `${apiUrl}/search/category?categoryName=${category}`;
+    url = `${apiUrl}/filter/category?categoryName=${category}`;
   } else if (selectedFilter === "sort") {
     // Sorting logic
     switch (sort) {
       case "name-asc":
-        url = `${apiUrl}/products/sort/name/asc`;
+        url = `${apiUrl}/filter/sort/name/asc`;
         break;
       case "name-desc":
-        url = `${apiUrl}/products/sort/name/desc`;
+        url = `${apiUrl}/filter/sort/name/desc`;
         break;
       case "price-asc":
-        url = `${apiUrl}/products/sort/price/asc`;
+        url = `${apiUrl}/filter/sort/price/asc`;
         break;
       case "price-desc":
-        url = `${apiUrl}/products/sort/price/desc`;
+        url = `${apiUrl}/filter/sort/price/desc`;
         break;
       default:
         break;
