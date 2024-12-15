@@ -98,6 +98,14 @@ public class ProductService {
 
     }
 
+    public List<Product> getProductsByCategoryName(String categoryName) {
+        List<Product> products = productRepository.findByCategoryName(categoryName);
+        if (products.isEmpty()) {
+            throw new RuntimeException("No products found for category: " + categoryName);
+        }
+        return products;
+    }
+
     public Product getProductDetailsById(String id) {
         return productRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Product not found with ID: " + id));
