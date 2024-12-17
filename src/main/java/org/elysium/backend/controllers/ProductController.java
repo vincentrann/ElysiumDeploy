@@ -25,25 +25,31 @@ public class ProductController {
         return product.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @GetMapping("/products/sort/price/asc")
+    @GetMapping("/filter/sort/price/asc")
     public List<Product> getProductsSortedByPriceAsc() {
         return productService.getProductsSortedByPriceAsc();
     }
 
-    @GetMapping("/products/sort/price/desc")
+    @GetMapping("/filter/sort/price/desc")
     public List<Product> getProductsSortedByPriceDesc() {
         return productService.getProductsSortedByPriceDesc();
     }
 
-    @GetMapping("/products/sort/name/asc")
+    @GetMapping("/filter/sort/name/asc")
     public List<Product> getProductsSortedByNameAsc() {
         return productService.getProductsSortedByNameAsc();
     }
 
     // Get products sorted by name (descending)
-    @GetMapping("/products/sort/name/desc")
+    @GetMapping("/filter/sort/name/desc")
     public List<Product> getProductsSortedByNameDesc() {
         return productService.getProductsSortedByNameDesc();
+    }
+
+    @GetMapping("/filter/category")
+    public ResponseEntity<List<Product>> getProductsByCategory(@RequestParam String categoryName) {
+        List<Product> products = productService.getProductsByCategoryName(categoryName);
+        return ResponseEntity.ok(products);
     }
 
     @GetMapping("/search/name")

@@ -341,7 +341,7 @@ body {
 
 .footer-top {
   background: var(--cultured);
-  padding-block: var(--section-padding);
+  padding-top: var(--section-padding);
 }
 
 .footer-top .container {
