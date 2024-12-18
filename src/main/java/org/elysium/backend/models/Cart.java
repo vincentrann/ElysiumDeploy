@@ -1,11 +1,13 @@
 package org.elysium.backend.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "Carts")
+@Table(name = "carts")
 public class Cart {
 
     @Id
@@ -22,7 +24,8 @@ public class Cart {
     private LocalDateTime updatedAt;
 
     @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<CartItem> cartItems;
+    @JsonIgnore
+    private List<CartItem> cartItems = new ArrayList<>(); // Initialize empty list
 
     // Constructors
     public Cart() {

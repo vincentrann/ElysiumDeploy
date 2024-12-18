@@ -118,7 +118,7 @@ public class ProductService {
 
     public Product updateProductQuantity(String productName, int quantityChange){
         Product product = productRepository.findByName(productName)
-        .orElseThrow(() -> new RuntimeException("Product not found"));
+                .orElseThrow(() -> new RuntimeException("Product not found"));
 
         int newQuantity = product.getStockQuantity() + quantityChange; //if quantityChange is negative, reduces stock
         if (newQuantity < 0){

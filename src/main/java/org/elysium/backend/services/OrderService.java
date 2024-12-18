@@ -40,11 +40,11 @@ public class OrderService {
     private UserRepository userRepository;
     public Order checkout(String userid, Long creditCardId)
     {
-       List<CartItem> cartItemList = cartItemRepository.findByUserId(userid);
-       if (cartItemList.isEmpty())
-       {
-           throw new RuntimeException("Cart is empty. Cannot proceed to checkout.");
-       }
+        List<CartItem> cartItemList = cartItemRepository.findByUserId(userid);
+        if (cartItemList.isEmpty())
+        {
+            throw new RuntimeException("Cart is empty. Cannot proceed to checkout.");
+        }
         // Step 2: Validate the selected credit card
         // Step 2: Check if the user has any credit cards
         List<CreditCard> userCreditCards = creditCardService.getCreditCardsByUserId(userid);
@@ -63,22 +63,22 @@ public class OrderService {
         if (!creditCard.getUser().getId().equals(userid)) {
             throw new RuntimeException("Unauthorized: Credit card does not belong to this user.");
         }
-       double totalPrice = 0;
-       for (CartItem cartItem : cartItemList)
-       {
-           Product product = productRepository.findById(cartItem.getProduct().getId())
-                   .orElseThrow(() -> new RuntimeException("Product not found: " + cartItem.getProduct().getId()));
-           if(cartItem.getQuantity()>product.getStockQuantity())
-           {
-               throw new RuntimeException("Insufficient stock for product: " + product.getName());
-           }
-           totalPrice += cartItem.getQuantity() * product.getPrice();
-       }
-       Order order = new Order();
-       order.setTotalPrice(totalPrice);
-       order.setUserId(userid);
-       order.setDateOfPurchase(new Date());
-       order = orderRepository.save(order);
+        double totalPrice = 0;
+        for (CartItem cartItem : cartItemList)
+        {
+            Product product = productRepository.findById(cartItem.getProduct().getId())
+                    .orElseThrow(() -> new RuntimeException("Product not found: " + cartItem.getProduct().getId()));
+            if(cartItem.getQuantity()>product.getStockQuantity())
+            {
+                throw new RuntimeException("Insufficient stock for product: " + product.getName());
+            }
+            totalPrice += cartItem.getQuantity() * product.getPrice();
+        }
+        Order order = new Order();
+        order.setTotalPrice(totalPrice);
+        order.setUserId(userid);
+        order.setDateOfPurchase(new Date());
+        order = orderRepository.save(order);
         // Step 4: Create Order Items and Update Inventory
         for (CartItem cartItem : cartItemList) {
             Product product = productRepository.findById(cartItem.getProduct().getId())
@@ -181,7 +181,7 @@ public class OrderService {
 
         return orderItemRepository.findByOrderDateOfPurchase(specificDate);
     }
-  
+
     public List<Order> findByUserId(String userId) {
         return orderRepository.findByUserId(userId);
 
