@@ -10,12 +10,6 @@ function showSignup() {
     document.getElementById('admin-login-screen').classList.add('hidden');
 }
 
-function showAdminLogin() {
-    document.getElementById('login-screen').classList.add('hidden');
-    document.getElementById('signup-screen').classList.add('hidden');
-    document.getElementById('admin-login-screen').classList.remove('hidden');
-}
-
 function proceedToDetails(event) {
     event.preventDefault(); // Prevent form submission
     document.getElementById('signup-screen').classList.add('hidden');
