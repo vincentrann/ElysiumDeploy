@@ -5,6 +5,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "users")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
@@ -33,6 +35,7 @@ public class User {
     private String billingAddress;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private List<CreditCard> creditCards;
 
     // Getters and setters for creditCards

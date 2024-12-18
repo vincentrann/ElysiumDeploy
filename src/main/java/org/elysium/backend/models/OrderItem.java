@@ -3,7 +3,7 @@ package org.elysium.backend.models;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "OrderItems")
+@Table(name = "order_items")
 public class OrderItem {
 
     @Id
