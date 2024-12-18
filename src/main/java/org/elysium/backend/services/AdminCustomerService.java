@@ -14,18 +14,36 @@ public class AdminCustomerService {
         return userRepository.findByUsername(username).orElse(null);
     }
 
-    public boolean adminUpdateUser(String username, User updatedUser){
-        return userRepository.findByUsername(username).map(user -> {
+    public User adminUpdateUser(String username, User updatedUser){
+        User user = userRepository.findByUsername(username).get();
+        if (updatedUser.getAddress() != null) {
             user.setAddress(updatedUser.getAddress());
-            user.setBillingAddress(updatedUser.getBillingAddress());
+        }
+        if (updatedUser.getCreditCards() != null){
             user.setCreditCards(updatedUser.getCreditCards());
+        }
+        if (updatedUser.getBillingAddress() != null) {
+            user.setBillingAddress(updatedUser.getBillingAddress());
+        }
+        if (updatedUser.getDob() != null) {
             user.setDob(updatedUser.getDob());
+        }
+        if (updatedUser.getEmail() != null && !updatedUser.getEmail().isEmpty()) {
             user.setEmail(updatedUser.getEmail());
+        }
+        if (updatedUser.getFirstName() != null && !updatedUser.getFirstName().isEmpty()) {
             user.setFirstName(updatedUser.getFirstName());
+        }
+        if (updatedUser.getLastName() != null && !updatedUser.getLastName().isEmpty()) {
             user.setLastName(updatedUser.getLastName());
+        }
+        if (updatedUser.getPassword() != null && !updatedUser.getPassword().isEmpty()) {
             user.setPassword(updatedUser.getPassword());
+        }
+        if (updatedUser.getPhone() != null && !updatedUser.getPhone().isEmpty()) {
             user.setPhone(updatedUser.getPhone());
-            return true;
-        }).orElse(false);
+        }
+
+        return userRepository.save(user);
     }
 }

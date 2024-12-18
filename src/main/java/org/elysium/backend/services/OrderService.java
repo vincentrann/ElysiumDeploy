@@ -6,9 +6,12 @@ import org.elysium.backend.repos.CartItemRepository;
 import org.elysium.backend.repos.OrderItemRepository;
 import org.elysium.backend.repos.OrderRepository;
 import org.elysium.backend.repos.ProductRepository;
+import org.elysium.backend.repos.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -22,9 +25,8 @@ public class OrderService {
     private CartItemRepository cartItemRepository;
 
     @Autowired
-    private CreditCardService creditCardRepository;
-    @Autowired
     private CreditCardService creditCardService;
+    
     @Autowired
     private OrderRepository orderRepository;
 
@@ -34,6 +36,8 @@ public class OrderService {
     @Autowired
     private ProductRepository productRepository;
 
+    @Autowired
+    private UserRepository userRepository;
     public Order checkout(String userid, Long creditCardId)
     {
        List<CartItem> cartItemList = cartItemRepository.findByUserId(userid);
@@ -103,88 +107,79 @@ public class OrderService {
 
 
     // get all Orders with their OrderItems
-    public List<OrderWithItemsDto> getAllOrdersWithItems(){
-        List<Order> orders = orderRepository.findAll();
-
-        List<OrderItem> orderItems = orderRepository.findAllOrderItems();
-
-        Map<Integer, List<OrderItem>> itemsByOrder = orderItems.stream()
-                .collect(Collectors.groupingBy(orderItem -> orderItem.getOrder().getId()));
-
-        List<OrderWithItemsDto> ordersWithItems = new ArrayList<>();
-
-        for (Order order : orders) {
-            List<OrderItem> items = itemsByOrder.getOrDefault(order.getId(), new ArrayList<>());
-            ordersWithItems.add(new OrderWithItemsDto(order, items));
-        }
-
-        return ordersWithItems;
+    public List<OrderItem> getAllOrdersWithItems(){
+        return orderItemRepository.findAll();
     }
 
     // get Order with their OrderItems given orderId
-    public OrderWithItemsDto getOrderWithItems(int orderId) {
-        // Fetch the Order
-        Order order = orderRepository.findOrderById(orderId);
+    public List<OrderItem> getOrderWithItems(int orderId) {
+        // // Fetch the Order
+        // Order order = orderRepository.findOrderById(orderId);
 
-        // Fetch associated OrderItems
-        List<OrderItem> orderItems = orderRepository.findOrderItemsByOrderId(orderId);
+        // // Fetch associated OrderItems
+        // List<OrderItem> orderItems = orderRepository.findOrderItemsByOrderId(orderId);
 
-        // Return the combined data in a DTO
-        return new OrderWithItemsDto(order, orderItems);
+        // // Return the combined data in a DTO
+        // return new OrderWithItemsDto(order, orderItems);
+        return orderItemRepository.findOrderItemsByOrderId(orderId);
     }
 
     // get Orders with their OrderItems given username
-    public List<OrderWithItemsDto> getOrdersWithItemsByUsername(String username) {
-        List<Order> orders = orderRepository.findOrdersByUsername(username);
-        List<OrderWithItemsDto> ordersWithItems = new ArrayList<>();
+    public List<OrderItem> getOrdersWithItemsByUsername(String username) {
+        // List<Order> orders = orderRepository.findOrdersByUsername(username);
+        // List<OrderWithItemsDto> ordersWithItems = new ArrayList<>();
 
-        for (Order order : orders) {
-            List<OrderItem> orderItems = orderRepository.findOrderItemsByOrderId(order.getId());
-            ordersWithItems.add(new OrderWithItemsDto(order, orderItems));
-        }
+        // for (Order order : orders) {
+        //     List<OrderItem> orderItems = orderRepository.findOrderItemsByOrderId(order.getId());
+        //     ordersWithItems.add(new OrderWithItemsDto(order, orderItems));
+        // }
 
-        return ordersWithItems;
+        // return ordersWithItems;
+
+        User user = userRepository.findByUsername(username).get();
+        String userId = user.getId();
+        return orderItemRepository.findOrderItemsByUserId(userId);
     }
 
     // get Orders with OrderItems that contain given product
-    public List<OrderWithItemsDto> getOrdersWithItemsByProductName(String productName) {
-        List<OrderItem> orderItems = orderRepository.findOrderItemsByProductName(productName);
-        List<OrderWithItemsDto> ordersWithItems = new ArrayList<>();
+    public List<OrderItem> getOrdersWithItemsByProductName(String productName) {
+        // List<OrderItem> orderItems = orderRepository.findOrderItemsByProductName(productName);
+        // List<OrderWithItemsDto> ordersWithItems = new ArrayList<>();
 
-        for (OrderItem orderItem : orderItems) {
-            Order order = orderItem.getOrder();
-            boolean orderExists = false;
-            for (OrderWithItemsDto dto : ordersWithItems) {
-                if (dto.getOrder().getId() == order.getId()) {
-                    dto.getOrderItems().add(orderItem);
-                    orderExists = true;
-                    break;
-                }
-            }
+        // for (OrderItem orderItem : orderItems) {
+        //     Order order = orderItem.getOrder();
+        //     boolean orderExists = false;
+        //     for (OrderWithItemsDto dto : ordersWithItems) {
+        //         if (dto.getOrder().getId() == order.getId()) {
+        //             dto.getOrderItems().add(orderItem);
+        //             orderExists = true;
+        //             break;
+        //         }
+        //     }
 
-            if (!orderExists) {
-                List<OrderItem> items = new ArrayList<>();
-                items.add(orderItem);
-                ordersWithItems.add(new OrderWithItemsDto(order, items));
-            }
-        }
+        //     if (!orderExists) {
+        //         List<OrderItem> items = new ArrayList<>();
+        //         items.add(orderItem);
+        //         ordersWithItems.add(new OrderWithItemsDto(order, items));
+        //     }
+        // }
 
-        return ordersWithItems;
+        return orderItemRepository.findByProductName(productName);
     }
 
     // get Orders with OrderItems on the specific date
-    public List<OrderWithItemsDto> getOrdersWithItemsByDate(Date specificDate) {
-        List<Order> orders = orderRepository.findOrdersBySpecificDate(specificDate);
+    public List<OrderItem> getOrdersWithItemsByDate(LocalDate specificDate) {
+        // List<Order> orders = orderRepository.findOrdersBySpecificDate(specificDate);
 
-        List<OrderWithItemsDto> ordersWithItems = new ArrayList<>();
+        // List<OrderWithItemsDto> ordersWithItems = new ArrayList<>();
 
-        for (Order order : orders) {
-            List<OrderItem> orderItems = orderRepository.findOrderItemsByOrderId(order.getId());
+        // for (Order order : orders) {
+        //     List<OrderItem> orderItems = orderRepository.findOrderItemsByOrderId(order.getId());
 
-            ordersWithItems.add(new OrderWithItemsDto(order, orderItems));
-        }
+        //     ordersWithItems.add(new OrderWithItemsDto(order, orderItems));
+        // }
 
-        return ordersWithItems;
+        return orderItemRepository.findByOrderDateOfPurchase(specificDate);
     }
   
     public List<Order> findByUserId(String userId) {
