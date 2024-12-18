@@ -82,7 +82,7 @@ async function searchProducts(query) {
     updateProductList(products);
   } catch (error) {
     console.error("Error fetching products by search:", error);
-    productList.innerHTML = "<p>Unable to load products. Please try again later.</p>";
+    productList.innerHTML = "<p>No products found. Please try a different search string.</p>";
   }
 }
 

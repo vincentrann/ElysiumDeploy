@@ -10,12 +10,6 @@ function showSignup() {
     document.getElementById('admin-login-screen').classList.add('hidden');
 }
 
-function showAdminLogin() {
-    document.getElementById('login-screen').classList.add('hidden');
-    document.getElementById('signup-screen').classList.add('hidden');
-    document.getElementById('admin-login-screen').classList.remove('hidden');
-}
-
 function proceedToDetails(event) {
     event.preventDefault(); // Prevent form submission
     document.getElementById('signup-screen').classList.add('hidden');
@@ -52,4 +46,32 @@ function registerUser(event) {
 
     console.log('User Details:', userDetails);
     // Send data to the backend or process it as needed
+}
+
+async function loginUser(event){
+    event.preventDefault();
+    const email = document.getElementById("login-email").value;
+    const password = document.getElementById("password").value;
+    const response = await fetch("http://localhost:8080/api/users/login", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ email, password })
+    });
+
+    if (response.ok) {
+        const loggedInUser = await response.json();
+        localStorage.setItem("userId",loggedInUser.id);
+        localStorage.setItem("role", loggedInUser.role)
+        if (localStorage.getItem("role") == "ADMIN"){
+            window.location.assign("admin.html")
+        }
+        else{
+            window.location.replace("/index.html");
+        }
+    } else {
+        const error = await response.json();
+        alert(`Error: ${error.message || "Invalid credentials"}`);
+    }
 }
