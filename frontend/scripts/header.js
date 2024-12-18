@@ -1,158 +1,138 @@
 'use strict';
+let cartButton = document.querySelector('.cart-button');
+let cart = document.querySelector('.cart');
+let closeCartButton = document.querySelector('.close-cart');
+
+// Open and Close Cart Sidebar
+cartButton.onclick = () => cart.classList.add('active');
+closeCartButton.onclick = () => cart.classList.remove('active');
 
 /**
- * add active class on header when scrolled 200px from top
+ * Cart Management Logic
  */
-
-const header = document.querySelector("[data-header]");
-
-window.addEventListener("scroll", function () {
-  window.scrollY >= 200 ? header.classList.add("active")
-    : header.classList.remove("active");
-})
-
-/**
- * cart
- */
-
-let cartButton = document.querySelector('.cart-button')
-let cart = document.querySelector('.cart')
-let closeCartButton = document.querySelector('.close-cart')
-
-// Open Cart Sidebar
-cartButton.onclick = () => {
-  cart.classList.add('active');
-}
-
-// Close Cart Sidebar
-closeCartButton.onclick = () => {
-  cart.classList.remove('active');
-}
-
-// Cart Logic
-if (document.readyState == 'loading') {
+if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', ready);
 } else {
   ready();
 }
 
 function ready() {
-  var removeCartButtons = document.getElementsByClassName('cart-remove');
-  for (var i = 0; i < removeCartButtons.length; i++) {
-    var button = removeCartButtons[i];
-    button.addEventListener('click', removeCartItem)
-  }
-
-  var quantityInputs = document.getElementsByClassName('cart-quantity')
-  for (var i = 0; i < quantityInputs.length; i++) {
-    var input = quantityInputs[i]
-    input.addEventListener('change', quantityChanged);
-  }
-
-  var addToCart = document.getElementsByClassName('cart-btn')
-  for (var i = 0; i < addToCart.length; i++) {
-    var button = addToCart[i]
-    button.addEventListener("click", addCartClicked)
-  }
-
-  document.getElementsByClassName('btn-buy')[0].addEventListener("click", checkoutButtonClicked)
+  loadCartFromLocalStorage(); // Load the cart from localStorage on page load
+  document.querySelectorAll('.cart-remove').forEach(button => button.addEventListener('click', removeCartItem));
+  document.querySelectorAll('.cart-quantity').forEach(input => input.addEventListener('change', quantityChanged));
+  document.querySelectorAll('.cart-btn').forEach(button => button.addEventListener('click', addCartClicked));
+  document.querySelector('.btn-buy').addEventListener('click', checkoutButtonClicked);
 }
 
-function checkoutButtonClicked() {
-  alert('Your order has been placed')
-  var cartContent = document.getElementsByClassName('cart-content')[0]
-  while (cartContent.hasChildNodes()) {
-    cartContent.removeChild(cartContent.firstChild)
-  }
+// Update total and cart count
+function updateCartUI() {
   updateTotal();
-updateCartCount();
+  updateCartCount();
+  saveCartToLocalStorage();
 }
 
+// Remove Cart Item
 function removeCartItem(event) {
-  var buttonClicked = event.target;
-  buttonClicked.parentElement.remove()
-  updateTotal();
-updateCartCount();
+  const cartBox = event.target.closest('.cart-box');
+  const productTitle = cartBox.querySelector('.cart-product-title').innerText;
+  cartBox.remove();
+
+  let cart = loadCartFromLocalStorage();
+  cart = cart.filter(item => item.title !== productTitle);
+  saveCartToLocalStorage(cart);
+  updateCartUI();
 }
 
+// Change quantity
 function quantityChanged(event) {
-  var input = event.target
-  if (isNaN(input.value) || input.value <= 0) {
-    input.value = 1;
+  if (isNaN(event.target.value) || event.target.value <= 0) event.target.value = 1;
+
+  const cartBox = event.target.closest('.cart-box');
+  const productTitle = cartBox.querySelector('.cart-product-title').innerText;
+  const newQuantity = parseInt(event.target.value);
+
+  const cart = loadCartFromLocalStorage();
+  const item = cart.find(item => item.title === productTitle);
+  if (item) item.quantity = newQuantity;
+
+  saveCartToLocalStorage(cart);
+  updateCartUI();
+}
+
+// Checkout Logic
+function checkoutButtonClicked() {
+  alert('Your order has been placed');
+  document.querySelector('.cart-content').innerHTML = '';
+  localStorage.removeItem('cart');
+  updateCartUI();
+}
+
+// Add Product to Cart
+function addProductToCart(title, price, image) {
+  const cartContent = document.querySelector('.cart-content');
+  if ([...cartContent.children].some(item => item.querySelector('.cart-product-title').innerText === title)) {
+    alert('This item is already in your cart');
+    return;
   }
-  updateTotal();
-updateCartCount();
+
+  const cartBox = document.createElement('div');
+  cartBox.classList.add('cart-box');
+  cartBox.innerHTML = `
+    <img src="${image}" alt="${title}" class="cart-img">
+    <div class="detail-box">
+      <div class="cart-product-title">${title}</div>
+      <div class="cart-price">${price}</div>
+      <input type="number" value="1" min="1" class="cart-quantity">
+    </div>
+    <button class="cart-remove"><ion-icon name="trash-outline"></ion-icon></button>`;
+  cartContent.appendChild(cartBox);
+
+  cartBox.querySelector('.cart-remove').addEventListener('click', removeCartItem);
+  cartBox.querySelector('.cart-quantity').addEventListener('change', quantityChanged);
+
+  const cart = loadCartFromLocalStorage();
+  cart.push({ title, price, image, quantity: 1 });
+  saveCartToLocalStorage(cart);
+
+  updateCartUI();
 }
 
-function addCartClicked(event) {
-  var button = event.target;
-  
-  var productCard = button.closest('.product-card');
-  
-  var title = productCard.querySelector('.card-title').innerText;
-  var price = productCard.querySelector('.item-price').innerText;
-  var productImage = productCard.querySelector('#item-img').src;
-  
-  addProductToCart(title, price, productImage);
-  updateTotal();
-updateCartCount();
+// Save cart to localStorage
+function saveCartToLocalStorage(cart) {
+  localStorage.setItem('cart', JSON.stringify(cart));
 }
 
-function addProductToCart(title, price, productImage) {
-  var cartShopBox = document.createElement('div')
-  cartShopBox.classList.add('cart-box')
-  var cartItems = document.getElementsByClassName('cart-content')[0]
-  var cartItemNames = cartItems.getElementsByClassName('cart-product-title')
-  for (var i = 0; i < cartItemNames.length; i++) {
-    if (cartItemNames[i].innerText.toLowerCase() == title.toLowerCase()) {
-      alert('This item is already in your cart')
-      return;
-    }
+// Load cart from localStorage
+function loadCartFromLocalStorage() {
+  const storedCart = localStorage.getItem('cart');
+  const cartContent = document.querySelector('.cart-content');
+  cartContent.innerHTML = '';
+  if (storedCart) {
+    const cart = JSON.parse(storedCart);
+    cart.forEach(item => {
+      const cartBox = document.createElement('div');
+      cartBox.classList.add('cart-box');
+      cartBox.innerHTML = `
+        <img src="${item.image}" alt="${item.title}" class="cart-img">
+        <div class="detail-box">
+          <div class="cart-product-title">${item.title}</div>
+          <div class="cart-price">${item.price}</div>
+          <input type="number" value="${item.quantity}" class="cart-quantity" min="1">
+        </div>
+        <button class="cart-remove"><ion-icon name="trash-outline"></ion-icon></button>`;
+      cartContent.appendChild(cartBox);
+    });
   }
-  var cartBoxContent = `
-            <img src="${productImage}" alt="apple watch" class="cart-img" width="300"
-              height="200">
-              <div class="detail-box">
-                <div class="cart-product-title">${title}</div>
-                <div class="cart-price">${price}</div>
-                <input type="number" value="1" min="1" class="cart-quantity">
-              </div>
-              <!-- Remove Cart -->
-              <button class="cart-remove">
-                <ion-icon name="trash-outline" aria-hidden="true"></ion-icon>
-            </button>`
-
-  cartShopBox.innerHTML = cartBoxContent
-  cartItems.append(cartShopBox)
-  cartShopBox.getElementsByClassName('cart-remove')[0].addEventListener("click", removeCartItem)
-  cartShopBox.getElementsByClassName('cart-quantity')[0].addEventListener("change", quantityChanged)
+  updateCartUI();
 }
-
-// Attach the event listener to all cart buttons
-document.querySelectorAll('.cart-btn').forEach((btn) => {
-  btn.addEventListener('click', addCartClicked);
-});
 
 function updateTotal() {
-  var cartContent = document.getElementsByClassName('cart-content')[0]
-  var cartBoxes = cartContent.getElementsByClassName('cart-box')
-  var total = 0;
-
-  for (var i = 0; i < cartBoxes.length; i++) {
-    var cartBox = cartBoxes[i]
-    var priceElement = cartBox.getElementsByClassName('cart-price')[0]
-    var quantityElement = cartBox.getElementsByClassName('cart-quantity')[0]
-    var price = parseFloat(priceElement.innerHTML.replace("$", ""))
-    var quantity = quantityElement.value
-    total = total + (price * quantity)
-  }
-  total = Math.round(total * 100) / 100
-
-  document.getElementsByClassName('total-price')[0].innerText = '$' + total
+  const cart = loadCartFromLocalStorage();
+  const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+  document.querySelector('.total-price').innerText = `$${total.toFixed(2)}`;
 }
 
 function updateCartCount() {
-  var cartItems = document.querySelector('.cart-content')
-  var cartCount = document.getElementById('cart-count')
-  cartCount.innerHTML = cartItems.children.length
+  const cart = loadCartFromLocalStorage();
+  document.getElementById('cart-count').innerText = cart.length;
 }

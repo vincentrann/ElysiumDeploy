@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/cart")
+@CrossOrigin(origins = {"http://localhost:5500", "http://127.0.0.1:5500"})
 public class CartController {
 
     @Autowired
@@ -25,10 +26,14 @@ public class CartController {
     }
 
     @PostMapping("/{userId}/add")
-    public ResponseEntity<Cart> addItemToCart(@PathVariable String userId, @RequestParam String productId, @RequestParam int quantity) {
-        Product product = productService.getProductById(productId).orElseThrow(() -> new RuntimeException("Product not found"));
-        Cart updatedCart = cartService.addItem(userId, product, quantity);
-        return ResponseEntity.ok(updatedCart);
+    public ResponseEntity<Cart> addItemToCart(@PathVariable String userId,
+                                              @RequestParam String productId,
+                                              @RequestParam int quantity) {
+        Product product = productService.getProductById(productId)
+                .orElseThrow(() -> new RuntimeException("Product not found"));
+
+        Cart cart = cartService.addItem(userId, product, quantity);
+        return ResponseEntity.ok(cart);
     }
 
     @DeleteMapping("/{userId}/remove/{cartItemId}")
