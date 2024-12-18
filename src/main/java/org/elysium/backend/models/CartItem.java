@@ -3,7 +3,7 @@ package org.elysium.backend.models;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "cart_items")
+@Table(name = "CartItems")
 public class CartItem {
 
     @Id
