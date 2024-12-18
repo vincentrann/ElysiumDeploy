@@ -117,8 +117,6 @@ body {
  * #REUSED STYLE
 \*-----------------------------------*/
 
-.container { padding-inline: 15px; }
-
 a,
 button { transition: var(--transition-1); }
 
