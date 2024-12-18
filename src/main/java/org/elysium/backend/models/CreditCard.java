@@ -1,6 +1,9 @@
 package org.elysium.backend.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
+
+import java.util.regex.Pattern;
 
 @Entity
 @Table(name = "CreditCards")
@@ -12,14 +15,16 @@ public class CreditCard {
 
     private String cardNumber;
 
-    private String expiryDate;
+    @Column(name = "expiry_date")
+    private String expiryDate; // It's now a String (MM/YY)
 
     private String cvv;
 
     private String cardHolderName;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "user_id", nullable = false)
+    @JsonBackReference // Prevents recursion
     private User user;
 
     @Column(columnDefinition = "TEXT")
@@ -47,6 +52,9 @@ public class CreditCard {
     }
 
     public void setExpiryDate(String expiryDate) {
+        if (expiryDate == null || !isValidExpiryDate(expiryDate)) {
+            throw new IllegalArgumentException("Invalid expiry date format. Use MM/YY.");
+        }
         this.expiryDate = expiryDate;
     }
 
@@ -80,5 +88,9 @@ public class CreditCard {
 
     public void setUser(User user) {
         this.user = user;
+    }
+    private boolean isValidExpiryDate(String expiryDate) {
+        String pattern = "^(0[1-9]|1[0-2])/\\d{2}$"; // Matches MM/YY format
+        return Pattern.matches(pattern, expiryDate);
     }
 }

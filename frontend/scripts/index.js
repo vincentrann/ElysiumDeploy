@@ -1,6 +1,10 @@
+'use strict';
+
 const apiUrl = "http://localhost:8080/api/products";
 const productList = document.getElementById("product-list");
 const searchInput = document.querySelector('input[name="search"]'); // Get the search input field
+
+
 
 // Function to reset other filters
 function resetOtherFilters(exclude) {
@@ -52,7 +56,6 @@ async function fetchFilteredProducts(selectedFilter) {
     url = apiUrl; // Default to fetching all products
   }
 
-  // Fetch filtered products
   try {
     const response = await fetch(url);
     if (!response.ok) {
@@ -75,10 +78,6 @@ async function searchProducts(query) {
       throw new Error("Failed to fetch products");
     }
     const products = await response.json();
-    if (products.length === 0) {
-      productList.innerHTML = "<p>No products found matching your search query.</p>";
-      return;
-    }
     updateProductList(products);
   } catch (error) {
     console.error("Error fetching products by search:", error);
@@ -93,10 +92,10 @@ function updateProductList(products) {
   products.forEach((product) => {
     const productItem = document.createElement("li");
     productItem.innerHTML = `
-      <div class="product-card">
+      <div class="product-card" data-product-id="${product.id}">
         <figure class="card-banner">
           <a href="frontend/pages/product.html?id=${product.id}">
-            <img src="${product.imageUrl}" alt="${product.name}" loading="lazy" width="800" height="1034" class="w-100">
+            <img src="${product.imageUrl}" alt="${product.name}" loading="lazy" class="w-100">
           </a>
           <div class="card-actions">
             <button class="card-action-btn cart-btn">
@@ -106,9 +105,7 @@ function updateProductList(products) {
           </div>
         </figure>
         <div class="card-content">
-          <h3 class="h3 card-title">
-            <a href="#">${product.name}</a>
-          </h3>
+          <h3 class="h3 card-title">${product.name}</h3>
           <div class="card-price">
             <data class="item-price" value="${product.price}">$${product.price.toFixed(2)}</data>
           </div>
@@ -117,19 +114,31 @@ function updateProductList(products) {
     `;
     productList.appendChild(productItem);
   });
+
+  document.querySelectorAll('.cart-btn').forEach((btn) => {
+    btn.addEventListener('click', addCartClicked);
+  });
+}
+// Add to Cart Logic
+function addCartClicked(event) {
+  const button = event.target.closest('.cart-btn');
+  const productCard = button.closest('.product-card');
+
+  const title = productCard.querySelector('.card-title').innerText;
+  const price = productCard.querySelector('.item-price').innerText;
+  const image = productCard.querySelector('img').src;
+
+  addProductToCart(title, price, image);
 }
 
-// Add event listeners for filters and search input
 document.getElementById("brand").addEventListener("change", () => fetchFilteredProducts("brand"));
 document.getElementById("category").addEventListener("change", () => fetchFilteredProducts("category"));
 document.getElementById("sort").addEventListener("change", () => fetchFilteredProducts("sort"));
+
 searchInput.addEventListener("input", (event) => {
   const query = event.target.value.trim();
-  if (query) {
-    searchProducts(query);
-  } else {
-    fetchFilteredProducts(); // If search input is empty, reset to all products
-  }
+  if (query) searchProducts(query);
+  else fetchFilteredProducts();
 });
-// Initial fetch
+
 fetchFilteredProducts();
