@@ -3,3 +3,8 @@ function toggleProducts(button) {
     productRow.classList.toggle('hidden');
     button.textContent = productRow.classList.contains('hidden') ? 'Expand' : 'Hide';
 }
+
+function logout(){
+    localStorage.removeItem("userId");
+    window.location.replace("/index.html");
+}
