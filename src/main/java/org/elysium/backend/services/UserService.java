@@ -5,7 +5,6 @@ import org.elysium.backend.models.User;
 import org.elysium.backend.models.UserFactory;
 import org.elysium.backend.repos.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 
@@ -14,7 +13,6 @@ import java.util.Optional;
 
 @Service
 public class UserService{
-    private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     @Autowired
     private UserRepository userRepository;
@@ -43,7 +41,7 @@ public class UserService{
         newUser.setId(user.getId());
         newUser.setUsername(user.getUsername());
         newUser.setEmail(user.getEmail());
-        newUser.setPassword(passwordEncoder.encode(user.getPassword())); // Save plaintext password *changed to BCrypt
+        newUser.setPassword(user.getPassword()); // Save plaintext password *changed to BCrypt
         newUser.setFirstName(user.getFirstName());
         newUser.setLastName(user.getLastName());
         newUser.setPhone(user.getPhone());
@@ -121,6 +119,10 @@ public class UserService{
      */
     public Optional<User> getUserById(String id) {
         return userRepository.findById(id);
+    }
+
+    public Optional<User> getUserByEmail(String email){
+        return userRepository.findByEmail(email);
     }
 
     /**

@@ -16,6 +16,25 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <script>
+    // This function checks if the user is logged in by verifying if a userId exists in the session.
+    window.onload = async function() {
+      const userId = localStorage.getItem("userId");  // Get userId from localStorage
+      const authLabel = document.getElementById("auth-label");
+      const authButton = document.querySelector(".header-action-btn");
+
+      if (userId) {
+        // If userId exists in localStorage, the user is logged in
+        authLabel.innerText = "Profile";
+        authButton.setAttribute("onclick", "location.href='frontend/pages/profile.html'");  // Navigate to profile page
+      } else {
+        // If no userId, show the login button
+        authLabel.innerText = "Login";
+        authButton.setAttribute("onclick", "location.href='frontend/pages/login.html'");  // Navigate to login page
+      }
+    };
+  </script>
 </head>
 
 <body>

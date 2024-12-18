@@ -6,10 +6,8 @@ import java.util.Map;
 import java.util.Date;
 import java.text.SimpleDateFormat;
 
-import org.springframework.security.core.Authentication;
 import org.elysium.backend.DataTransferObjects.OrderWithItemsDto;
 import org.elysium.backend.models.*;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.elysium.backend.services.AdminCustomerService;
 import org.elysium.backend.services.OrderService;
 import org.elysium.backend.services.ProductService;
@@ -40,14 +38,8 @@ public class AdminController {
     //landing page for admins
     @GetMapping("/dashboard")
     public ResponseEntity<Map<String, Object>> getDashboard() {
-        
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
         Map<String, Object> response = new HashMap<>();
         response.put("message", "Welcome to the Admin Dashboard!");
-        response.put("username", authentication.getName());
-        response.put("roles", authentication.getAuthorities());
-
         return ResponseEntity.ok(response);
     }
     //checking order history

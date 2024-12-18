@@ -13,6 +13,18 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        // Auth function to check if the user is authorized
+        function auth() {
+            const role = localStorage.getItem("role");
+            if(role !== "ADMIN") {
+                alert("cannot access admin privileges");
+                window.location.replace("/index.html");
+            };
+        }
+        // Call auth before the page loads
+        auth();
+    </script>
 </head>
 <body>
     <!-- 
@@ -139,7 +151,7 @@
         </section>
         
         <!-- Logout -->
-        <button onclick="location.href='../pages/login.html'" id="logout-button">Logout</button>
+        <button onclick="logout()" id="logout-button">Logout</button>
      </div>
     </main>
 
