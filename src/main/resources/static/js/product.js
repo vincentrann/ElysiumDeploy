@@ -3,7 +3,7 @@ const urlParams = new URLSearchParams(window.location.search);
 const productId = urlParams.get("id");
 
 // Fetch product details using the backend API
-const apiUrl = `http://elysiumdeploy-production.up.railway.app/api/products/${productId}`;
+const apiUrl = `https://elysiumdeploy-production.up.railway.app/api/products/${productId}`;
 
 async function fetchProductDetails() {
   try {

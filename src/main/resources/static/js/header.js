@@ -113,7 +113,7 @@ function loadCart() {
     // User is logged in, fetch cart items from the backend
     console.log("User is logged in, fetching cart items from API...");
 
-    fetch(`http://elysiumdeploy-production.up.railway.app/api/cart/${user}`)
+    fetch(`https://elysiumdeploy-production.up.railway.app/api/cart/${user}`)
         .then((response) => {
           if (!response.ok) {
             throw new Error("Failed to load user's cart from the backend");
@@ -153,7 +153,7 @@ function loadCart() {
       const { title, quantity } = item;
 
       // Call API to get product details by title (like price and image)
-      fetch(`http://elysiumdeploy-production.up.railway.app/api/products/title/${encodeURIComponent(title)}`)
+      fetch(`https://elysiumdeploy-production.up.railway.app/api/products/title/${encodeURIComponent(title)}`)
           .then(response => {
             if (!response.ok) {
               throw new Error(`Failed to load product details for ${title}`);
@@ -200,7 +200,7 @@ function removeCartItem(event) {
 
     const products = [{ title, quantity }]; // Pass title and quantity as a JSON object like in the "add" function
 
-    fetch(`http://elysiumdeploy-production.up.railway.app/api/cart/${user}/remove`, {
+    fetch(`https://elysiumdeploy-production.up.railway.app/api/cart/${user}/remove`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -288,7 +288,7 @@ function addCartClicked(event) {
     // If the user is logged in, call the backend API to add this product
     console.log("User is logged in, calling API to add item to cart");
 
-    fetch(`http://elysiumdeploy-production.up.railway.app/api/cart/${user}/add`, {
+    fetch(`https://elysiumdeploy-production.up.railway.app/api/cart/${user}/add`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
