@@ -95,7 +95,7 @@ function updateProductList(products) {
       <div class="product-card" data-product-id="${product.id}">
         <figure class="card-banner">
           <a href="frontend/pages/product.html?id=${product.id}">
-            <img src="${product.imageUrl}" alt="${product.name}" loading="lazy" class="w-100">
+            <img src="${product.imageUrl}" alt="${product.name}" loading="lazy" class="w-100 item-img">
           </a>
           <div class="card-actions">
             <button class="card-action-btn cart-btn">
@@ -120,16 +120,11 @@ function updateProductList(products) {
   });
 }
 // Add to Cart Logic
-function addCartClicked(event) {
-  const button = event.target.closest('.cart-btn');
-  const productCard = button.closest('.product-card');
-
-  const title = productCard.querySelector('.card-title').innerText;
-  const price = productCard.querySelector('.item-price').innerText;
-  const image = productCard.querySelector('img').src;
-
-  addProductToCart(title, price, image);
-}
+// function addCartClicked(event) {
+//   const productCard = event.target.closest('.product-card');
+//   const productId = productCard.dataset.productId;
+//   addProductToCart(productId);
+// }
 
 document.getElementById("brand").addEventListener("change", () => fetchFilteredProducts("brand"));
 document.getElementById("category").addEventListener("change", () => fetchFilteredProducts("category"));
