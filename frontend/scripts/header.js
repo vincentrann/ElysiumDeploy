@@ -99,6 +99,7 @@ function checkoutButtonClicked() {
   // updateCartCount();
 }
 
+
 function removeCartItem(event) {
   console.log("Start-RemoveCartItem");
 
@@ -149,9 +150,25 @@ function removeCartItem(event) {
 
     // Get the existing cartContent from localStorage
     let cartContent = JSON.parse(localStorage.getItem("cartContent")) || [];
+    console.log("Before filtering:", cartContent);
 
-    // Filter out the item to be removed (since we don't have cartItemId for localStorage, we use title as fallback)
-    cartContent = cartContent.filter(item => item.title !== title);
+    // Parse quantity as an integer for local filtering (but not affecting the backend logic above)
+    let parsedQuantity = parseInt(quantity, 10);
+
+    // Filter out the item to be removed (filter checks title case-insensitively AND quantity as integer)
+    cartContent = cartContent.filter(item => {
+      console.log(
+          "Comparing:",
+          item.title.trim().toLowerCase(),
+          "with",
+          title.trim().toLowerCase(),
+          "|",
+          item.quantity,
+          "with",
+          parsedQuantity
+      );
+      return !(item.title.trim().toLowerCase() === title.trim().toLowerCase() && item.quantity === parsedQuantity);
+    });
 
     // Update localStorage with the new cartContent
     localStorage.setItem("cartContent", JSON.stringify(cartContent));
