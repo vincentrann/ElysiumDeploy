@@ -216,7 +216,8 @@ function logout() {
     })
         .then(() => {
             localStorage.removeItem("userId");
-            window.location.href = "/index.html";
+            localStorage.removeItem("role");
+            window.location.replace("/index.html");
         })
         .catch((error) => {
             console.error("Error logging out:", error);
