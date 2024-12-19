@@ -46,7 +46,7 @@ async function registerUser(event) {
 
     try {
         // Step 1: Register the user
-        const response = await fetch("http://localhost:8080/api/users/register?role=member", {
+        const response = await fetch("http://elysiumdeploy-production.up.railway.app/api/users/register?role=member", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(userRegistrationData)
@@ -70,7 +70,7 @@ async function registerUser(event) {
             billingAddress: newUser.billingAddress
         };
 
-        const creditCardResponse = await fetch(`http://localhost:8080/api/credit-cards/user/${newUser.id}`, {
+        const creditCardResponse = await fetch(`http://elysiumdeploy-production.up.railway.app/api/credit-cards/user/${newUser.id}`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(creditCardData)
@@ -89,7 +89,7 @@ async function registerUser(event) {
         if (products && products.length > 0) {
             console.log("Products to transfer:", products);
             try {
-                const response = await fetch(`http://localhost:8080/api/cart/${newUser.id}/transfer`, {
+                const response = await fetch(`http://elysiumdeploy-production.up.railway.app/api/cart/${newUser.id}/transfer`, {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json"
@@ -108,14 +108,14 @@ async function registerUser(event) {
                 localStorage.removeItem("cartContent");
 
                 // Redirect to checkout
-                window.location.replace("/frontend/pages/checkout.html");
+                window.location.replace("checkout.html");
 
             } catch (error) {
                 console.error("Error transferring guest cart to user cart:", error);
             }
         } else {
             console.log("No guest cart to transfer.");
-            window.location.replace("/index.html");
+            window.location.replace("index.html");
         }
 
     } catch (error) {
@@ -206,7 +206,7 @@ async function loginUser(event)
     event.preventDefault();
     const email = document.getElementById("login-email").value;
     const password = document.getElementById("password").value;
-    const response = await fetch("http://localhost:8080/api/users/login", {
+    const response = await fetch("http://elysiumdeploy-production.up.railway.app/api/users/login", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -224,14 +224,14 @@ async function loginUser(event)
         }
         else if (localStorage.getItem("cartContent")== null)
             {
-                window.location.replace("/index.html");
+                window.location.replace("index.html");
             }
 
                 let userId = loggedInUser.id;
             try{
                 let products = JSON.parse(localStorage.getItem("cartContent")); // Convert string back to array
                 console.log("Products to transfer:", products);
-                const response = await fetch(`http://localhost:8080/api/cart/${userId}/transfer`, {
+                const response = await fetch(`http://elysiumdeploy-production.up.railway.app/api/cart/${userId}/transfer`, {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json"
