@@ -37,6 +37,7 @@ if (document.readyState == 'loading') {
 }
 
 function ready() {
+  loadCart()
   var removeCartButtons = document.getElementsByClassName('cart-remove');
   for (var i = 0; i < removeCartButtons.length; i++) {
     var button = removeCartButtons[i];
@@ -99,7 +100,82 @@ function checkoutButtonClicked() {
   // updateCartCount();
 }
 
+function loadCart() {
+  console.log("Start loading cart...");
 
+  // Clear any existing cart items in the UI
+  document.getElementsByClassName('cart-content')[0].innerHTML = '';
+
+  // Check if user is logged in
+  let user = localStorage.getItem("userId");
+
+  if (user !== null && user !== undefined) {
+    // User is logged in, fetch cart items from the backend
+    console.log("User is logged in, fetching cart items from API...");
+
+    fetch(`http://localhost:8080/api/cart/${user}`)
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Failed to load user's cart from the backend");
+          }
+          return response.json();
+        })
+        .then((cartItems) => {
+          console.log("Response from backend:", cartItems);
+
+          // Check if the response is an array
+          if (!Array.isArray(cartItems)) {
+            throw new Error("Invalid response: Expected an array of cart items");
+          }
+
+          // Process cart items
+          cartItems.forEach((item) => {
+            const { product: { name: title, price, imageUrl: productImage }, quantity } = item;
+
+            // Add each item to the cart UI
+            for (let i = 0; i < quantity; i++) {
+              addProductToCart(title, price, productImage);
+            }
+          });
+        })
+        .catch(error => {
+          console.error("Error loading user's cart:", error);
+        });
+
+  } else {
+    // User is a guest, load cart from localStorage
+    console.log("User is not logged in, loading cart from localStorage...");
+
+    let cartContent = JSON.parse(localStorage.getItem("cartContent")) || [];
+    console.log("Cart content from localStorage:", cartContent);
+
+    cartContent.forEach(item => {
+      const { title, quantity } = item;
+
+      // Call API to get product details by title (like price and image)
+      fetch(`http://localhost:8080/api/products/title/${encodeURIComponent(title)}`)
+          .then(response => {
+            if (!response.ok) {
+              throw new Error(`Failed to load product details for ${title}`);
+            }
+            return response.json();
+          })
+          .then(productDetails => {
+            console.log("Product details from backend:", productDetails);
+            const price  = productDetails.price
+            const image = productDetails.imageUrl
+
+            // Add product to the cart based on its quantity
+            for (let i = 0; i < quantity; i++) {
+              addProductToCart(title, price, image);
+            }
+          })
+          .catch(error => {
+            console.error(`Error loading product details for ${title}:`, error);
+          });
+    });
+  }
+}
 function removeCartItem(event) {
   console.log("Start-RemoveCartItem");
 
@@ -190,8 +266,6 @@ function quantityChanged(event) {
 }
 
 function addCartClicked(event) {
-  console.log("Start-AddCartClicked");
-
   // Get the userId from localStorage (to check if user is logged in)
   let user = localStorage.getItem("userId");
 
@@ -256,9 +330,7 @@ function addCartClicked(event) {
     console.log("Updated cartContent in localStorage:", cartContent);
   }
 
-  console.log("before addProductToCart");
   addProductToCart(title, price, productImage);
-  console.log("after addProductToCart");
 
   updateTotal();
   updateCartCount();
@@ -266,34 +338,50 @@ function addCartClicked(event) {
 
 
 function addProductToCart(title, price, productImage) {
-  var cartShopBox = document.createElement('div')
-  cartShopBox.classList.add('cart-box')
-  var cartItems = document.getElementsByClassName('cart-content')[0]
-  var cartItemNames = cartItems.getElementsByClassName('cart-product-title')
+  var cartShopBox = document.createElement('div');
+  cartShopBox.classList.add('cart-box');
+  var cartItems = document.getElementsByClassName('cart-content')[0];
+  var cartItemNames = cartItems.getElementsByClassName('cart-product-title');
+
+  // Check if the product already exists in the cart
   for (var i = 0; i < cartItemNames.length; i++) {
-    if (cartItemNames[i].innerText.toLowerCase() == title.toLowerCase()) {
-      alert('This item is already in your cart')
-      return;
+    if (cartItemNames[i].innerText.toLowerCase() === title.toLowerCase()) {
+      console.log('Product already in cart, updating quantity...');
+
+      // If product is already in the cart, update its quantity
+      var quantityInput = cartItemNames[i].parentElement.querySelector('.cart-quantity');
+      quantityInput.value = parseInt(quantityInput.value) + 1; // Increment the quantity
+      updateTotal();
+      updateCartCount();
+      return; // Exit the function since product is already in the cart
     }
   }
-  var cartBoxContent = `
-            <img src="${productImage}" alt="apple watch" class="cart-img" width="300"
-              height="200">
-              <div class="detail-box">
-                <div class="cart-product-title">${title}</div>
-                <div class="cart-price">${price}</div>
-                <input type="number" value="1" min="1" class="cart-quantity">
-              </div>
-              <!-- Remove Cart -->
-              <button class="cart-remove">
-                <ion-icon name="trash-outline" aria-hidden="true"></ion-icon>
-            </button>`
 
-  cartShopBox.innerHTML = cartBoxContent
-  cartItems.append(cartShopBox)
-  cartShopBox.getElementsByClassName('cart-remove')[0].addEventListener("click", removeCartItem)
-  cartShopBox.getElementsByClassName('cart-quantity')[0].addEventListener("change", quantityChanged)
+  // If product is not in the cart, add a new product
+  var cartBoxContent = `
+    <img src="${productImage}" alt="${title}" class="cart-img">
+    <div class="detail-box">
+      <div class="cart-product-title">${title}</div>
+      <div class="cart-price">${price}</div>
+      <input type="number" value="1" min="1" class="cart-quantity"> <!-- Dynamic quantity input -->
+    </div>
+    <!-- Remove Cart -->
+    <button class="cart-remove">
+      <ion-icon name="trash-outline" aria-hidden="true"></ion-icon>
+    </button>`;
+
+  cartShopBox.innerHTML = cartBoxContent;
+  cartItems.append(cartShopBox);
+
+  // Attach event listeners to new elements
+  cartShopBox.getElementsByClassName('cart-remove')[0].addEventListener("click", removeCartItem);
+  cartShopBox.getElementsByClassName('cart-quantity')[0].addEventListener("change", quantityChanged);
+
+  // Update the total and cart count since a new item was added
+  updateTotal();
+  updateCartCount();
 }
+
 
 // Attach the event listener to all cart buttons
 document.querySelectorAll('.cart-btn').forEach((btn) => {

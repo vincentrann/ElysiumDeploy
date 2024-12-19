@@ -2,6 +2,7 @@ package org.elysium.backend.controllers;
 
 import jakarta.servlet.http.HttpSession;
 import org.elysium.backend.models.Cart;
+import org.elysium.backend.models.CartItem;
 import org.elysium.backend.models.Product;
 import org.elysium.backend.services.CartService;
 import org.elysium.backend.services.ProductService;
@@ -30,9 +31,9 @@ public class CartController {
      * @return ResponseEntity with the cart object
      */
     @GetMapping("/{userId}")
-    public ResponseEntity<Cart> getCartByUserId(@PathVariable String userId) {
-        Cart cart = cartService.getOrCreateCart(userId);
-        return ResponseEntity.ok(cart);
+    public ResponseEntity<List<CartItem>> getCartItemsByUserId(@PathVariable String userId) {
+        List<CartItem> cartItems = cartService.getCartItemsByUserId(userId);
+        return ResponseEntity.ok(cartItems);
     }
 
     /**
