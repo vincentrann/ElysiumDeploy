@@ -1,3 +1,4 @@
+
 function showLogin() {
     document.getElementById('login-screen').classList.remove('hidden');
     document.getElementById('signup-screen').classList.add('hidden');
@@ -90,83 +91,84 @@ async function registerUser(event) {
     }
 }
 
-// Member Login Function
-async function loginMemberUser(event) {
-    event.preventDefault();
-
-    const email = document.getElementById('login-email').value;
-    const password = document.getElementById('password').value;
-
-    try {
-        const response = await fetch("http://localhost:8080/api/users/login", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ email, password })
-        });
-
-        if (!response.ok) {
-            const errorData = await response.json();
-            throw new Error(errorData.message || "Invalid email or password");
-        }
-
-        const user = await response.json();
-        console.log("User logged in successfully:", user);
-
-        // Store the user details in localStorage or sessionStorage
-        localStorage.setItem('userId', user.id);
-        localStorage.setItem('userRole', user.role);
-
-        // Redirect user based on role
-        if (user.role === "ADMIN") {
-            window.location.href = "/admin.html";
-        } else {
-            alert("Successful Login");
-            window.location.href = "../index.html";
-        }
-
-    } catch (error) {
-        console.error("Login Error:", error);
-        alert("Login failed: " + error.message);
-    }
-}
-
-// Admin Login Function
-async function loginAdminUser(event) {
-    event.preventDefault();
-
-    const email = document.getElementById('admin-email').value;
-    const password = document.getElementById('admin-password').value;
-
-    try {
-        const response = await fetch("http://localhost:8080/api/users/login", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ email, password })
-        });
-
-        if (!response.ok) throw new Error("Invalid email or password");
-
-        const user = await response.json();
-        console.log("Admin logged in successfully:", user);
-
-        // Store the admin details in localStorage or sessionStorage
-        localStorage.setItem('userId', user.id);
-        localStorage.setItem('userRole', user.role);
-
-        // Redirect admin to the admin dashboard
-        window.location.href = "/admin.html";
-
-    } catch (error) {
-        console.error("Login Error:", error);
-        alert("Admin Login failed: " + error.message);
-    }
-}
+// // Member Login Function
+// async function loginMemberUser(event) {
+//     event.preventDefault();
+//
+//     const email = document.getElementById('login-email').value;
+//     const password = document.getElementById('password').value;
+//
+//     try {
+//         const response = await fetch("http://localhost:8080/api/users/login", {
+//             method: "POST",
+//             headers: { "Content-Type": "application/json" },
+//             body: JSON.stringify({ email, password })
+//         });
+//
+//         if (!response.ok) {
+//             const errorData = await response.json();
+//             throw new Error(errorData.message || "Invalid email or password");
+//         }
+//
+//         const user = await response.json();
+//         console.log("User logged in successfully:", user);
+//
+//         // Store the user details in localStorage or sessionStorage
+//         localStorage.setItem('userId', user.id);
+//         localStorage.setItem('userRole', user.role);
+//
+//         // Redirect user based on role
+//         if (user.role === "ADMIN") {
+//             window.location.href = "/admin.html";
+//         } else {
+//             alert("Successful Login");
+//             window.location.href = "../index.html";
+//         }
+//
+//     } catch (error) {
+//         console.error("Login Error:", error);
+//         alert("Login failed: " + error.message);
+//     }
+// }
+//
+// // Admin Login Function
+// async function loginAdminUser(event) {
+//     event.preventDefault();
+//
+//     const email = document.getElementById('admin-email').value;
+//     const password = document.getElementById('admin-password').value;
+//
+//     try {
+//         const response = await fetch("http://localhost:8080/api/users/login", {
+//             method: "POST",
+//             headers: { "Content-Type": "application/json" },
+//             body: JSON.stringify({ email, password })
+//         });
+//
+//         if (!response.ok) throw new Error("Invalid email or password");
+//
+//         const user = await response.json();
+//         console.log("Admin logged in successfully:", user);
+//
+//         // Store the admin details in localStorage or sessionStorage
+//         localStorage.setItem('userId', user.id);
+//         localStorage.setItem('userRole', user.role);
+//
+//         // Redirect admin to the admin dashboard
+//         window.location.href = "/admin.html";
+//
+//     } catch (error) {
+//         console.error("Login Error:", error);
+//         alert("Admin Login failed: " + error.message);
+//     }
+// }
 
 // Attach event listeners for login forms
 document.getElementById('member-login-form')?.addEventListener('submit', loginMemberUser);
 document.getElementById('admin-login-form')?.addEventListener('submit', loginAdminUser);
 
-async function loginUser(event){
+async function loginUser(event)
+{
     event.preventDefault();
     const email = document.getElementById("login-email").value;
     const password = document.getElementById("password").value;
@@ -185,9 +187,29 @@ async function loginUser(event){
         if (localStorage.getItem("role") == "ADMIN"){
             window.location.assign("admin.html")
         }
-        else{
-            window.location.replace("/index.html");
-        }
+            if(localStorage.getItem("cartContent")== null) {
+                window.location.replace("/index.html");
+            }
+
+                let userId = loggedInUser.id;
+            try{
+                let products = JSON.parse(localStorage.getItem("cartContent")); // Convert string back to array
+                console.log("Products to transfer:", products);
+                const response = await fetch(`http://localhost:8080/api/cart/${userId}/transfer`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(products)
+                });
+                const transfered =   await response.text();
+                console.log(transfered);
+                localStorage.removeItem("cartContent");
+                window.location.replace("checkout.html")
+
+            } catch (error) {
+                console.error("Error transferring guest cart to user cart:", error);
+            }
     } else {
         const error = await response.json();
         alert(`Error: ${error.message || "Invalid credentials"}`);
