@@ -115,7 +115,7 @@ async function registerUser(event) {
             }
         } else {
             console.log("No guest cart to transfer.");
-            window.location.replace("/frontend/pages/checkout.html");
+            window.location.replace("/index.html");
         }
 
     } catch (error) {
