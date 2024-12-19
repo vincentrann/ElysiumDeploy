@@ -1,6 +1,6 @@
 'use strict';
 
-const apiUrl = "http://localhost:8080/api/products";
+const apiUrl = "https://elysiumdeploy-production.up.railway.app/api/products";
 const productList = document.getElementById("product-list");
 const searchInput = document.querySelector('input[name="search"]'); // Get the search input field
 
