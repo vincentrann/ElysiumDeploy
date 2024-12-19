@@ -1,5 +1,8 @@
 package org.elysium.backend.services;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.servlet.http.HttpSession;
 import org.elysium.backend.models.Cart;
 import org.elysium.backend.models.CartItem;
 import org.elysium.backend.models.Product;
@@ -9,6 +12,7 @@ import org.elysium.backend.repos.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Map;
 import java.util.Optional;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,116 +22,136 @@ public class CartService {
 
     @Autowired
     private CartRepository cartRepository;
+
     @Autowired
     private ProductRepository productRepository;
 
     @Autowired
     private CartItemRepository cartItemRepository;
 
-    // Handle guest cart retrieval without database interaction
-    public Cart getOrCreateCart(String userId) {
+    @Autowired
+    private CartItemService cartItemService;
+
+    /**
+     * Get or create cart for guest or user.
+     */
+    public List<CartItem> getCartItemsByUserId(String userId) {
         if (userId == null || userId.isEmpty()) {
-            throw new IllegalArgumentException("Guest ID or User ID must be provided.");
+            throw new IllegalArgumentException("User ID must be provided.");
         }
 
-        if (userId.startsWith("guest-")) {
-            return createTemporaryGuestCart(userId); // Create a temporary guest cart
+        // Fetch all cart items associated with the user's cart
+        return cartItemRepository.findByUserId(userId);
+    }
+
+    /**
+     * Add multiple items to the user's cart.
+     *
+     * @param products The list of product data in JSON string format
+     * @param userId   The ID of the user to whom the cart belongs
+     */
+    public void addItemsToCart(String products, String userId) {
+        // Convert the string into a list of maps using Jackson
+        ObjectMapper objectMapper = new ObjectMapper();
+        List<Map<String, Object>> productList;
+
+        try {
+            productList = objectMapper.readValue(products, new TypeReference<List<Map<String, Object>>>() {});
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to parse products JSON string", e);
         }
 
-        // Find or create a cart for logged-in users
-        return cartRepository.findByUserId(userId).orElseGet(() -> {
+        // Find or create the user's cart
+        Cart userCart = cartRepository.findByUserId(userId).orElseGet(() -> {
             Cart newCart = new Cart();
             newCart.setUserId(userId);
             return cartRepository.save(newCart);
         });
-    }
 
-    private Cart createTemporaryGuestCart(String guestId) {
-        Cart guestCart = new Cart();
-        guestCart.setUserId(guestId); // Set a temporary guest ID
-        guestCart.setCartItems(new ArrayList<>()); // Initialize empty items
-        return guestCart; // No saving to database
-    }
+        // Loop through the parsed product data
+        for (Map<String, Object> productData : productList) {
+            String title = productData.get("title").toString();
+            int quantity = Integer.parseInt(productData.get("quantity").toString());
 
-    public Cart addItem(String userId, Product product, int quantity) {
-        Cart cart = getOrCreateCart(userId);
+            Product product = productRepository.findByName(title)
+                    .orElseThrow(() -> new RuntimeException("Product not found with title: " + title));
 
-        if (userId.startsWith("guest-")) {
-            // For guest users, only return the updated cart (in-memory logic)
-            cart.getCartItems().add(new CartItem(cart, product, quantity, product.getPrice()));
-            return cart;
+            cartItemService.createAndSaveCartItem(userCart, product.getId(), quantity, userId);
         }
 
-        // Logic for logged-in users (saved in database)
-        Optional<CartItem> existingItem = cart.getCartItems().stream()
-                .filter(item -> item.getProduct().getId().equals(product.getId()))
-                .findFirst();
-
-        if (existingItem.isPresent()) {
-            CartItem cartItem = existingItem.get();
-            cartItem.setQuantity(cartItem.getQuantity() + quantity);
-            cartItemRepository.save(cartItem);
-        } else {
-            CartItem cartItem = new CartItem(cart, product, quantity, product.getPrice());
-            cart.getCartItems().add(cartItem);
-            cartItemRepository.save(cartItem);
-        }
-
-        return cartRepository.save(cart);
+        // Save the updated user cart
+        cartRepository.save(userCart);
     }
-    /**
-     * Transfers guest cart items to a user's cart.
-     *
-     * @param guestId The guest ID (e.g., "guest-<random>").
-     * @param userId  The ID of the logged-in user.
-     */
-    public void transferGuestCartToUser(String guestId, String userId) {
-        // Find the guest cart
-        Cart guestCart = cartRepository.findByUserId(guestId)
-                .orElseThrow(() -> new RuntimeException("Guest cart not found"));
+
+    public void transferGuestCartToUser(String products, String userId) {
+        // Convert the string into a list of maps using Jackson
+        ObjectMapper objectMapper = new ObjectMapper();
+        List<Map<String, Object>> productList;
+
+        try {
+            productList = objectMapper.readValue(products, new TypeReference<List<Map<String, Object>>>() {});
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to parse products JSON string", e);
+        }
 
         // Find or create the user's cart
-        Cart userCart = cartRepository.findByUserId(userId)
-                .orElseGet(() -> {
-                    Cart newCart = new Cart();
-                    newCart.setUserId(userId);
-                    return cartRepository.save(newCart);
-                });
+        Cart userCart = cartRepository.findByUserId(userId).orElseGet(() -> {
+            Cart newCart = new Cart();
+            newCart.setUserId(userId);
+            return cartRepository.save(newCart);
+        });
 
-        // Transfer cart items
-        List<CartItem> guestCartItems = guestCart.getCartItems();
-        for (CartItem item : guestCartItems) {
-            // Check if the product exists
-            Product product = productRepository.findById(item.getProduct().getId())
-                    .orElseThrow(() -> new RuntimeException("Product not found"));
+        // Loop through the parsed product data
+        for (Map<String, Object> productData : productList) {
+            String title = productData.get("title").toString();
+            int quantity = Integer.parseInt(productData.get("quantity").toString());
 
-            // Add item to the user's cart
-            CartItem newItem = new CartItem();
-            newItem.setCart(userCart);
-            newItem.setProduct(product);
-            newItem.setQuantity(item.getQuantity());
-            newItem.setPriceAtTime(item.getPriceAtTime());
-            newItem.setUserId(userId);
+            Product product = productRepository.findByName(title)
+                    .orElseThrow(() -> new RuntimeException("Product not found with title: " + title));
 
-            userCart.getCartItems().add(newItem);
+            cartItemService.createAndSaveCartItem(userCart, product.getId(), quantity, userId);
         }
 
-        // Save the updated user's cart
+        // Save the updated user cart
         cartRepository.save(userCart);
-
-        // Delete the guest cart after transfer
-        cartRepository.delete(guestCart);
     }
 
-    public Cart removeItemFromCart(String userId, Long cartItemId) {
-        if (userId.startsWith("guest-")) {
-            throw new UnsupportedOperationException("Guest carts cannot remove items server-side.");
+
+    public void removeItemsFromCart(String products, String userId) {
+        // Convert the string into a list of maps using Jackson
+        ObjectMapper objectMapper = new ObjectMapper();
+        List<Map<String, Object>> productList;
+
+        try {
+            productList = objectMapper.readValue(products, new TypeReference<List<Map<String, Object>>>() {});
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to parse products JSON string", e);
         }
 
-        Cart cart = getOrCreateCart(userId);
-        cart.getCartItems().removeIf(item -> item.getId().equals(cartItemId));
-        cartItemRepository.deleteById(cartItemId);
-        return cartRepository.save(cart);
+        // Get the user's cart
+        Cart userCart = cartRepository.findByUserId(userId)
+                .orElseThrow(() -> new RuntimeException("User cart not found for userId: " + userId));
+
+        // Loop through the parsed product data
+        for (Map<String, Object> productData : productList) {
+            String title = productData.get("title").toString();
+
+            // Find the product by its name
+            Product product = productRepository.findByName(title)
+                    .orElseThrow(() -> new RuntimeException("Product not found with title: " + title));
+
+            // Find the CartItem in the user's cart
+            Optional<CartItem> cartItemOpt = cartItemRepository.findByProductIdAndCartId(product.getId(), userCart.getId());
+            if (cartItemOpt.isPresent()) {
+                CartItem cartItem = cartItemOpt.get();
+                cartItemRepository.delete(cartItem); // Delete the CartItem from the database
+            } else {
+                System.out.println("CartItem not found for product title: " + title);
+            }
+        }
+
+        // Save the updated user cart
+        cartRepository.save(userCart);
     }
 
 }

@@ -2,6 +2,7 @@ package org.elysium.backend.controllers;
 
 import org.elysium.backend.models.Category;
 import org.elysium.backend.models.Product;
+import org.elysium.backend.repos.ProductRepository;
 import org.elysium.backend.services.CategoryService;
 import org.elysium.backend.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,11 +19,22 @@ public class ProductController {
     @Autowired
     private ProductService productService;
 
+    @Autowired
+    private ProductRepository productRepository;
+
     // Endpoint to get a product by ID
     @GetMapping("/{id}")
     public ResponseEntity<Product> getProductById(@PathVariable String id) {
         Optional<Product> product = productService.getProductById(id);
         return product.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @GetMapping("/title/{title}")
+    public ResponseEntity<Product> getProductByTitle(@PathVariable String title) {
+        // Find the product by title in the database
+        Product product = productRepository.findByName(title)
+                .orElseThrow(() -> new RuntimeException("Product not found with title: " + title));
+        return ResponseEntity.ok(product);
     }
 
     @GetMapping("/filter/sort/price/asc")
