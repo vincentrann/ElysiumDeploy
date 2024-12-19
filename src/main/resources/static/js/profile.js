@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     if (!userId) {
         alert("User not logged in!");
-        window.location.href = "/frontend/pages/login.html";
+        window.location.href = "login.html";
         return;
     }
 
@@ -216,7 +216,7 @@ function logout() {
     })
         .then(() => {
             localStorage.removeItem("userId");
-            window.location.replace("/index.html");
+            window.location.href = "/index.html";
         })
         .catch((error) => {
             console.error("Error logging out:", error);

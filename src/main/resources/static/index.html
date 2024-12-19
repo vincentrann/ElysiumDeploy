@@ -6,9 +6,9 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Elysium | Smart Tech, Great Prices</title>
-  <link rel="shortcut icon" href="frontend/images/logos/favicon.png" type="image/x-icon">
-  <link rel="stylesheet" href="frontend/styles/index.css">
-  <link rel="stylesheet" href="frontend/styles/header_footer.css">
+  <link rel="shortcut icon" href="images/logos/favicon.png" type="image/x-icon">
+  <link rel="stylesheet" href="css/index.css">
+  <link rel="stylesheet" href="css/header_footer.css">
 
   <!-- 
     - google font link
@@ -27,11 +27,11 @@
       if (userId) {
         // If userId exists in localStorage, the user is logged in
         authLabel.innerText = "Profile";
-        authButton.setAttribute("onclick", "location.href='frontend/pages/profile.html'");  // Navigate to profile page
+        authButton.setAttribute("onclick", "location.href='profile.html'");  // Navigate to profile page
       } else {
         // If no userId, show the login button
         authLabel.innerText = "Login";
-        authButton.setAttribute("onclick", "location.href='frontend/pages/login.html'");  // Navigate to login page
+        authButton.setAttribute("onclick", "location.href='login.html'");  // Navigate to login page
       }
     };
   </script>
@@ -48,7 +48,7 @@
 
       <!-- Logo -->
       <a href="#" class="logo">
-        <img src="frontend/images/logos/brown-logo-with-text.png" alt="Elysium logo" width="200px">
+        <img src="images/logos/brown-logo-with-text.png" alt="Elysium logo" width="200px">
       </a>
 
       <!-- Searchbar -->
@@ -113,7 +113,7 @@
     - #HERO
   -->
 
-  <section class="hero" id="home" style="background-image: url('frontend/images/hero-banner.png')">
+  <section class="hero" id="home" style="background-image: url('images/hero-banner.png')">
     <div class="container">
 
       <div class="hero-content">
@@ -197,7 +197,7 @@
       <div class="container">
 
         <div class="footer-brand">
-          <img src="frontend/images/logos/brown-logo-with-text.png" class="logo" width="200px">
+          <img src="images/logos/brown-logo-with-text.png" class="logo" width="200px">
           <p>Elysium is a modern e-commerce platform designed to offer users a seamless and intuitive shopping experience. 
             Built with cutting-edge technologies, it provides robust features for managing products, users, and transactions, 
             making it the perfect solution for businesses aiming to scale their online presence.</p>
@@ -216,7 +216,7 @@
         <div class="payment">
           <p class="payment-title">We Support</p>
 
-          <img src="frontend/images/payment-img.png" alt="Online payment logos" class="payment-img">
+          <img src="images/payment-img.png" alt="Online payment logos" class="payment-img">
         </div>
 
       </div>
@@ -228,8 +228,8 @@
   <!-- 
     - custom js link
   -->
-  <script src="frontend/scripts/header.js"></script>
-  <script src="frontend/scripts/index.js"></script>
+  <script src="js/header.js"></script>
+  <script src="js/index.js"></script>
 
   <!-- 
     - ionicon link

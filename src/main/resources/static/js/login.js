@@ -183,10 +183,10 @@ async function loginUser(event){
         localStorage.setItem("userId",loggedInUser.id);
         localStorage.setItem("role", loggedInUser.role)
         if (localStorage.getItem("role") == "ADMIN"){
-            window.location.assign("admin.html")
+            window.location.href = "admin.html";
         }
         else{
-            window.location.replace("/index.html");
+            window.location.href = "index.html";
         }
     } else {
         const error = await response.json();

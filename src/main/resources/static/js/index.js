@@ -94,7 +94,7 @@ function updateProductList(products) {
     productItem.innerHTML = `
       <div class="product-card" data-product-id="${product.id}">
         <figure class="card-banner">
-          <a href="frontend/pages/product.html?id=${product.id}">
+          <a href="product.html?id=${product.id}">
             <img src="${product.imageUrl}" alt="${product.name}" loading="lazy" class="w-100">
           </a>
           <div class="card-actions">
