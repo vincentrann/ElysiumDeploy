@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     try {
         // Fetch user data
-        const response = await fetch(`http://elysiumdeploy-production.up.railway.app/api/users/${userId}`);
+        const response = await fetch(`https://elysiumdeploy-production.up.railway.app/api/users/${userId}`);
         if (!response.ok) {
             throw new Error("Failed to fetch user data");
         }
@@ -60,7 +60,7 @@ document.querySelector(".update-info form").addEventListener("submit", async (ev
     };
 
     try {
-        const response = await fetch(`http://elysiumdeploy-production.up.railway.app/users/${userId}`, {
+        const response = await fetch(`https://elysiumdeploy-production.up.railway.app/users/${userId}`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
@@ -84,7 +84,7 @@ async function fetchPurchaseHistory() {
     const userId = localStorage.getItem("userId");
 
     try {
-        const response = await fetch(`http://elysiumdeploy-production.up.railway.app/api/orders/user/${userId}`);
+        const response = await fetch(`https://elysiumdeploy-production.up.railway.app/api/orders/user/${userId}`);
         if (!response.ok) {
             throw new Error("Failed to fetch purchase history");
         }
@@ -121,7 +121,7 @@ async function fetchPurchaseHistory() {
 // Fetching and displaying credit card data
 async function fetchCreditCards(userId) {
     try {
-        const response = await fetch(`http://elysiumdeploy-production.up.railway.app/credit-cards/user/${userId}`);
+        const response = await fetch(`https://elysiumdeploy-production.up.railway.app/credit-cards/user/${userId}`);
         if (!response.ok) {
             throw new Error("Failed to fetch credit card data");
         }
@@ -168,7 +168,7 @@ document.querySelector("#credit-card-form").addEventListener("submit", async fun
     };
 
     try {
-        const response = await fetch(`http://elysiumdeploy-production.up.railway.app/credit-cards/user/${userId}`, {
+        const response = await fetch(`https://elysiumdeploy-production.up.railway.app/credit-cards/user/${userId}`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -192,7 +192,7 @@ document.querySelector("#credit-card-form").addEventListener("submit", async fun
 // Deleting a credit card
 async function deleteCreditCard(cardId, userId) {
     try {
-        const response = await fetch(`http://elysiumdeploy-production.up.railway.app/api/credit-cards/${cardId}/user/${userId}`, {
+        const response = await fetch(`https://elysiumdeploy-production.up.railway.app/api/credit-cards/${cardId}/user/${userId}`, {
             method: "DELETE",
         });
 
@@ -210,7 +210,7 @@ async function deleteCreditCard(cardId, userId) {
 
 // Logout
 function logout() {
-    fetch("http://elysiumdeploy-production.up.railway.app/api/users/logout", {
+    fetch("https://elysiumdeploy-production.up.railway.app/api/users/logout", {
         method: "POST",
         credentials: "include",
     })
