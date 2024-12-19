@@ -42,11 +42,10 @@ async function registerUser(event) {
             document.getElementById('city').value + ", " +
             document.getElementById('state').value + " " +
             document.getElementById('zip').value,
-        dob: "1990-01-01" // Add a default dob or get from input field if available
     };
 
     try {
-        // Call the User Registration API
+        // Step 1: Register the user
         const response = await fetch("http://localhost:8080/api/users/register?role=member", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -85,11 +84,46 @@ async function registerUser(event) {
         alert("Registration and credit card addition successful!");
         console.log("Credit Card added successfully!");
 
+        // 🛒 **Step 3: Transfer Guest Cart to Registered User**
+        let products = JSON.parse(localStorage.getItem("cartContent")); // Convert string back to array
+        if (products && products.length > 0) {
+            console.log("Products to transfer:", products);
+            try {
+                const response = await fetch(`http://localhost:8080/api/cart/${newUser.id}/transfer`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(products)
+                });
+
+                if (!response.ok) {
+                    throw new Error("Failed to transfer guest cart to user cart");
+                }
+
+                const transferred = await response.text();
+                console.log("Cart transfer successful:", transferred);
+
+                // Clear the local cart after successful transfer
+                localStorage.removeItem("cartContent");
+
+                // Redirect to checkout
+                window.location.replace("/frontend/pages/checkout.html");
+
+            } catch (error) {
+                console.error("Error transferring guest cart to user cart:", error);
+            }
+        } else {
+            console.log("No guest cart to transfer.");
+            window.location.replace("/index.html");
+        }
+
     } catch (error) {
         console.error("Error:", error);
         alert("An error occurred: " + error.message);
     }
 }
+
 
 // // Member Login Function
 // async function loginMemberUser(event) {
@@ -184,10 +218,12 @@ async function loginUser(event)
         const loggedInUser = await response.json();
         localStorage.setItem("userId",loggedInUser.id);
         localStorage.setItem("role", loggedInUser.role)
+
         if (localStorage.getItem("role") == "ADMIN"){
-            window.location.assign("admin.html")
+            window.location.replace("admin.html")
         }
-            if(localStorage.getItem("cartContent")== null) {
+        else if (localStorage.getItem("cartContent")== null)
+            {
                 window.location.replace("/index.html");
             }
 

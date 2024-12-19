@@ -216,6 +216,7 @@ function logout() {
     })
         .then(() => {
             localStorage.removeItem("userId");
+            localStorage.removeItem("role");
             window.location.replace("/index.html");
         })
         .catch((error) => {

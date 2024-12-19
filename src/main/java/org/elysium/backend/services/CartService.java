@@ -35,33 +35,15 @@ public class CartService {
     /**
      * Get or create cart for guest or user.
      */
-    public Cart getOrCreateCart(String userId) {
+    public List<CartItem> getCartItemsByUserId(String userId) {
         if (userId == null || userId.isEmpty()) {
-            throw new IllegalArgumentException("Guest ID or User ID must be provided.");
+            throw new IllegalArgumentException("User ID must be provided.");
         }
 
-        if (userId.startsWith("guest-")) {
-//            return getOrCreateGuestCart(session, userId);
-        }
-
-        // Find or create a cart for authenticated users
-        return cartRepository.findByUserId(userId).orElseGet(() -> {
-            Cart newCart = new Cart();
-            newCart.setUserId(userId);
-            return cartRepository.save(newCart);
-        });
+        // Fetch all cart items associated with the user's cart
+        return cartItemRepository.findByUserId(userId);
     }
 
-    private Cart getOrCreateGuestCart(HttpSession session, String guestId) {
-        Cart guestCart = (Cart) session.getAttribute("guestCart");
-        if (guestCart == null) {
-            guestCart = new Cart();
-            guestCart.setUserId(guestId);
-            guestCart.setCartItems(new ArrayList<>());
-            session.setAttribute("guestCart", guestCart);
-        }
-        return guestCart;
-    }
     /**
      * Add multiple items to the user's cart.
      *
