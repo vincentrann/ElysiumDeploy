@@ -59,7 +59,7 @@ document.querySelector(".update-info form").addEventListener("submit", async (ev
         firstName: document.getElementById("first-name").value,
         lastName: document.getElementById("last-name").value,
         email: document.getElementById("email").value,
-        userName: document.getElementById("first-name").value + document.getElementById("last-name").value,
+        username: document.getElementById("first-name").value + document.getElementById("last-name").value,
         address: `${document.getElementById("street").value}, ${document.getElementById("city").value}, ${document.getElementById("state").value}, ${document.getElementById("zip").value}`,
     };
 
