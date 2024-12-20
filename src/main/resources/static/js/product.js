@@ -12,7 +12,7 @@ function addProductClicked() {
   let user = localStorage.getItem("userId");
 
   var title = document.getElementById("product-name").innerHTML
-  var quantity = document.getElementById("quantity-selector").value;
+  var quantity = parseInt(document.getElementById("quantity-selector").value);
   var price = document.getElementById("product-price").innerHTML;
   var productImage =document.getElementById("productImage").src;
 
@@ -59,7 +59,6 @@ function addProductClicked() {
       cartContent[existingProductIndex].quantity += parseInt(quantity);
     } else {
       // Otherwise, add it to the cart
-      const quantity = parseInt(quantity);
       cartContent.push({ title, quantity, price, productImage });
     }
 
