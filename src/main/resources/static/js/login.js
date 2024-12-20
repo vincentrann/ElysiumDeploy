@@ -36,11 +36,11 @@ async function registerUser(event) {
         password: document.getElementById('sign-up-password').value,
         address: document.getElementById('street').value + ", " +
             document.getElementById('city').value + ", " +
-            document.getElementById('state').value + " " +
+            document.getElementById('state').value + ", " +
             document.getElementById('zip').value,
         billingAddress: document.getElementById('street').value + ", " +
             document.getElementById('city').value + ", " +
-            document.getElementById('state').value + " " +
+            document.getElementById('state').value + ", " +
             document.getElementById('zip').value,
     };
 
@@ -59,6 +59,10 @@ async function registerUser(event) {
 
         // Get the registered user data
         const newUser = await response.json();
+        localStorage.setItem("userId", newUser.id);
+        if (localStorage.getItem("userId")) {
+            console.log("Successfully set");
+        }
         console.log("User registered successfully:", newUser);
 
         // Step 2: Add Credit Card
