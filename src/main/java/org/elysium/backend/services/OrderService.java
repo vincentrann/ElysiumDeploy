@@ -9,7 +9,9 @@ import org.elysium.backend.repos.ProductRepository;
 import org.elysium.backend.repos.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cglib.core.Local;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -38,48 +40,38 @@ public class OrderService {
 
     @Autowired
     private UserRepository userRepository;
-    public Order checkout(String userid, Long creditCardId)
-    {
+    public Order checkout(String userid) {
+        // Step 1: Fetch the user's cart items
         List<CartItem> cartItemList = cartItemRepository.findByUserId(userid);
-        if (cartItemList.isEmpty())
-        {
+        if (cartItemList.isEmpty()) {
             throw new RuntimeException("Cart is empty. Cannot proceed to checkout.");
         }
-        // Step 2: Validate the selected credit card
-        // Step 2: Check if the user has any credit cards
-        List<CreditCard> userCreditCards = creditCardService.getCreditCardsByUserId(userid);
-        if (userCreditCards.isEmpty()) {
-            throw new RuntimeException("No credit cards found for the user. Please add a credit card to proceed.");
-        }
-
-        // Step 3: Validate the selected credit card
-        CreditCard creditCard = creditCardService.getCreditCardById(creditCardId);
-        if (!creditCard.getUser().getId().equals(userid)) {
-            throw new RuntimeException("Unauthorized: Credit card does not belong to this user.");
-        }
 
 
-        // Ensure the credit card belongs to the user
-        if (!creditCard.getUser().getId().equals(userid)) {
-            throw new RuntimeException("Unauthorized: Credit card does not belong to this user.");
-        }
-        double totalPrice = 0;
-        for (CartItem cartItem : cartItemList)
-        {
+        // Step 3: Validate stock for all cart items
+        for (CartItem cartItem : cartItemList) {
             Product product = productRepository.findById(cartItem.getProduct().getId())
                     .orElseThrow(() -> new RuntimeException("Product not found: " + cartItem.getProduct().getId()));
-            if(cartItem.getQuantity()>product.getStockQuantity())
-            {
+            if (cartItem.getQuantity() > product.getStockQuantity()) {
                 throw new RuntimeException("Insufficient stock for product: " + product.getName());
             }
+        }
+
+        // Step 4: Create the order and calculate total price
+        double totalPrice = 0;
+        for (CartItem cartItem : cartItemList) {
+            Product product = productRepository.findById(cartItem.getProduct().getId())
+                    .orElseThrow(() -> new RuntimeException("Product not found: " + cartItem.getProduct().getId()));
             totalPrice += cartItem.getQuantity() * product.getPrice();
         }
+
         Order order = new Order();
         order.setTotalPrice(totalPrice);
         order.setUserId(userid);
         order.setDateOfPurchase(new Date());
         order = orderRepository.save(order);
-        // Step 4: Create Order Items and Update Inventory
+
+        // Step 5: Create Order Items and Update Inventory
         for (CartItem cartItem : cartItemList) {
             Product product = productRepository.findById(cartItem.getProduct().getId())
                     .orElseThrow(() -> new RuntimeException("Product not found: " + cartItem.getProduct().getId()));
@@ -89,7 +81,7 @@ public class OrderService {
             orderItem.setOrder(order);
             orderItem.setProduct(product);
             orderItem.setQuantity(cartItem.getQuantity());
-            orderItem.setPriceAtTime(product.getPrice()); // or discount price if applicable
+            orderItem.setPriceAtTime(product.getPrice());
             orderItemRepository.save(orderItem);
 
             // Update Product Inventory
@@ -98,12 +90,13 @@ public class OrderService {
             productRepository.save(product);
         }
 
-        // Step 5: Clear the Cart
+        // Step 6: Clear the Cart
         cartItemRepository.deleteAll(cartItemList);
 
         // Return the Order as confirmation
         return order;
     }
+
 
 
     // get all Orders with their OrderItems
@@ -136,7 +129,8 @@ public class OrderService {
 
         // return ordersWithItems;
 
-        User user = userRepository.findByUsername(username).get();
+        User user = userRepository.findByUsername(username).orElseThrow(() -> new ResponseStatusException(
+            HttpStatus.NOT_FOUND, "User does not exist"));
         String userId = user.getId();
         return orderItemRepository.findOrderItemsByUserId(userId);
     }

@@ -37,7 +37,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         document.getElementById("zip").value = addressParts[3]?.trim();
     } catch (error) {
         console.error("Error fetching user data:", error);
-        alert("Unable to load profile information. Please try again.");
     }
 
     // Fetch credit card data
@@ -75,7 +74,6 @@ document.querySelector(".update-info form").addEventListener("submit", async (ev
         alert("Profile updated successfully!");
     } catch (error) {
         console.error("Error updating user data:", error);
-        alert("Failed to update profile. Please try again.");
     }
 });
 
@@ -114,14 +112,13 @@ async function fetchPurchaseHistory() {
             .join("");
     } catch (error) {
         console.error("Error fetching purchase history:", error);
-        alert("Unable to load purchase history. Please try again.");
     }
 }
 
 // Fetching and displaying credit card data
 async function fetchCreditCards(userId) {
     try {
-        const response = await fetch(`https://elysiumdeploy-production.up.railway.app/credit-cards/user/${userId}`);
+        const response = await fetch(`https://elysiumdeploy-production.up.railway.app/api/credit-cards/user/${userId}`);
         if (!response.ok) {
             throw new Error("Failed to fetch credit card data");
         }
@@ -148,7 +145,6 @@ async function fetchCreditCards(userId) {
         }
     } catch (error) {
         console.error("Error fetching credit card data:", error);
-        alert("Unable to load credit card information. Please try again.");
     }
 }
 
@@ -168,7 +164,7 @@ document.querySelector("#credit-card-form").addEventListener("submit", async fun
     };
 
     try {
-        const response = await fetch(`https://elysiumdeploy-production.up.railway.app/credit-cards/user/${userId}`, {
+        const response = await fetch(`https://elysiumdeploy-production.up.railway.app/api/credit-cards/user/${userId}`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -185,7 +181,6 @@ document.querySelector("#credit-card-form").addEventListener("submit", async fun
         document.getElementById("credit-card-form").reset();
     } catch (error) {
         console.error("Error adding credit card:", error);
-        alert("Failed to add credit card. Please try again.");
     }
 });
 
@@ -204,7 +199,6 @@ async function deleteCreditCard(cardId, userId) {
         fetchCreditCards(userId);
     } catch (error) {
         console.error("Error deleting credit card:", error);
-        alert("Failed to delete credit card. Please try again.");
     }
 }
 
@@ -221,6 +215,5 @@ function logout() {
         })
         .catch((error) => {
             console.error("Error logging out:", error);
-            alert("Failed to log out. Please try again.");
         });
 }
