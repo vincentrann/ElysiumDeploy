@@ -37,7 +37,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         document.getElementById("zip").value = addressParts[3]?.trim();
     } catch (error) {
         console.error("Error fetching user data:", error);
-        alert("Unable to load profile information. Please try again.");
     }
 
     // Fetch credit card data
@@ -114,7 +113,6 @@ async function fetchPurchaseHistory() {
             .join("");
     } catch (error) {
         console.error("Error fetching purchase history:", error);
-        alert("Unable to load purchase history. Please try again.");
     }
 }
 
@@ -148,7 +146,6 @@ async function fetchCreditCards(userId) {
         }
     } catch (error) {
         console.error("Error fetching credit card data:", error);
-        alert("Unable to load credit card information. Please try again.");
     }
 }
 
@@ -168,7 +165,7 @@ document.querySelector("#credit-card-form").addEventListener("submit", async fun
     };
 
     try {
-        const response = await fetch(`https://elysiumdeploy-production.up.railway.app/credit-cards/user/${userId}`, {
+        const response = await fetch(`https://elysiumdeploy-production.up.railway.app/api/credit-cards/user/${userId}`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
