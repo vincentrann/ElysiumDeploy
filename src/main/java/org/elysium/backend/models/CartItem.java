@@ -1,9 +1,10 @@
 package org.elysium.backend.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "CartItems")
+@Table(name = "cart_items")
 public class CartItem {
 
     @Id
@@ -14,6 +15,7 @@ public class CartItem {
     private String userId;
     @ManyToOne
     @JoinColumn(name = "cart_id", nullable = false)
+    @JsonIgnore // Prevent recursion
     private Cart cart; // Links to the Cart table
 
     @ManyToOne
