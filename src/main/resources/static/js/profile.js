@@ -121,7 +121,7 @@ async function fetchPurchaseHistory() {
 // Fetching and displaying credit card data
 async function fetchCreditCards(userId) {
     try {
-        const response = await fetch(`https://elysiumdeploy-production.up.railway.app/credit-cards/user/${userId}`);
+        const response = await fetch(`https://elysiumdeploy-production.up.railway.app/api/credit-cards/user/${userId}`);
         if (!response.ok) {
             throw new Error("Failed to fetch credit card data");
         }
