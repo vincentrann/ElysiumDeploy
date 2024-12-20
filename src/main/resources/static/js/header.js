@@ -75,7 +75,7 @@ function checkoutButtonClicked() {
       console.log(item)
       cartContent.push(item)
     }
-    alert(JSON.stringify(cartContent))
+    alert("Cart saved. Login to checkout.")
     localStorage.setItem("cartContent",JSON.stringify(cartContent))
 
     window.location.replace("login.html")

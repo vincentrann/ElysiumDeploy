@@ -1,6 +1,11 @@
+let userId = localStorage.getItem("userId");
+if (localStorage.getItem("adminUserId")) {
+    userId = localStorage.getItem("adminUserId");
+    console.log(userId);
+}
+
 // Fetching and displaying the user's data
 document.addEventListener("DOMContentLoaded", async () => {
-    const userId = localStorage.getItem("userId");
 
     if (!userId) {
         alert("User not logged in!");
@@ -50,16 +55,16 @@ document.addEventListener("DOMContentLoaded", async () => {
 document.querySelector(".update-info form").addEventListener("submit", async (event) => {
     event.preventDefault();
 
-    const userId = localStorage.getItem("userId");
     const updatedUser = {
         firstName: document.getElementById("first-name").value,
         lastName: document.getElementById("last-name").value,
         email: document.getElementById("email").value,
+        userName: document.getElementById("first-name").value + document.getElementById("last-name").value,
         address: `${document.getElementById("street").value}, ${document.getElementById("city").value}, ${document.getElementById("state").value}, ${document.getElementById("zip").value}`,
     };
 
     try {
-        const response = await fetch(`https://elysiumdeploy-production.up.railway.app/users/${userId}`, {
+        const response = await fetch(`https://elysiumdeploy-production.up.railway.app/api/users/${userId}`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
@@ -79,7 +84,6 @@ document.querySelector(".update-info form").addEventListener("submit", async (ev
 
 // Fetching purchase history
 async function fetchPurchaseHistory() {
-    const userId = localStorage.getItem("userId");
 
     try {
         const response = await fetch(`https://elysiumdeploy-production.up.railway.app/api/orders/user/${userId}`);
@@ -151,8 +155,6 @@ async function fetchCreditCards(userId) {
 // Adding credit card data
 document.querySelector("#credit-card-form").addEventListener("submit", async function (event) {
     event.preventDefault();
-
-    const userId = localStorage.getItem("userId");
     const cardNumber = document.getElementById("card-number").value.trim();
     const expiryDate = document.getElementById("expiry-date").value.trim();
     const cvv = document.getElementById("cvv").value.trim();
@@ -209,11 +211,17 @@ function logout() {
         credentials: "include",
     })
         .then(() => {
-            localStorage.removeItem("userId");
+            localStorage.removeItem("userId");  
             localStorage.removeItem("role");
             window.location.replace("index.html");
         })
         .catch((error) => {
             console.error("Error logging out:", error);
         });
+}
+
+function backToAdmin() {
+    localStorage.removeItem("adminUserId");
+    localStorage.setItem("userId", "VzuYdo");
+    window.location.replace("admin.html");
 }

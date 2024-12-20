@@ -1,0 +1,140 @@
+
+-- freedb_elysium.cart_items definition
+
+CREATE TABLE `cart_items` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `price_at_time` double NOT NULL,
+  `quantity` int NOT NULL,
+  `user_id` varchar(255) NOT NULL,
+  `cart_id` bigint NOT NULL,
+  `product_id` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FKpcttvuq4mxppo8sxggjtn5i2c` (`cart_id`),
+  KEY `FK1re40cjegsfvw58xrkdp6bac6` (`product_id`),
+  CONSTRAINT `FK1re40cjegsfvw58xrkdp6bac6` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`),
+  CONSTRAINT `FKpcttvuq4mxppo8sxggjtn5i2c` FOREIGN KEY (`cart_id`) REFERENCES `carts` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- freedb_elysium.carts definition
+
+CREATE TABLE `carts` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `created_at` datetime(6) NOT NULL,
+  `updated_at` datetime(6) NOT NULL,
+  `user_id` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_carts_users` (`user_id`),
+  CONSTRAINT `fk_carts_users` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- freedb_elysium.categories definition
+
+CREATE TABLE `categories` (
+  `id` int NOT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- freedb_elysium.credit_cards definition
+
+CREATE TABLE `credit_cards` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `billing_address` text,
+  `card_holder_name` varchar(255) DEFAULT NULL,
+  `card_number` varchar(255) DEFAULT NULL,
+  `cvv` varchar(255) DEFAULT NULL,
+  `expiry_date` varchar(255) DEFAULT NULL,
+  `user_id` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FKn1thfi0pev97g7g4oreo6g4yw` (`user_id`),
+  CONSTRAINT `FKn1thfi0pev97g7g4oreo6g4yw` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- freedb_elysium.order_items definition
+
+CREATE TABLE `order_items` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `price_at_time` double NOT NULL,
+  `quantity` int NOT NULL,
+  `order_id` int NOT NULL,
+  `product_id` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FKbioxgbv59vetrxe0ejfubep1w` (`order_id`),
+  KEY `FKocimc7dtr037rh4ls4l95nlfi` (`product_id`),
+  CONSTRAINT `FKbioxgbv59vetrxe0ejfubep1w` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`),
+  CONSTRAINT `FKocimc7dtr037rh4ls4l95nlfi` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- freedb_elysium.orders definition
+
+CREATE TABLE `orders` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `date_of_purchase` date DEFAULT NULL,
+  `total_price` double DEFAULT NULL,
+  `user_id` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_orders_users` (`user_id`),
+  CONSTRAINT `fk_orders_users` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- freedb_elysium.products definition
+
+CREATE TABLE `products` (
+  `id` varchar(255) NOT NULL,
+  `brand` varchar(255) DEFAULT NULL,
+  `description` text,
+  `dimensions` varchar(255) DEFAULT NULL,
+  `discount_price` double NOT NULL,
+  `image_url` varchar(255) DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `number_of_reviews` int NOT NULL,
+  `price` double NOT NULL,
+  `rating` double NOT NULL,
+  `stock_quantity` int NOT NULL,
+  `weight` double NOT NULL,
+  `category_id` int DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FKog2rp4qthbtt2lfyhfo32lsw9` (`category_id`),
+  CONSTRAINT `FKog2rp4qthbtt2lfyhfo32lsw9` FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- freedb_elysium.products definition
+
+CREATE TABLE `products` (
+  `id` varchar(255) NOT NULL,
+  `brand` varchar(255) DEFAULT NULL,
+  `description` text,
+  `dimensions` varchar(255) DEFAULT NULL,
+  `discount_price` double NOT NULL,
+  `image_url` varchar(255) DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `number_of_reviews` int NOT NULL,
+  `price` double NOT NULL,
+  `rating` double NOT NULL,
+  `stock_quantity` int NOT NULL,
+  `weight` double NOT NULL,
+  `category_id` int DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FKog2rp4qthbtt2lfyhfo32lsw9` (`category_id`),
+  CONSTRAINT `FKog2rp4qthbtt2lfyhfo32lsw9` FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- freedb_elysium.users definition
+
+CREATE TABLE `users` (
+  `id` varchar(255) NOT NULL,
+  `address` text,
+  `billing_address` text,
+  `dob` date DEFAULT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  `email_verified` tinyint(1) DEFAULT NULL,
+  `first_name` varchar(255) DEFAULT NULL,
+  `last_name` varchar(255) DEFAULT NULL,
+  `password` varchar(255) DEFAULT NULL,
+  `phone` varchar(255) DEFAULT NULL,
+  `role` varchar(31) NOT NULL,
+  `username` varchar(255) DEFAULT NULL,
+  `admin_level` varchar(255) DEFAULT NULL,
+  `membership_type` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;

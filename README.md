@@ -32,3 +32,9 @@ Navigate to our applications login page (http://localhost:8080/login.html for lo
 - password: adminpass
 # Database Note
 Our database since it is the free version can only run 1000 queries an hour. If while testing the application does not query data properly (such as products not loading, getting users from admin page, etc), please wait one hour for the max amount of queries to reset and try the application again.
+
+To view our database:
+- open database client (e.g. DBeaver, DataGrip, etc)
+- add a new connection and choose MySQL
+- enter the connection details: URL: jdbc:mysql://sql.freedb.tech:3306/freedb_elysium, username: freedb_elysium, password: ApVPmAPq$8Zp%3V
+- then connect

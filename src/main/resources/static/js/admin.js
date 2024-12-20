@@ -133,17 +133,18 @@ async function loadCustomers() {
             <td>${customer.firstName} ${customer.lastName}</td>
             <td>${customer.email}</td>
             <td>${customer.address}</td>
-            <td><button class="edit-info" data-id="${customer.id}">Edit Info</button></td>
+            <td><button id="edit-info" data-id="${customer.id}">Edit Info</button></td>
             `;
             tbody.appendChild(row);
         }
       });
   
       // Add event listeners to "Edit Info" buttons
-      document.querySelectorAll(".edit-info").forEach((button) => {
+      document.querySelectorAll("#edit-info").forEach((button) => {
         button.addEventListener("click", (e) => {
           const customerId = e.target.getAttribute("data-id");
-          openEditModal(customerId);
+          localStorage.setItem("adminUserId", customerId);
+          window.location.replace("adminProfile.html");
         });
       });
     } catch (error) {
@@ -152,181 +153,6 @@ async function loadCustomers() {
   }
 
 loadCustomers();
-
-// MODAL MENU FOR CUSTOMER INFO EDIT
-// Open the modal and populate it with the selected customer's info
-async function openEditModal(customerId) {
-    try {
-      const response = await fetch(`https://elysiumdeploy-production.up.railway.app/api/users/${customerId}`);
-      if (!response.ok) throw new Error("Failed to fetch customer details.");
-  
-      const customer = await response.json();
-  
-        // Populate modal fields
-        document.getElementById("first-name").value = customer.firstName;
-        document.getElementById("last-name").value = customer.lastName;
-        document.getElementById("email").value = customer.email;
-        document.getElementById("street").value = customer.address.street;
-        document.getElementById("city").value = customer.address.city;
-        document.getElementById("state").value = customer.address.state;
-        document.getElementById("zip").value = customer.address.zip;
-
-        const addressParts = customer.address.split(",");
-        document.getElementById("street").value = addressParts[0]?.trim();
-        document.getElementById("city").value = addressParts[1]?.trim();
-        document.getElementById("state").value = addressParts[2]?.trim();
-        document.getElementById("zip").value = addressParts[3]?.trim();
-  
-        // Show modal
-        const modal = document.getElementById("editCustomerModal")
-        fetchCreditCards(customerId);
-        modal.style.display = "flex";
-        modal.dataset.customerId = customerId;
-        modal.classList.remove("hidden");
-    } catch (error) {
-        console.error("Error loading customer details:", error);
-    }
-  }
-  
-  // Close the modal when the close button is clicked
-  document.getElementById("closeModal").addEventListener("click", () => {
-    const modal = document.getElementById("editCustomerModal");
-    modal.style.display = "none";
-    modal.classList.add("hidden");
-    loadCustomers();
-  });
-  
-  // Close the modal when clicking outside the modal content
-  window.addEventListener("click", (event) => {
-    const modal = document.getElementById("editCustomerModal");
-    if (event.target === modal) {
-      modal.style.display = "none";
-      modal.classList.add("hidden");
-    }
-    loadCustomers();
-  });
-
-  // Fetching and displaying credit card data
-async function fetchCreditCards(userId) {
-    try {
-        const response = await fetch(`https://elysiumdeploy-production.up.railway.app/api/credit-cards/user/${userId}`);
-        if (!response.ok) {
-            throw new Error("Failed to fetch credit card data");
-        }
-
-        const creditCards = await response.json();
-        const creditCardSection = document.querySelector(".credit-card");
-
-        creditCardSection.innerHTML = "";
-
-        if (creditCards.length > 0) {
-            creditCards.forEach((card, index) => {
-                const maskedNumber = `**** **** **** ${card.cardNumber.slice(-4)}`;
-                const cardElement = `
-                    <div class="card-info">
-                        <p><strong>Card ${index + 1}:</strong> ${maskedNumber}</p>
-                        <p>Expiry Date: ${card.expiryDate}</p>
-                        <button onclick="deleteCreditCard(${card.id}, '${userId}')">Delete</button>
-                    </div>
-                `;
-                creditCardSection.innerHTML += cardElement;
-            });
-        } else {
-            creditCardSection.innerHTML = "<p>No credit card information available.</p>";
-        }
-    } catch (error) {
-        console.error("Error fetching credit card data:", error);
-    }
-}
-
-// Deleting a credit card
-async function deleteCreditCard(cardId, userId) {
-    try {
-        const response = await fetch(`https://elysiumdeploy-production.up.railway.app/api/credit-cards/${cardId}/user/${userId}`, {
-            method: "DELETE",
-        });
-
-        if (!response.ok) {
-            throw new Error("Failed to delete credit card");
-        }
-
-        alert("Credit card deleted successfully!");
-        fetchCreditCards(userId);
-    } catch (error) {
-        console.error("Error deleting credit card:", error);
-    }
-}
-
-// Adding credit card data
-document.addEventListener("submit", async function (event) {
-    if (event.target.id === "credit-card-form") {
-        event.preventDefault();
-
-        const userId = document.getElementById("editCustomerModal").dataset.userId;
-        const cardNumber = document.getElementById("card-number").value.trim();
-        const expiryDate = document.getElementById("expiry-date").value.trim();
-        const cvv = document.getElementById("cvv").value.trim();
-
-        const creditCard = {
-            cardNumber,
-            expiryDate,
-            cvv,
-        };
-
-        try {
-            const response = await fetch(`https://elysiumdeploy-production.up.railway.app/api/credit-cards/user/${userId}`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(creditCard),
-            });
-
-            if (!response.ok) {
-                throw new Error("Failed to add credit card");
-            }
-
-            alert("Credit card added successfully!");
-            fetchCreditCards(userId);
-            document.getElementById("credit-card-form").reset();
-        } catch (error) {
-            console.error("Error adding credit card:", error);
-        }
-    }
-});
-  
-// Updating the customer's data
-document.querySelector("#saveCustomerInfo").addEventListener("submit", async (event) => {
-    event.preventDefault();
-
-    const userId = document.getElementById("editCustomerModal").dataset.userId;
-    const username = document.getElementById("first-name").value + document.getElementById("last-name").value;
-    const updatedUser = {
-        firstName: document.getElementById("first-name").value,
-        lastName: document.getElementById("last-name").value,
-        username: username,
-        email: document.getElementById("email").value,
-        address: `${document.getElementById("street").value}, ${document.getElementById("city").value}, ${document.getElementById("state").value}, ${document.getElementById("zip").value}`,
-    };
-
-    try {
-        const response = await fetch(`https://elysiumdeploy-production.up.railway.app/api/users/${userId}`, {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(updatedUser),
-        });
-
-        if (!response.ok) {
-            throw new Error("Failed to update customer data");
-        }
-
-        alert("Customer info updated successfully!");
-    } catch (error) {
-        console.error("Error updating user data:", error);
-    }
-});
 
 // INVENTORY MANAGEMENT
 const productList = document.getElementById("product-list");
