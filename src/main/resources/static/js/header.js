@@ -77,11 +77,13 @@ function checkoutButtonClicked() {
     }
     alert(JSON.stringify(cartContent))
     localStorage.setItem("cartContent",JSON.stringify(cartContent))
+
     window.location.replace("login.html")
   }
   else
   {
     window.location.replace("checkout.html")
+
   }
 
 }

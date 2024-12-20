@@ -9,9 +9,7 @@ import org.elysium.backend.repos.ProductRepository;
 import org.elysium.backend.repos.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cglib.core.Local;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -28,7 +26,7 @@ public class OrderService {
 
     @Autowired
     private CreditCardService creditCardService;
-
+    
     @Autowired
     private OrderRepository orderRepository;
 
@@ -40,31 +38,15 @@ public class OrderService {
 
     @Autowired
     private UserRepository userRepository;
-  
-    public Order checkout(String userid, Long creditCardId) {
+    public Order checkout(String userid) {
         // Step 1: Fetch the user's cart items
         List<CartItem> cartItemList = cartItemRepository.findByUserId(userid);
         if (cartItemList.isEmpty()) {
             throw new RuntimeException("Cart is empty. Cannot proceed to checkout.");
         }
 
-        // Step 2: Validate the selected credit card
-        List<CreditCard> userCreditCards = creditCardService.getCreditCardsByUserId(userid);
-        if (userCreditCards.isEmpty()) {
-            throw new RuntimeException("No credit cards found for the user. Please add a credit card to proceed.");
-        }
 
-        CreditCard creditCard = creditCardService.getCreditCardById(creditCardId);
-        if (creditCard == null) {
-            throw new RuntimeException("Invalid credit card ID. Please provide a valid credit card.");
-        }
-
-        // Ensure the credit card belongs to the user
-        if (!creditCard.getUser().getId().equals(userid)) {
-            throw new RuntimeException("Unauthorized: Credit card does not belong to this user.");
-        }
-        double totalPrice = 0;
-
+        // Step 3: Validate stock for all cart items
         for (CartItem cartItem : cartItemList) {
             Product product = productRepository.findById(cartItem.getProduct().getId())
                     .orElseThrow(() -> new RuntimeException("Product not found: " + cartItem.getProduct().getId()));
@@ -113,8 +95,10 @@ public class OrderService {
         return order;
     }
 
+
+
     // get all Orders with their OrderItems
-    public List<OrderItem> getAllOrdersWithItems() {
+    public List<OrderItem> getAllOrdersWithItems(){
         return orderItemRepository.findAll();
     }
 
@@ -124,8 +108,7 @@ public class OrderService {
         // Order order = orderRepository.findOrderById(orderId);
 
         // // Fetch associated OrderItems
-        // List<OrderItem> orderItems =
-        // orderRepository.findOrderItemsByOrderId(orderId);
+        // List<OrderItem> orderItems = orderRepository.findOrderItemsByOrderId(orderId);
 
         // // Return the combined data in a DTO
         // return new OrderWithItemsDto(order, orderItems);
@@ -138,41 +121,38 @@ public class OrderService {
         // List<OrderWithItemsDto> ordersWithItems = new ArrayList<>();
 
         // for (Order order : orders) {
-        // List<OrderItem> orderItems =
-        // orderRepository.findOrderItemsByOrderId(order.getId());
-        // ordersWithItems.add(new OrderWithItemsDto(order, orderItems));
+        //     List<OrderItem> orderItems = orderRepository.findOrderItemsByOrderId(order.getId());
+        //     ordersWithItems.add(new OrderWithItemsDto(order, orderItems));
         // }
 
         // return ordersWithItems;
 
-        User user = userRepository.findByUsername(username).orElseThrow(() -> new ResponseStatusException(
-                HttpStatus.NOT_FOUND, "User does not exist"));
+        User user = userRepository.findByUsername(username).get();
         String userId = user.getId();
         return orderItemRepository.findOrderItemsByUserId(userId);
     }
 
     // get Orders with OrderItems that contain given product
     public List<OrderItem> getOrdersWithItemsByProductName(String productName) {
-        // List<OrderItem> orderItems =
-        // orderRepository.findOrderItemsByProductName(productName);
+        // List<OrderItem> orderItems = orderRepository.findOrderItemsByProductName(productName);
         // List<OrderWithItemsDto> ordersWithItems = new ArrayList<>();
 
         // for (OrderItem orderItem : orderItems) {
-        // Order order = orderItem.getOrder();
-        // boolean orderExists = false;
-        // for (OrderWithItemsDto dto : ordersWithItems) {
-        // if (dto.getOrder().getId() == order.getId()) {
-        // dto.getOrderItems().add(orderItem);
-        // orderExists = true;
-        // break;
-        // }
-        // }
+        //     Order order = orderItem.getOrder();
+        //     boolean orderExists = false;
+        //     for (OrderWithItemsDto dto : ordersWithItems) {
+        //         if (dto.getOrder().getId() == order.getId()) {
+        //             dto.getOrderItems().add(orderItem);
+        //             orderExists = true;
+        //             break;
+        //         }
+        //     }
 
-        // if (!orderExists) {
-        // List<OrderItem> items = new ArrayList<>();
-        // items.add(orderItem);
-        // ordersWithItems.add(new OrderWithItemsDto(order, items));
-        // }
+        //     if (!orderExists) {
+        //         List<OrderItem> items = new ArrayList<>();
+        //         items.add(orderItem);
+        //         ordersWithItems.add(new OrderWithItemsDto(order, items));
+        //     }
         // }
 
         return orderItemRepository.findByProductName(productName);
@@ -185,10 +165,9 @@ public class OrderService {
         // List<OrderWithItemsDto> ordersWithItems = new ArrayList<>();
 
         // for (Order order : orders) {
-        // List<OrderItem> orderItems =
-        // orderRepository.findOrderItemsByOrderId(order.getId());
+        //     List<OrderItem> orderItems = orderRepository.findOrderItemsByOrderId(order.getId());
 
-        // ordersWithItems.add(new OrderWithItemsDto(order, orderItems));
+        //     ordersWithItems.add(new OrderWithItemsDto(order, orderItems));
         // }
 
         return orderItemRepository.findByOrderDateOfPurchase(specificDate);
