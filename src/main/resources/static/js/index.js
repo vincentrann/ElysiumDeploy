@@ -1,6 +1,6 @@
 'use strict';
 
-const apiUrl = "https://elysiumdeploy-production.up.railway.app/api/products";
+const apiUrl = "http://localhost:8080/api/products";
 const productList = document.getElementById("product-list");
 const searchInput = document.querySelector('input[name="search"]'); // Get the search input field
 
@@ -95,7 +95,7 @@ function updateProductList(products) {
       <div class="product-card" data-product-id="${product.id}">
         <figure class="card-banner">
           <a href="product.html?id=${product.id}">
-            <img src="${product.imageUrl}" alt="${product.name}" loading="lazy" class="w-100">
+            <img src="${product.imageUrl}" alt="${product.name}" loading="lazy" class="w-100 item-img">
           </a>
           <div class="card-actions">
             <button class="card-action-btn cart-btn">
