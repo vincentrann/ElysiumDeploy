@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
         try {
             const response = await fetch(url);
             if (!response.ok) {
-                if (response.status === 404 || response.status === 500) {
+                if (response.status === 404) {
                     throw new Error("User not found.");
                 } else {
                     throw new Error("Failed to fetch order history.");

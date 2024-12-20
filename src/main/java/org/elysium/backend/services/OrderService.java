@@ -9,7 +9,9 @@ import org.elysium.backend.repos.ProductRepository;
 import org.elysium.backend.repos.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cglib.core.Local;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -136,7 +138,8 @@ public class OrderService {
 
         // return ordersWithItems;
 
-        User user = userRepository.findByUsername(username).get();
+        User user = userRepository.findByUsername(username).orElseThrow(() -> new ResponseStatusException(
+            HttpStatus.NOT_FOUND, "User does not exist"));
         String userId = user.getId();
         return orderItemRepository.findOrderItemsByUserId(userId);
     }
