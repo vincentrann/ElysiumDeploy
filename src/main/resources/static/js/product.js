@@ -59,6 +59,7 @@ function addProductClicked() {
       cartContent[existingProductIndex].quantity += parseInt(quantity);
     } else {
       // Otherwise, add it to the cart
+      const quantity = parseInt(quantity);
       cartContent.push({ title, quantity, price, productImage });
     }
 
