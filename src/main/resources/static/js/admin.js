@@ -11,6 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const response = await fetch(url);
             if (!response.ok) {
                 if (response.status === 404) {
+                    orderTableBody.innerHTML = "<tr><td colspan='5'>No orders found</td></tr>";
                     throw new Error("User not found.");
                 } else {
                     throw new Error("Failed to fetch order history.");
@@ -20,7 +21,6 @@ document.addEventListener("DOMContentLoaded", () => {
             renderOrders(orders);
         } catch (error) {
             console.error("Error fetching orders:", error);
-            alert("Failed to fetch orders. Please try again.");
         }
     }
 
@@ -236,7 +236,6 @@ async function fetchCreditCards(userId) {
         }
     } catch (error) {
         console.error("Error fetching credit card data:", error);
-        alert("Unable to load credit card information. Please try again.");
     }
 }
 
@@ -255,7 +254,6 @@ async function deleteCreditCard(cardId, userId) {
         fetchCreditCards(userId);
     } catch (error) {
         console.error("Error deleting credit card:", error);
-        alert("Failed to delete credit card. Please try again.");
     }
 }
 
@@ -293,7 +291,6 @@ document.addEventListener("submit", async function (event) {
             document.getElementById("credit-card-form").reset();
         } catch (error) {
             console.error("Error adding credit card:", error);
-            alert("Failed to add credit card. Please try again.");
         }
     }
 });
@@ -328,7 +325,6 @@ document.querySelector("#saveCustomerInfo").addEventListener("submit", async (ev
         alert("Customer info updated successfully!");
     } catch (error) {
         console.error("Error updating user data:", error);
-        alert("Failed to update profile. Please try again.");
     }
 });
 
@@ -344,7 +340,7 @@ function updateProductList(products) {
         const productItem = document.createElement("li");
         productItem.innerHTML = `
           <div class="product-item">
-              <img src="/${product.imageUrl}" alt="${product.name}" class="product-image">
+              <img src="${product.imageUrl}" alt="${product.name}" class="product-image">
               <div class="product-details">
                   <h3 class="item-name">${product.name}</h3>
                   <p><strong>Price:</strong> $${product.price.toFixed(2)}</p>
@@ -376,7 +372,7 @@ function updateProductList(products) {
           if (isNaN(quantityChange)) {
             alert("Please enter a valid quantity.");
             return;
-          } else if (product.stockQuantity - quantityChange < 0) {
+          } else if (product.stockQuantity + quantityChange < 0) {
             alert("Overall quantity cannot be less than 0.");
             return;
           }
@@ -395,12 +391,9 @@ function updateProductList(products) {
               quantityDisplay.textContent = updatedProduct.stockQuantity;
               quantityInput.value = ""; // Clear the input field
               alert("Quantity updated successfully!");
-            } else {
-              alert("Failed to update quantity. Please try again.");
             }
           } catch (error) {
             console.error("Error updating quantity:", error);
-            alert("An error occurred while updating the quantity.");
           }
         });
     });
