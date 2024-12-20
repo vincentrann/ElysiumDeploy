@@ -21,7 +21,6 @@ document.addEventListener("DOMContentLoaded", () => {
             renderOrders(orders);
         } catch (error) {
             console.error("Error fetching orders:", error);
-            alert("Failed to fetch orders. Please try again.");
         }
     }
 
@@ -79,7 +78,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const fullNameList = document.querySelector("#filter-customer").value.trim().split(" ");
         const username = fullNameList[0] + fullNameList[1];
         if (username) {
-            fetchAndRenderOrders(`http://localhost:8080/admin/OrderHistory/user/${username}`);
+            fetchAndRenderOrders(`https://elysiumdeploy-production.up.railway.app/admin/OrderHistory/user/${username}`);
         }
     });
 
@@ -237,7 +236,6 @@ async function fetchCreditCards(userId) {
         }
     } catch (error) {
         console.error("Error fetching credit card data:", error);
-        alert("Unable to load credit card information. Please try again.");
     }
 }
 
@@ -256,7 +254,6 @@ async function deleteCreditCard(cardId, userId) {
         fetchCreditCards(userId);
     } catch (error) {
         console.error("Error deleting credit card:", error);
-        alert("Failed to delete credit card. Please try again.");
     }
 }
 
@@ -294,7 +291,6 @@ document.addEventListener("submit", async function (event) {
             document.getElementById("credit-card-form").reset();
         } catch (error) {
             console.error("Error adding credit card:", error);
-            alert("Failed to add credit card. Please try again.");
         }
     }
 });
@@ -329,7 +325,6 @@ document.querySelector("#saveCustomerInfo").addEventListener("submit", async (ev
         alert("Customer info updated successfully!");
     } catch (error) {
         console.error("Error updating user data:", error);
-        alert("Failed to update profile. Please try again.");
     }
 });
 
@@ -396,12 +391,9 @@ function updateProductList(products) {
               quantityDisplay.textContent = updatedProduct.stockQuantity;
               quantityInput.value = ""; // Clear the input field
               alert("Quantity updated successfully!");
-            } else {
-              alert("Failed to update quantity. Please try again.");
             }
           } catch (error) {
             console.error("Error updating quantity:", error);
-            alert("An error occurred while updating the quantity.");
           }
         });
     });
