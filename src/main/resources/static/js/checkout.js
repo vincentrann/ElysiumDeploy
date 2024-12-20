@@ -127,7 +127,7 @@ document.querySelector(".checkout-form form").addEventListener("submit", async f
 
     // Backend API call to checkout
     try {
-        const response = await fetch(`http://localhost:8080/api/orders/checkout/${userId}`, {
+        const response = await fetch(`https://elysiumdeploy-production.up.railway.app/api/orders/checkout/${userId}`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
         });
