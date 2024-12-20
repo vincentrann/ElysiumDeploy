@@ -429,5 +429,6 @@ if (query) {
 
 function logout(){
     localStorage.removeItem("role");
+    localStorage.removeItem("userId");
     window.location.replace("/index.html");
 }
