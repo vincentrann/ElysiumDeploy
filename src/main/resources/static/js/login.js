@@ -32,7 +32,6 @@ async function registerUser(event) {
         firstName: document.getElementById('sign-up-first-name').value,
         lastName: document.getElementById('sign-up-last-name').value,
         email: document.getElementById('sign-up-email').value,
-        phone: document.getElementById('sign-up-phone').value,
         password: document.getElementById('sign-up-password').value,
         address: document.getElementById('street').value + ", " +
             document.getElementById('city').value + ", " +
