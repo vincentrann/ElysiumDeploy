@@ -74,7 +74,6 @@ document.querySelector(".update-info form").addEventListener("submit", async (ev
         alert("Profile updated successfully!");
     } catch (error) {
         console.error("Error updating user data:", error);
-        alert("Failed to update profile. Please try again.");
     }
 });
 
@@ -182,7 +181,6 @@ document.querySelector("#credit-card-form").addEventListener("submit", async fun
         document.getElementById("credit-card-form").reset();
     } catch (error) {
         console.error("Error adding credit card:", error);
-        alert("Failed to add credit card. Please try again.");
     }
 });
 
@@ -201,7 +199,6 @@ async function deleteCreditCard(cardId, userId) {
         fetchCreditCards(userId);
     } catch (error) {
         console.error("Error deleting credit card:", error);
-        alert("Failed to delete credit card. Please try again.");
     }
 }
 
@@ -218,6 +215,5 @@ function logout() {
         })
         .catch((error) => {
             console.error("Error logging out:", error);
-            alert("Failed to log out. Please try again.");
         });
 }

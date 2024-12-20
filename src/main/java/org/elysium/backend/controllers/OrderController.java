@@ -18,11 +18,11 @@ public class OrderController {
     /**
      * Endpoint for checking out and creating an order.
      *
-     * @param userId       The ID of the user performing the checkout.
+     * @param userId The ID of the user performing the checkout.
      * @return The created order.
      */
-    @PostMapping("/checkout")
-    public ResponseEntity<Order> checkout(@RequestParam String userId) {
+    @PostMapping("/checkout/{userId}")
+    public ResponseEntity<Order> checkout(@PathVariable String userId) {
         try {
             Order order = orderService.checkout(userId);
             return ResponseEntity.ok(order);
@@ -31,12 +31,13 @@ public class OrderController {
         }
 
     }
+
     @GetMapping("/user/{userId}")
     public ResponseEntity<List<Order>> getOrdersByUserId(@PathVariable String userId) {
         List<Order> orders = orderService.findByUserId(userId);
         if (orders.isEmpty()) {
-            return ResponseEntity.noContent().build();  // 204 No Content
+            return ResponseEntity.noContent().build(); // 204 No Content
         }
-        return ResponseEntity.ok(orders);  // 200 OK
+        return ResponseEntity.ok(orders); // 200 OK
     }
 }

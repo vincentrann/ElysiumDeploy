@@ -1,12 +1,12 @@
 const userId = localStorage.getItem("userId");
 
-// Fetch and display cart items
+// Fetch and display cart items in checkout
 async function loadCart(userId) {
     const cartSummaryElement = document.querySelector(".cart-summary ul");
     const totalElement = document.querySelector(".cart-summary .total span");
 
     try {
-        const response = await fetch(`http://localhost:8080/api/cart/${userId}`);
+        const response = await fetch(`https://elysiumdeploy-production.up.railway.app/api/cart/${userId}`);
         if (!response.ok) {
             throw new Error("Failed to load cart data");
         }
@@ -39,7 +39,7 @@ async function loadCart(userId) {
         });
 
         // Update the total price
-        totalElement.innerHTML = `<strong>Total: </strong> $${totalPrice.toFixed(2)}`;
+        totalElement.innerHTML = `<p><strong>Total Price: </strong> <span id="total-price">$${totalPrice.toFixed(2)}</span></p>`;
 
     } catch (error) {
         console.error("Error loading cart:", error);
@@ -93,113 +93,92 @@ async function loadCreditCards(userId) {
         console.error("Error loading credit cards:", error);
     }
 }
-
-// Submit order with selected payment method
-document.querySelector(".checkout-form form").addEventListener("submit", async function (event) {
-    event.preventDefault();
-
-    const selectedCard = document.querySelector('input[name="credit-card"]:checked');
-    let paymentMethod;
-
-    if (selectedCard) {
-        // Use saved card
-        paymentMethod = {
-            type: "SAVED_CARD",
-            cardId: selectedCard.value,
-        };
-    } else {
-        // Use new card
-        const cardNumber = document.getElementById("card-number").value.trim();
-        const expiryDate = document.getElementById("expiry-date").value.trim();
-        const cvv = document.getElementById("cvv").value.trim();
-
-        if (!cardNumber || !expiryDate || !cvv) {
-            alert("Please fill out all credit card fields.");
-            return;
-        }
-
-        try {
-            // Save new card to backend
-            const saveCardResponse = await fetch(`https://elysiumdeploy-production.up.railway.app/api/credit-cards/user/${userId}`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ cardNumber, expiryDate, cvv }),
-            });
-
-            if (!saveCardResponse.ok) throw new Error("Failed to save new credit card");
-            const savedCard = await saveCardResponse.json();
-
-            paymentMethod = {
-                type: "SAVED_CARD",
-                cardId: savedCard.id, // Use the ID of the newly saved card
-            };
-        } catch (error) {
-            console.error("Error saving new credit card:", error);
-            alert("Failed to save new credit card. Please try again.");
-            return;
-        }
-    }
-
-    // Checkout with selected or new card
-    try {
-        const queryParams = new URLSearchParams({
-            userId,
-            creditCardId: paymentMethod.cardId,
-        });
-
-        const response = await fetch(`https://elysiumdeploy-production.up.railway.app/api/orders/checkout?${queryParams.toString()}`, {
-            method: "POST",
-        });
-
-        if (!response.ok) throw new Error("Failed to place order");
-
-        const order = await response.json();
-        alert(`Order placed successfully! Order ID: ${order.id}`);
-    } catch (error) {
-        console.error("Error placing order:", error);
-        alert("Failed to place order. Please try again.");
-    }
-});
 loadCreditCards(userId);
 
-// MODAL MENU FOR ORDER CONFIRMATION
-// Open the modal and populate it with the order info
-// async function openEditModal(customerId, ) {
-//     try {
-//       const response = await fetch(`https://elysiumdeploy-production.up.railway.app/api/users/${customerId}`);
-//       if (!response.ok) throw new Error("Failed to fetch customer details.");
-  
-//       const customer = await response.json();
-  
-//         // Populate modal fields
-//         document.getElementById("first-name").value = customer.firstName;
-//         document.getElementById("last-name").value = customer.lastName;
-//         document.getElementById("email").value = customer.email;
-//         document.getElementById("street").value = customer.address.street;
-//         document.getElementById("city").value = customer.address.city;
-//         document.getElementById("state").value = customer.address.state;
-//         document.getElementById("zip").value = customer.address.zip;
+document.querySelector(".checkout-form form").addEventListener("submit", async function (event) {
+    event.preventDefault(); // Prevent default form submission
 
-//         const addressParts = customer.address.split(",");
-//         document.getElementById("street").value = addressParts[0]?.trim();
-//         document.getElementById("city").value = addressParts[1]?.trim();
-//         document.getElementById("state").value = addressParts[2]?.trim();
-//         document.getElementById("zip").value = addressParts[3]?.trim();
-  
-//         // Show modal
-//         const modal = document.getElementById("orderConfirmed")
-//         modal.style.display = "flex";
-//         modal.dataset.customerId = customerId;
-//         modal.classList.remove("hidden");
-//     } catch (error) {
-//         console.error("Error confirming checkout:", error);
-//     }
-//   }
-  
-//   // Close the modal when the close button is clicked
-//   document.getElementById("closeModal").addEventListener("click", () => {
-//     const modal = document.getElementById("editCustomerModal");
-//     modal.style.display = "none";
-//     modal.classList.add("hidden");
-//     loadCustomers();
-//   });
+    // Get the cart items
+    const cartItems = document.querySelector(".cart-summary ul").children;
+    if (cartItems.length === 0) {
+        alert("Your cart is empty. Please add items to your cart before placing the order.");
+        return;
+    }
+
+    // Get selected credit card
+    const selectedCard = document.querySelector('input[name="credit-card"]:checked');
+
+    // Get new credit card inputs
+    const cardNumber = document.getElementById("card-number").value.trim();
+    const expiryDate = document.getElementById("expiry-date").value.trim();
+    const cvv = document.getElementById("cvv").value.trim();
+
+    // Validate new credit card inputs if they are filled
+    if (cardNumber || expiryDate || cvv) {
+        if (cardNumber.length !== 12 || expiryDate.length !== 5 || cvv.length !== 3) {
+            alert("Invalid credit card details entered.");
+            return;
+        }
+    } else if (!selectedCard) {
+        // If no new credit card inputs and no selected card
+        alert("Please select a saved credit card or enter a new one.");
+        return;
+    }
+
+    // Backend API call to checkout
+    try {
+        const response = await fetch(`http://localhost:8080/api/orders/checkout/${userId}`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+        });
+
+        if (!response.ok) throw new Error("Failed to place order.");
+
+        // Order created successfully, show the modal
+        const modal = document.getElementById("orderConfirmedModal");
+        const modalOrderItems = modal.querySelector(".order-items ul");
+        const modalTotalPrice = modal.querySelector("#modal-total-price");
+
+        const userResponse = await fetch(`https://elysiumdeploy-production.up.railway.app/api/users/${userId}`);
+        const user = await userResponse.json();
+
+        // Populate modal content
+        document.querySelector(".modal-customer-info").innerHTML = `
+        <p><strong>Full Name:</strong> ${user.firstName} ${user.lastName}</p>
+        <p><strong>Email Address:</strong> ${user.email}</p>
+        <p><strong>Shipping Address:</strong> ${user.address}</p>
+        `;
+        
+        // Populate order items in the modal
+        modalOrderItems.innerHTML = ""; // Clear previous items
+        Array.from(cartItems).forEach((item) => {
+            const clonedItem = item.cloneNode(true); // Clone cart item to display in modal
+            modalOrderItems.appendChild(clonedItem);
+        });
+
+        // Calculate total price and set it in modal
+        const totalPrice = document.querySelector("#total-price").textContent;
+        modalTotalPrice.innerHTML = `
+        <p><strong>Total Price: </strong> <span>${totalPrice}</span></p>
+        `;
+
+        // Display the modal
+        modal.style.display = "flex";
+        modal.classList.remove("hidden");
+
+        // Add event listener for the close button
+        document.getElementById("closeModal").addEventListener("click", function () {
+            modal.style.display = "none";
+            modal.classList.add("hidden");
+        });
+
+        // Automatically redirect after 5 seconds
+        setTimeout(() => {
+            modal.style.display = "none";
+            modal.classList.add("hidden");
+            window.location.href = "index.html";
+        }, 10000);
+    } catch (error) {
+        console.error("Error placing order:", error);
+    }
+});

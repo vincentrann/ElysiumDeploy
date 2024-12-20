@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Elysium | Checkout Page</title>
+  <title>Elysium | Checkout</title>
   <link rel="shortcut icon" href="images/logos/favicon.png" type="image/x-icon">
   <link rel="stylesheet" href="css/header_footer.css">
   <link rel="stylesheet" href="css/checkout.css">
@@ -104,11 +104,15 @@
           <div class="modal-content">
             <span class="close-btn" id="closeModal">&times;</span>
             <h2>Order Confirmed!</h2>
-            <div class="customer-info">
-              <p><strong>Full Name:</strong> <span id="full-name"></span></p>
-              <p><strong>Email:</strong> <span id="email"></span></p>
-              <p><strong>Shipping Address:</strong> <span id="shipping-address"></span></p>
+            <div class="modal-customer-info">
+              
             </div>
+            <div class="order-items">
+              <ul>
+                <!-- Display each item with its name, price and quantity -->
+              </ul>
+            </div>
+            <span id="modal-total-price"> </span>
           </div>
         </section>
     </main>
