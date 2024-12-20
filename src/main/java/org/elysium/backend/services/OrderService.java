@@ -45,6 +45,7 @@ public class OrderService {
             throw new RuntimeException("Cart is empty. Cannot proceed to checkout.");
         }
 
+
         // Step 3: Validate stock for all cart items
         for (CartItem cartItem : cartItemList) {
             Product product = productRepository.findById(cartItem.getProduct().getId())
