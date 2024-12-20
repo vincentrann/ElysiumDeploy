@@ -55,12 +55,6 @@ function ready() {
     var button = addToCart[i]
     button.addEventListener("click", addCartClicked)
   }
-  var addToCart_product = document.getElementsByClassName('add-to-cart-btn')
-  for (var i = 0; i < addToCart_product.length; i++) {
-    console.log("inside loop")
-    var button = addToCart_product[i]
-    button.addEventListener("click", addCartClicked)
-  }
 
   document.getElementsByClassName('btn-buy')[0].addEventListener("click", checkoutButtonClicked)
 }
@@ -90,14 +84,6 @@ function checkoutButtonClicked() {
     window.location.replace("checkout.html")
   }
 
-
-  // emptying cart
-  // var cartContent = document.getElementsByClassName('cart-content')[0]
-  // while (cartContent.hasChildNodes()) {
-  //   cartContent.removeChild(cartContent.firstChild)
-  // }
-  // updateTotal();
-  // updateCartCount();
 }
 
 function loadCart() {
@@ -134,7 +120,7 @@ function loadCart() {
 
             // Add each item to the cart UI
             for (let i = 0; i < quantity; i++) {
-              addProductToCart(title, price, productImage);
+              addProductToCart(title, price, productImage,1);
             }
           });
         })
@@ -167,7 +153,7 @@ function loadCart() {
 
             // Add product to the cart based on its quantity
             for (let i = 0; i < quantity; i++) {
-              addProductToCart(title, price, image);
+              addProductToCart(title, price, image,1);
             }
           })
           .catch(error => {
@@ -330,14 +316,15 @@ function addCartClicked(event) {
     console.log("Updated cartContent in localStorage:", cartContent);
   }
 
-  addProductToCart(title, price, productImage);
+  addProductToCart(title, price, productImage,1);
 
   updateTotal();
   updateCartCount();
 }
 
 
-function addProductToCart(title, price, productImage) {
+function addProductToCart(title, price, productImage, quantity) {
+  console.log("entered addProductToCart")
   var cartShopBox = document.createElement('div');
   cartShopBox.classList.add('cart-box');
   var cartItems = document.getElementsByClassName('cart-content')[0];
@@ -350,7 +337,7 @@ function addProductToCart(title, price, productImage) {
 
       // If product is already in the cart, update its quantity
       var quantityInput = cartItemNames[i].parentElement.querySelector('.cart-quantity');
-      quantityInput.value = parseInt(quantityInput.value) + 1; // Increment the quantity
+      quantityInput.value = parseInt(quantityInput.value) + parseInt(quantity); // Increment the quantity
       updateTotal();
       updateCartCount();
       return; // Exit the function since product is already in the cart
@@ -363,7 +350,7 @@ function addProductToCart(title, price, productImage) {
     <div class="detail-box">
       <div class="cart-product-title">${title}</div>
       <div class="cart-price">${price}</div>
-      <input type="number" value="1" min="1" class="cart-quantity"> <!-- Dynamic quantity input -->
+      <input type="number" value="${quantity}" min="1" class="cart-quantity"> <!-- Dynamic quantity input -->
     </div>
     <!-- Remove Cart -->
     <button class="cart-remove">
