@@ -77,19 +77,13 @@ function checkoutButtonClicked() {
     }
     alert(JSON.stringify(cartContent))
     localStorage.setItem("cartContent",JSON.stringify(cartContent))
-<<<<<<< HEAD
+
     window.location.replace("login.html")
   }
   else
   {
     window.location.replace("checkout.html")
-=======
-    window.location.replace("pages/login.html")
-  }
-  else
-  {
-    window.location.replace("pages/checkout.html")
->>>>>>> main
+
   }
 
 }

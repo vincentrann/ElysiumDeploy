@@ -38,25 +38,11 @@ public class OrderService {
 
     @Autowired
     private UserRepository userRepository;
-    public Order checkout(String userid, Long creditCardId) {
+    public Order checkout(String userid) {
         // Step 1: Fetch the user's cart items
         List<CartItem> cartItemList = cartItemRepository.findByUserId(userid);
         if (cartItemList.isEmpty()) {
             throw new RuntimeException("Cart is empty. Cannot proceed to checkout.");
-        }
-
-        // Step 2: Validate the selected credit card
-        List<CreditCard> userCreditCards = creditCardService.getCreditCardsByUserId(userid);
-        if (userCreditCards.isEmpty()) {
-            throw new RuntimeException("No credit cards found for the user. Please add a credit card to proceed.");
-        }
-
-        CreditCard creditCard = creditCardService.getCreditCardById(creditCardId);
-        if (creditCard == null) {
-            throw new RuntimeException("Invalid credit card ID. Please provide a valid credit card.");
-        }
-        if (!creditCard.getUser().getId().equals(userid)) {
-            throw new RuntimeException("Unauthorized: Credit card does not belong to this user.");
         }
 
         // Step 3: Validate stock for all cart items

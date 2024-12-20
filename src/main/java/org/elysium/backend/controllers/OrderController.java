@@ -19,13 +19,12 @@ public class OrderController {
      * Endpoint for checking out and creating an order.
      *
      * @param userId       The ID of the user performing the checkout.
-     * @param creditCardId The ID of the credit card for payment.
      * @return The created order.
      */
     @PostMapping("/checkout")
-    public ResponseEntity<Order> checkout(@RequestParam String userId, @RequestParam Long creditCardId) {
+    public ResponseEntity<Order> checkout(@RequestParam String userId) {
         try {
-            Order order = orderService.checkout(userId, creditCardId);
+            Order order = orderService.checkout(userId);
             return ResponseEntity.ok(order);
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(null);
