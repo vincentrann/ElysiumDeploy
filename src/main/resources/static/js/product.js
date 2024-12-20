@@ -25,7 +25,7 @@ function addProductClicked() {
     // If the user is logged in, call the backend API to add this product
     console.log("User is logged in, calling API to add item to cart");
 
-    fetch(`http://localhost:8080/api/cart/${user}/add`, {
+    fetch(`https://elysiumdeploy-production.up.railway.app/api/cart/${user}/add`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
