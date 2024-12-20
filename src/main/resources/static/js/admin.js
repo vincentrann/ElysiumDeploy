@@ -10,7 +10,8 @@ document.addEventListener("DOMContentLoaded", () => {
         try {
             const response = await fetch(url);
             if (!response.ok) {
-                if (response.status === 404 || response.status === 500) {
+                if (response.status === 404) {
+                    orderTableBody.innerHTML = "<tr><td colspan='5'>No orders found</td></tr>";
                     throw new Error("User not found.");
                 } else {
                     throw new Error("Failed to fetch order history.");
@@ -78,7 +79,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const fullNameList = document.querySelector("#filter-customer").value.trim().split(" ");
         const username = fullNameList[0] + fullNameList[1];
         if (username) {
-            fetchAndRenderOrders(`https://elysiumdeploy-production.up.railway.app/admin/OrderHistory/user/${username}`);
+            fetchAndRenderOrders(`http://localhost:8080/admin/OrderHistory/user/${username}`);
         }
     });
 
@@ -344,7 +345,7 @@ function updateProductList(products) {
         const productItem = document.createElement("li");
         productItem.innerHTML = `
           <div class="product-item">
-              <img src="/${product.imageUrl}" alt="${product.name}" class="product-image">
+              <img src="${product.imageUrl}" alt="${product.name}" class="product-image">
               <div class="product-details">
                   <h3 class="item-name">${product.name}</h3>
                   <p><strong>Price:</strong> $${product.price.toFixed(2)}</p>
@@ -376,7 +377,7 @@ function updateProductList(products) {
           if (isNaN(quantityChange)) {
             alert("Please enter a valid quantity.");
             return;
-          } else if (product.stockQuantity - quantityChange < 0) {
+          } else if (product.stockQuantity + quantityChange < 0) {
             alert("Overall quantity cannot be less than 0.");
             return;
           }
